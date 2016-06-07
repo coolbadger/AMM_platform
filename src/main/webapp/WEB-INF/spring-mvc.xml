@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<!-- 自动扫描且只扫描@Controller-->
+	<context:component-scan base-package="com.amm.controller" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+		    	<constructor-arg value="UTF-8" />
+			</bean>
+			<!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="prettyPrint" value="true"/>
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=utf-8</value>
+						<value>text/html;charset=UTF-8</value>
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/javascript;charset=utf-8</value>
+					</list>
+				</property>
+				<!--
+				<property name="objectMapper">
+					<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+						<property name="propertyNamingStrategy">
+							<bean class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy" />
+						</property>
+					</bean>
+				</property>
+				-->
+			</bean>
+  		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+
+	<!-- 视图解释类 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/html/" />
+		<property name="suffix" value=".html" />
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+	</bean>
+
+	<!-- 对静态资源文件的访问-->
+	<mvc:resources mapping="/images/**" location="/WEB-INF/images/" cache-period="31556926"/>
+	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" cache-period="31556926"/>
+	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" cache-period="31556926"/>
+	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" cache-period="31556926"/>
+
+	<mvc:resources mapping="/home/css/**" location="/WEB-INF/home/css/" cache-period="31556926"/>
+	<mvc:resources mapping="/home/js/**" location="/WEB-INF/home/js/" cache-period="31556926"/>
+
+	<mvc:resources mapping="/themes/**" location="/WEB-INF/themes/" cache-period="31556926"/>
+	<mvc:resources mapping="/assets/**" location="/WEB-INF/assets/" cache-period="31556926"/>
+	<!--<mvc:resources mapping="/themes/default/easyui.css" location="/WEB-INF/themes/default/" cache-period="31556000"/>-->
+	<!--<mvc:resources mapping="/themes/default/images/**" location="/WEB-INF/themes/default/images/" cache-period="31556123"/>-->
+	<!--<mvc:resources mapping="/themes/icons/**" location="/WEB-INF/themes/icons/" cache-period="31556456"/>-->
+</beans>

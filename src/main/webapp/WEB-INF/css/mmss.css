@@ -1,0 +1,143 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-repeat: repeat-y;
+    background-size: 100%;
+}
+.text-white {
+    color: #fff;
+}
+.center {
+    margin: 0 auto;
+}
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.bg-blue {
+    background-color: rgba(91,192,222,0.3);
+}
+
+.tab li a {
+    background: #d9edf7;
+}
+
+header{
+
+}
+section{
+    overflow: hidden;
+    margin:50px 0 0 0;
+}
+.row{
+    /*margin-right: 0px;*/
+    /*position: relative;*/
+}
+.row-left{
+    height: auto;
+    width: 15%;
+    float: left;
+}
+.row-right{
+    height: auto;
+    width: 85%;
+    float: right;
+}
+.clear{
+    clear: both;
+}
+footer{
+    height: 50px;
+    line-height: 50px;
+}
+/***************************************/
+/*���˵�*/
+.sidebar-menu{
+    border-right: 1px solid #c4c8cb;
+}
+/*һ���˵�*/
+.menu-first{
+    /*height:45px;*/
+    line-height:45px;
+    background-color: #e9e9e9;
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #e1e1e1;
+    padding: 0;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+}
+.menu-first a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+.menu-first a:hover{
+    text-decoration: none;
+    color:#337AB7;
+}
+/*һ���˵���껮��״̬*/
+.menu-first:hover,.menu-first-active{
+    text-decoration: none;
+    background-color: #d6d4d5;
+    color: #999;
+    border-top: 1px solid #b7b7b7;
+    border-bottom: 1px solid #acacac;
+}
+/*�����˵�*/
+.menu-second li a{
+    background-color: #f6f6f6;
+    height:31px;
+    line-height:31px;
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+    font-size: 12px;
+    text-align:center;
+}
+/*�����˵���껮����ʽ*/
+.menu-second li a:hover {
+    text-decoration: none;
+    background-color: #66c3ec;
+    border-top: 1px solid #83ceed;
+    border-bottom: 1px solid #83ceed;
+    border-right: 3px solid  #f8881c;
+    border-left: 3px solid #66c3ec;
+}
+/*�����˵�ѡ��״̬*/
+.menu-second .menu-second-selected {
+    background-color: #66c3ec;
+    height:31px;
+    line-height:31px;
+    border-top: 0px solid #83ceed;
+    border-bottom: 1px solid #83ceed;
+    border-right: 3px solid #f8881c;
+    border-left: 3px solid #66c3ec;
+    text-align:center;
+}
+.menu-second .menu-second-selected a{
+    background-color: #66c3ec;
+}
+
+/*����bootstrap����ʽ*/
+.panel-group .panel + .panel {
+ margin-top: 0px;
+}
+.panel-group .panel{
+    border-radius: 0px;
+}
+.nav-list,.nav-list li a{
+    padding: 0px;
+    margin: 0px;
+}
+.nav-header{
+    display: block;
+    color:#999;
+}

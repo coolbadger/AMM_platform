@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<html>
+	<head>
+		<title>员工信息</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="../themes/icon.css">
+		<link rel="stylesheet" type="text/css" href="../themes/color.css">
+		<link rel="stylesheet" type="text/css" href="../css/demo.css">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="../js/easyui-lang-zh_CN.js"></script>
+
+	</head>
+
+	<body>
+		<div class="easyui-layout" fit="true">
+			<div data-options="region:'north',split:true,title:'查询条件',iconCls:'icon-search'"
+				style="height: 130px; width: auto; background: #F4F4F4;">
+				<div class="searchDiv" style="padding: 10px;">
+					<form id="searchForm" method="post">
+					<table border="0" cellpadding="5" cellspacing="0" style="width: 100%">
+						<tr>
+							<th ><label>编号:</label></th>
+							<td ><input id="scode" class="easyui-textbox"></td>
+							<th ><label>姓名:</label></th>
+							<td ><input id="sstaffName" class="easyui-textbox"></td>
+							<th ><label>性别:</label></th>
+							<td >
+								<input style="width: 30px;" name="sgender" type="radio" value="男"><span>男</span>
+								<input style="width: 30px;" name="sgender" type="radio" value="女"><span>女</span>
+							</td>
+							<th ><label>出生日期:</label></th>
+							<td ><input id="sbirthday" class="easyui-datebox" type="text"></td>
+						</tr>						
+						<tr>
+							<th ><label>手机号码:</label></th>
+							<td ><input id="smobile" class="easyui-textbox"></td>
+							<th ><label>邮箱地址:</label></th>
+							<td ><input id="semail" class="easyui-textbox"></td>
+							<th ><label>有效:</label></th>
+							<td ><select id="senabled" class="easyui-combobox" panelHeight="auto" style="width:60px;"><option value=""></option><option value="true">有效</option><option value="false">无效</option></select></td>
+							<th><a href="javascript:void(0)" id="search" class="easyui-linkbutton c8" data-options="iconCls:'icon-search'" style="width: 80px">查询</a></th>
+							<td><a href="javascript:void(0)" id="reset" class="easyui-linkbutton c3" data-options="iconCls:'icon-clear'" style="width: 80px">重置</a></td>
+						</tr>
+																		
+					</table>
+					</form>
+				</div>
+			</div>
+			<div data-options="region:'center'">
+				<table id="dg"></table>
+			</div>
+			<div id="mm" class="easyui-menu" style="width: 120px;">
+				<div id="new" iconcls="icon-add">
+					增加
+				</div>
+				<div id="delete" iconcls="icon-remove">
+					删除
+				</div>
+				<div id="edit" iconcls="icon-edit">
+					编辑
+				</div>
+			</div>
+		</div>
+		<div id="dlg" class="easyui-dialog"
+			data-options="collapsible:true, 
+  	resizable:true, modal:true, iconCls:'icon-save', maximizable:true"
+			style="width: auto; height: auto; padding: 10px" closed="true"
+			buttons="#dlg-buttons">
+			<fieldset style="width: auto; height: auto; padding: 10px">
+				<legend>
+					员工信息
+				</legend>
+				<form id="fm" method="post">
+					<table border="1" bordercolor='#95B8E7' cellpadding="5" cellspacing="0" style="width: 100%">
+						<tr>
+							<th ><label>编号</label></th>
+							<td ><input name="code" class="easyui-textbox"></td>
+							<th ><label>姓名</label></th>
+							<td ><input name="staffName" class="easyui-textbox"></td>
+						</tr>
+						<tr>
+							<th ><label>性别</label></th>
+							<td >
+								<input style="width: 40px;" name="gender" type="radio" class="easyui-validatebox" value="男"><span>男</span>
+								<input style="width: 40px;" name="gender" type="radio" class="easyui-validatebox" value="女"><span>女</span>
+							</td>
+							<th ><label>出生日期</label></th>
+							<td ><input name="birthday" class="easyui-datebox" type="text" id="birthday"></td>
+						</tr>
+						<tr>
+							<th ><label>手机号码</label></th>
+							<td ><input name="mobile" class="easyui-textbox"></td>
+							<th ><label>邮箱地址</label></th>
+							<td ><input name="email" class="easyui-textbox"></td>
+						</tr>
+						<tr>
+							<th ><label>有效</label></th>
+							<td colspan="3"><select id="enabled" class="easyui-combobox" name="enabled" panelHeight="auto" style="width:60px;"><option value="true" selected="selected">有效</option><option value="false">无效</option></select></td>							
+						</tr>
+						<tr >
+							<th ><label>备注</label></th>
+							<td colspan="3"><textarea name="remark" class="easyui-validatebox" rows="3" cols="32" data-options="multiline:true" ></textarea></td>							
+						</tr>
+					</table>
+				</form>
+				</fieldset>
+		</div>
+		<div id="dlg-buttons">
+			<a id="save" href="javascript:void(0)" class="easyui-linkbutton c6"
+				iconCls="icon-ok" style="width: 90px">保存</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')"
+				style="width: 90px">取消</a>
+		</div>
+
+	</body>
+	<script>
+$(function() {
+	$("#dg").datagrid( {
+		url : '/api/staffs',
+		type: 'json',
+		method: 'get',
+		title : '员工列表',
+		iconCls : 'icon-view',
+		//fit: true,		
+		width : function() {
+			return document.body.clientWidth * 0.9
+		},
+		collapsible : true,
+		pagination : true,
+		pageSize : 5,
+		pageList : [ 5, 10, 15 ],
+		fitColumns : true,//允许表格自动缩放，以适应父容器
+		rownumbers : true,//行数
+		sortName : 'id',//当数据表格初始化时以哪一列来排序
+		sortOrder : 'asc',//定义排序顺序，可以是'asc'或者'desc'（正序或者倒序）。
+		idfield : 'id',
+		frozenColumns : [ [ {
+			field : 'ck',
+			checkbox : true
+		} ] ],
+		columns : [ [ {
+			title : '编号',
+			field : 'code',
+			width : 50,
+			sortable : true
+		}, {
+			title : '姓名',
+			field : 'staffName',
+			width : 100,
+			sortable : true
+		}, {
+			title : '性别',
+			field : 'gender',
+			width : 100,
+			align : "center"
+		}, {
+			title : '出生日期',
+			field : 'birthday',
+			width : 100,
+			sortable : true,
+			align : "center"
+		}, {
+			title : '手机号码',
+			field : 'mobile',
+			width : 100
+		}, {
+			title : '邮箱地址',
+			field : 'email',
+			width : 100
+		}, {
+			title : '有效',
+			field : 'enabled',
+			width : 50,
+			align : 'center',
+			formatter: function (cellvalue, options, rowObject) {  
+			    return cellvalue ? '<img src="../themes/icons/ok.png" alt="正常" />' : '<img src="../themes/icons/no.png" alt="禁用" />';
+			}			
+		}, {
+			title : '备注',
+			field : 'remark',
+			width : 100
+		} ] ],
+		toolbar : [ {
+			text : '增加',
+			iconCls : 'icon-add',
+			handler : function() {
+				newObject();
+			}
+		}, '-', {
+			text : '删除',
+			iconCls : 'icon-remove',
+			handler : function() {
+				deleteObject();
+			}
+		}, '-', {
+			text : '编辑',
+			iconCls : 'icon-edit',
+			handler : function() {
+				editObject();
+			}
+		} ],
+		//显示右键菜单、并且设置显示位置就是触发鼠标右击的位置。
+		onRowContextMenu : function(e, rowIndex, rowData) {			
+			e.preventDefault();//1、阻止原来浏览器右键事件
+			$(this).datagrid('unselectAll');
+			$(this).datagrid('selectRow', rowIndex);		
+			$('#mm').menu('show', {//显示自定义右键菜单			
+				left : e.pageX,//动态显示右键菜单位置
+				top : e.pageY
+			});
+		}
+	});
+	//$("#enabled").combobox('setValue','true');
+	//$("#enabled").prop('checked', staff.enabled);	
+	var url;
+	function newObject() {
+		$('#dlg').dialog('open').dialog('setTitle', '新增用户');
+		$('#fm').form('clear');
+		$("#enabled").combobox('setValue','true');
+		url = '/api/staffs';
+	}
+	function editObject() {
+		var row = $('#dg').datagrid('getSelected');		
+		if (row) {			
+			$('#dlg').dialog('open').dialog('setTitle', '编辑用户');
+			$('#fm').form('load', row);
+			url = '/api/staffs/' + row.id;
+		} else {
+			//$.messager.alert("提示", "请选择一条记录", "warning");
+			$.messager.show( {
+				title : '提示',
+				msg : '请选择一条记录',
+				timeout : 2000,
+				showType : 'show'
+			});
+		}
+	}
+	function deleteObject() {
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			$.messager.confirm('询问提示','确定删除此('+row.staffName+')记录吗？',function(r){
+				if (r){					
+					$.post('staff!delete',{did:row.id},function(result){
+						var result = eval('(' + result + ')');						
+						if (result.success){							
+							$.messager.show( {
+								title : '提示',
+								msg : result.message
+							});
+							$('#dg').datagrid('reload');	// reload the user data
+						} else {
+							$.messager.alert("错误", "操作失败", "error");
+						}
+					});
+				}
+			});
+		} else {			
+			$.messager.show( {
+				title : '提示',
+				msg : '请选择一条记录',
+				timeout : 2000,
+				showType : 'show'
+			});
+		}
+	}
+	function saveObject() {
+		$('#fm').form('submit', {
+			url : '/api/staffs',
+			onSubmit : function() {
+				return $(this).form('validate');
+			},
+			success : function(result) {
+				var result = eval('(' + result + ')');
+				if (result.success) {
+					$.messager.show( {
+						title : '提示',
+						msg : result.message
+					});
+					$('#dlg').dialog('close'); // close the dialog
+					$('#dg').datagrid('reload'); // reload the user data
+				} else {
+					$.messager.alert("错误", "操作失败", "error");
+				}
+			}
+		});
+	}
+	$("#edit").click(function() {//右键菜单
+		editObject();
+	});
+	$("#new").click(function() {//右键菜单
+		newObject();
+	});
+	$("#delete").click(function() {//右键菜单
+		deleteObject();
+	});
+	$("#save").click(function() {
+		saveObject();
+	});	
+	//$("#g").click(function() {
+	//	$("input[name='sgender']").attr("checked",false);
+	//});
+	$("#search").click(function() {				
+		//alert($('#smobile').val());		
+		$('#dg').datagrid('load',{
+			scode: $('#scode').textbox('getValue'),
+			sstaffName: $('#sstaffName').val(),
+			sgender: $("input[name='sgender']:checked").val(),
+			sbirthday: $('#sbirthday').datebox('getValue'),
+			smobile: $('#smobile').val(),
+			semail: $('#semail').val(),
+			senabled: $('#senabled').combobox('getValue')
+		});
+	});
+	$("#reset").click(function() {
+		$('#searchForm').form('clear');
+	});
+});
+</script>
+</html>

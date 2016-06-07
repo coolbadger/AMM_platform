@@ -1,0 +1,53 @@
+* {
+	font-size: 12px;
+}
+
+fieldset, legend, form{
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: verdana, helvetica, arial, sans-serif;
+	padding: 20px;
+	font-size: 12px;
+	margin: 0;
+}
+
+#fm table{
+	border-collapse:collapse;
+	border:1px solid #95B8E7;
+}
+#fm table tr {
+	height: 34px;
+	line-height: 34px;	
+}
+#fm table tr th{
+	text-align: right;
+	width: 80px;	
+	font-weight: lighter;
+	background: #F4F4F4;
+}
+#fm table tr td{
+	text-align: left;
+	width: 240px;	
+}
+#fm table tr td input{
+	width: 180px;
+}
+
+.searchDiv table tr th{
+	text-align: right;
+	font-weight: lighter;
+}
+
+
+
+
+
+
+
+
+
+
+

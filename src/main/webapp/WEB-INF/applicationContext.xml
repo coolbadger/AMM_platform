@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/data/jpa
+		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	   default-lazy-init="true">
+
+	<description>Spring公共配置 </description>
+
+	<!-- 启动对@AspectJ（面向切面）注解的支持 -->
+	<aop:aspectj-autoproxy />
+
+	<!-- 如果spring用了jpa，并且类型为LocalContainerEntityManagerFactoryBean，则组件注册在此配置文件出现即可，其余配置文件可忽略
+         使用component来替代annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+	<context:component-scan base-package="com.amm"/>
+
+	<!-- 定义实体管理器工厂Jpa配置LocalContainerEntityManagerFactoryBean这个选项Spring扮演了容器的角色。完全掌管JPA -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<!-- 指定数据源 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 指定Jpa持久化实现厂商类,这里使用Hibernate -->
+		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+		<!-- 指定Entity实体类包路径 -->
+		<property name="packagesToScan" value="com.amm.entity" />
+		<!-- 指定JPA属性；如Hibernate中指定是否显示SQL的是否显示、方言等 -->
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="dynamic-insert">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 重要配置：启用扫描并自动创建代理的功能  -->
+	<jpa:repositories base-package="com.amm"  transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
+
+	<!-- Hibernate对Jpa的实现 -->
+	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+
+	<!-- Jpa 事务管理器  -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
+	</bean>
+
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+	<!-- 数据源配置, 使用Tomcat JDBC连接池-->
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+		  destroy-method="close">
+		<!-- Connection Info-->
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/sedi"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+
+		<!--数据库连接配置-->
+		<property name="maxIdle" value="5"/><!--最大空闲连接-->
+		<property name="maxActive" value="10"/><!--最大活动连接-->
+		<property name="initialSize" value="3"/><!--初始化连接-->
+		<property name="minIdle" value="3"/><!--最小空闲连接-->
+		<property name="maxWait" value="10000"/><!--从池中取连接的最大等待时间，单位ms-->
+		<property name="timeBetweenEvictionRunsMillis" value="30000"/><!--每30秒运行一次空闲连接回收器-->
+		<property name="minEvictableIdleTimeMillis" value="30000"/><!--池中的连接空闲30秒后被回收-->
+		<property name="removeAbandoned" value="true"/><!--连接泄漏回收参数，当可用连接数少于3个时才执行-->
+		<property name="removeAbandonedTimeout" value="60"/><!--连接泄漏回收参数，60秒，泄露的连接可以被删除的超时值-->
+	</bean>
+
+</beans>
