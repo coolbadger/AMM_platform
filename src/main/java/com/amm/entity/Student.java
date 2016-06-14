@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "student", catalog = "csw_frame")
+@Table(name = "student", catalog = "amm")
 public class Student implements Serializable {
 
 	@Id

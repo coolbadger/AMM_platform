@@ -61,12 +61,8 @@
 	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" cache-period="31556926"/>
 	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" cache-period="31556926"/>
 
-	<mvc:resources mapping="/home/css/**" location="/WEB-INF/home/css/" cache-period="31556926"/>
-	<mvc:resources mapping="/home/js/**" location="/WEB-INF/home/js/" cache-period="31556926"/>
-
 	<mvc:resources mapping="/themes/**" location="/WEB-INF/themes/" cache-period="31556926"/>
 	<mvc:resources mapping="/assets/**" location="/WEB-INF/assets/" cache-period="31556926"/>
-	<!--<mvc:resources mapping="/themes/default/easyui.css" location="/WEB-INF/themes/default/" cache-period="31556000"/>-->
-	<!--<mvc:resources mapping="/themes/default/images/**" location="/WEB-INF/themes/default/images/" cache-period="31556123"/>-->
-	<!--<mvc:resources mapping="/themes/icons/**" location="/WEB-INF/themes/icons/" cache-period="31556456"/>-->
+	<mvc:resources mapping="/angular/**" location="/WEB-INF/angular/" cache-period="31556926"/>
+
 </beans>

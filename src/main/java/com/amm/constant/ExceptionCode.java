@@ -13,7 +13,9 @@ public enum ExceptionCode {
      * Invalid operator 5XXX
      */
 
-    DELETE_SUCCESS(201),DELETE_FAIL(202);
+    DELETE_SUCCESS(201),DELETE_FAIL(202),
+
+    LOGIN_SUCCESS(200), LOGIN_FAILURE(500);
 
     private Integer code;
 
