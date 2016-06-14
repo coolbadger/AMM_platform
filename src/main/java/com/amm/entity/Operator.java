@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * explain：业务操作人员
  */
 @Entity
-@Table(name = "operator", catalog = "amm")
+@Table(name = "operator")
 public class Operator extends BaseEntity{
 
 

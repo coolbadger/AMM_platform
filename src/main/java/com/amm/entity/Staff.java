@@ -8,7 +8,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "staff", catalog = "amm")
+@Table(name = "staff")
 public class Staff implements Serializable{
 
 	@Id
