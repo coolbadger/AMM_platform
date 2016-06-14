@@ -35,7 +35,7 @@ public class UserController extends BaseController{
         if(user2 != null) {
             resultModel = new ResultModel(ExceptionCode.LOGIN_SUCCESS);
         } else {
-            throw new InvalidOperatorException("");
+            throw new InvalidOperatorException("用户名或密码错误");
         }
         return resultModel;
     }

@@ -12,22 +12,22 @@ public class PlatformException extends RuntimeException{
 
     private HttpStatus httpStatus;
 
-    private String errorCode;
+    private String code;
 
     public PlatformException() {
         super();
     }
 
-    public PlatformException(String message, String errCode) {
+    public PlatformException(String message, String code) {
         super(message);
-        this.errorCode = errCode;
+        this.code = code;
         this.httpStatus = HttpStatus.BAD_REQUEST;
     }
 
-    public PlatformException(HttpStatus httpStatus, String message, String errorCode) {
+    public PlatformException(HttpStatus httpStatus, String message, String code) {
         super(message);
         this.httpStatus = httpStatus;
-        this.errorCode = errorCode;
+        this.code = code;
     }
 
     public HttpStatus getHttpStatus() {
@@ -38,11 +38,11 @@ public class PlatformException extends RuntimeException{
         this.httpStatus = httpStatus;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

@@ -100,9 +100,12 @@
                     $scope.name = result;
                     if(result.code == '200') {
                         alert("success")
+                    } else {
+                        alert("error")
                     }
-                }).error(function(){
-                    console.log("error");
+                }).error(function(result){
+                    $scope.name = result;
+                    alert("error")
                 })
             }
         });

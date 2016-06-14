@@ -9,25 +9,25 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class ErrorModel {
 
-    @JsonProperty("errMsg")
-    private String exceptionResult;
+    @JsonProperty("msg")
+    private String msg;
 
-    @JsonProperty("errCode")
-    private String errorCode;
+    @JsonProperty("code")
+    private String code;
 
-    public String getExceptionResult() {
-        return exceptionResult;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setExceptionResult(String exceptionResult) {
-        this.exceptionResult = exceptionResult;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

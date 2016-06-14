@@ -66,8 +66,8 @@ public abstract class BaseController extends BaseComponent {
         httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
 
         ErrorModel errorModel = new ErrorModel();
-        errorModel.setErrorCode(ErrorCode.UNKNOWNERROR);
-        errorModel.setExceptionResult(ex.getMessage() + "not a readable exception");
+        errorModel.setCode(ErrorCode.UNKNOWNERROR);
+        errorModel.setMsg(ex.getMessage() + "not a readable exception");
 
         return errorModel;
     }
@@ -90,8 +90,8 @@ public abstract class BaseController extends BaseComponent {
         httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
 
         ErrorModel errorModel = new ErrorModel();
-        errorModel.setExceptionResult(ex.getMessage());
-        errorModel.setErrorCode(ErrorCode.UNKNOWNERROR);
+        errorModel.setMsg(ex.getMessage());
+        errorModel.setCode(ErrorCode.UNKNOWNERROR);
 
         return errorModel;
     }
