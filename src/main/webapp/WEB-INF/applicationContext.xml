@@ -80,4 +80,6 @@
 		<property name="removeAbandonedTimeout" value="60"/><!--连接泄漏回收参数，60秒，泄露的连接可以被删除的超时值-->
 	</bean>
 
+    <!--引入mina的配置文件 -->
+    <import resource="mina-spring.xml"/>
 </beans>
