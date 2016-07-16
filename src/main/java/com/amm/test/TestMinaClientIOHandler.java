@@ -6,7 +6,7 @@ import org.apache.mina.core.session.IoSession;
 /**
  * Created by liuminhang on 16/7/16.
  */
-public class TestMinaServerIOHandler extends IoHandlerAdapter {
+public class TestMinaClientIOHandler extends IoHandlerAdapter {
     @Override
     public void messageSent(IoSession session, Object message) throws Exception {
         super.messageSent(session, message);

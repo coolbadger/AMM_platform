@@ -37,11 +37,6 @@
               <archiveClasses>true</archiveClasses>
             </configuration>
           </plugin>
-          <plugin>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>maven-bundle-plugin</artifactId>
-            <extensions>true</extensions>
-          </plugin>
         </plugins>
       </build>
 
@@ -50,21 +45,25 @@
           <groupId>org.apache.mina</groupId>
           <artifactId>mina-core</artifactId>
           <version>2.0.13</version>
+          <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.apache.mina</groupId>
           <artifactId>mina-filter-compression</artifactId>
           <version>2.0.13</version>
+          <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.apache.mina</groupId>
           <artifactId>mina-integration-beans</artifactId>
           <version>2.0.13</version>
+          <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.apache.mina</groupId>
           <artifactId>mina-integration-spring</artifactId>
           <version>1.1.7</version>
+          <type>jar</type>
         </dependency>
 
         <dependency>

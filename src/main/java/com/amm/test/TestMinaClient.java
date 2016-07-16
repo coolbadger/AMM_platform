@@ -28,7 +28,7 @@ public class TestMinaClient {
         connector.setConnectTimeoutMillis(CONNECT_TIMEOUT);
         connector.getFilterChain().addLast("codec",
                 new ProtocolCodecFilter(new TextLineCodecFactory()));
-        connector.setHandler(new TestMinaServerIOHandler());
+        connector.setHandler(new TestMinaClientIOHandler());
         future = connector.connect(new InetSocketAddress("127.0.0.1", 8088));
     }
 

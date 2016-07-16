@@ -14,41 +14,41 @@ public class AMMIOHandler extends IoHandlerAdapter {
 
     public AMMIOHandler() {
         super();
-        logger.debug("AMMSocket: IOHandler Initialized");
+        logger.info("AMMSocket: IOHandler Initialized");
         System.out.println("AMMIOHandler 初始化!");
     }
 
     @Override
     public void sessionCreated(IoSession session) throws Exception {
         super.sessionCreated(session);
-        logger.debug("AMMSocket: Session Created");
+        logger.info("AMMSocket: Session Created");
     }
 
     @Override
     public void sessionOpened(IoSession session) throws Exception {
         super.sessionOpened(session);
-        logger.debug("AMMSocket: Session Opened");
+        logger.info("AMMSocket: Session Opened");
 
     }
 
     @Override
     public void sessionClosed(IoSession session) throws Exception {
         super.sessionClosed(session);
-        logger.debug("AMMSocket: Session Closed");
+        logger.info("AMMSocket: Session Closed");
 
     }
 
     @Override
     public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
         super.sessionIdle(session, status);
-        logger.debug("AMMSocket: Session Idle");
+        logger.info("AMMSocket: Session Idle");
 
     }
 
     @Override
     public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
         super.exceptionCaught(session, cause);
-        logger.debug("AMMSocket: Exception Caught");
+        logger.info("AMMSocket: Exception Caught");
         cause.printStackTrace();
 
     }
@@ -56,7 +56,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
         super.messageReceived(session, message);
-        logger.debug("AMMSocket: Message Received");
+        logger.info("AMMSocket: Message Received:" + message.toString());
         session.write(message);
 
     }
@@ -64,7 +64,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
     @Override
     public void messageSent(IoSession session, Object message) throws Exception {
         super.messageSent(session, message);
-        logger.debug("AMMSocket: Message Send");
+        logger.info("AMMSocket: Message Send:" + message.toString() );
 
     }
 
