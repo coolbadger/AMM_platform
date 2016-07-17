@@ -35,10 +35,11 @@
           class="org.apache.mina.filter.codec.ProtocolCodecFilter">
         <constructor-arg>
             <!--
-            <bean class="com.amm.socketserver.AMMCodeFactory"></bean>
+                <bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory"></bean>
 
                 -->
-            <bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory" />
+                <bean class="com.amm.socketserver.AMMCodeFactory"></bean>
+
         </constructor-arg>
     </bean>
     <bean id="loggingFilter"
