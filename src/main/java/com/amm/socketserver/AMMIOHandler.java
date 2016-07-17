@@ -28,6 +28,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
     public void sessionOpened(IoSession session) throws Exception {
         super.sessionOpened(session);
         logger.info("AMMSocket: Session Opened");
+        session.write("session opened,welcome!");
 
     }
 
@@ -57,7 +58,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
     public void messageReceived(IoSession session, Object message) throws Exception {
         super.messageReceived(session, message);
         logger.info("AMMSocket: Message Received:" + message.toString());
-        session.write(message);
+        session.write("I have received your message: " + message);
 
     }
 
