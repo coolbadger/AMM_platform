@@ -58,7 +58,13 @@ public class AMMIOHandler extends IoHandlerAdapter {
     public void messageReceived(IoSession session, Object message) throws Exception {
         super.messageReceived(session, message);
         logger.info("AMMSocket: Message Received:" + message.toString());
-        session.write("I have received your message: " + message);
+        session.write("I have received your message!");
+        session.write("I will repeat your message after 5 seconds...");
+
+        Thread.sleep(5000);
+
+        session.write("Your message is: " + message);
+
 
     }
 
