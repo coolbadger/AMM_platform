@@ -20,7 +20,7 @@ public class AMMCodeFactory implements ProtocolCodecFactory {
     }
 
     public ProtocolDecoder getDecoder(IoSession ioSession) throws Exception {
-        TextLineDecoder textLineDecoder = new TextLineDecoder(Charset.forName("US-ASCII"));
-        return textLineDecoder;
+        AMMDecoder ammDecoder = new AMMDecoder();
+        return ammDecoder;
     }
 }
