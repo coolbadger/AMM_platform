@@ -7,6 +7,8 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileOutputStream;
+
 /**
  * Created by liuminhang on 16/7/16.
  */
@@ -19,6 +21,15 @@ public class AMMDecoder implements ProtocolDecoder {
         ioBuffer.get(inBytes);
         String hexString = bytesToHexString(inBytes);
         logger.info("解码结果:\n" + hexString);
+
+        try{
+            FileOutputStream os = new FileOutputStream(hexString);
+            byte[] b = inBytes;
+            os.write(b);
+            os.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void finishDecode(IoSession ioSession, ProtocolDecoderOutput protocolDecoderOutput) throws Exception {
