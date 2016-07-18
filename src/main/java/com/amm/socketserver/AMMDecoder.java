@@ -2,6 +2,7 @@ package com.amm.socketserver;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.slf4j.Logger;
@@ -10,24 +11,22 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by liuminhang on 16/7/16.
  */
-public class AMMDecoder implements ProtocolDecoder {
+public class AMMDecoder extends CumulativeProtocolDecoder {
     private Logger logger = LoggerFactory.getLogger(AMMDecoder.class);
 
-    public void decode(IoSession ioSession, IoBuffer ioBuffer, ProtocolDecoderOutput protocolDecoderOutput) throws Exception {
+    protected boolean doDecode(IoSession ioSession, IoBuffer ioBuffer, ProtocolDecoderOutput protocolDecoderOutput) throws Exception {
         logger.info("开始解码");
         byte[] inBytes = new byte[ioBuffer.remaining()];
         ioBuffer.get(inBytes);
         String hexString = bytesToHexString(inBytes);
-        logger.info("解码结果:\n" + hexString);
+        logger.info("解码结果(Hex):\n" + hexString);
+        String resultStr = bytesASCIIToString(inBytes);
+        logger.info("解码结果(String):\n" + resultStr);
+
+        protocolDecoderOutput.write(resultStr);
+        return true;
     }
 
-    public void finishDecode(IoSession ioSession, ProtocolDecoderOutput protocolDecoderOutput) throws Exception {
-
-    }
-
-    public void dispose(IoSession ioSession) throws Exception {
-
-    }
     public String bytesToHexString(byte[] src){
         StringBuilder stringBuilder = new StringBuilder("");
         if (src == null || src.length <= 0) {
