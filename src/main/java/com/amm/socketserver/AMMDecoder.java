@@ -19,9 +19,9 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
         byte[] inBytes = new byte[ioBuffer.remaining()];
         ioBuffer.get(inBytes);
         String hexString = bytesToHexString(inBytes);
-        logger.info("解码结果(Hex):\n" + hexString);
+        logger.info("解码结果(Hex):" + hexString);
         String resultStr = bytesASCIIToString(inBytes);
-        logger.info("解码结果(String):\n" + resultStr);
+        logger.info("解码结果(Str):" + resultStr);
 
         protocolDecoderOutput.write(resultStr);
         return true;
