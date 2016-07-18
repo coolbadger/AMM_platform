@@ -6,6 +6,8 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+
 /**
  * Created by liuminhang on 16/7/16.
  */
@@ -56,12 +58,29 @@ public class AMMIOHandler extends IoHandlerAdapter {
 
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
+        Object obj = message;
+        byte[] bytes = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(obj);
+            oos.flush();
+            bytes = bos.toByteArray ();
+            oos.close();
+            bos.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(bytes);
+
+
         super.messageReceived(session, message);
         logger.info("AMMSocket: Message Received:" + message.toString());
         session.write("I have received your message!");
         session.write("I will repeat your message after 5 seconds...");
 
         Thread.sleep(5000);
+
 
         session.write("Your message is: " + message);
 
