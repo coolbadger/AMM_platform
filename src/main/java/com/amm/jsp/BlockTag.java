@@ -1,11 +1,6 @@
 package com.amm.jsp;
 
-/**
- * Created by Badger on 16/7/22.
- */
-
 import org.apache.commons.lang3.StringUtils;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
@@ -14,7 +9,7 @@ import java.io.IOException;
 /**
  * 自定义标签，用于在Jsp模板中占位
  *
- * @author 逆风之羽
+ * Created by Badger on 16/7/22.
  *
  */
 public class BlockTag extends BodyTagSupport {
@@ -22,8 +17,6 @@ public class BlockTag extends BodyTagSupport {
      * 占位模块名称
      */
     private String name;
-
-    private static final long serialVersionUID = 1425068108614007667L;
 
     @Override
     public int doStartTag() throws JspException {
