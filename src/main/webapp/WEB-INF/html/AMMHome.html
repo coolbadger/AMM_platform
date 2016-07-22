@@ -26,15 +26,19 @@
     <div class="dl-log">欢迎您，<span class="dl-log-user">admin</span><a href="#" title="退出系统" class="dl-log-quit">[退出]</a>
     </div>
 </div>
-<div class="content" >
+<div class="content">
     <div class="dl-main-nav">
         <div class="dl-inform">
             <div class="dl-inform-title"><s class="dl-inform-icon dl-up"></s>
             </div>
         </div>
-        <ul id="J_Nav"  class="nav-list ks-clear">
-            <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">系统管理</div></li>
-            <li class="nav-item dl-selected"><div class="nav-item-inner nav-order">业务管理</div></li>
+        <ul id="J_Nav" class="nav-list ks-clear">
+            <li class="nav-item dl-selected">
+                <div class="nav-item-inner nav-home">系统管理</div>
+            </li>
+            <li class="nav-item dl-selected">
+                <div class="nav-item-inner nav-order">业务管理</div>
+            </li>
 
         </ul>
     </div>
@@ -43,36 +47,36 @@
 </div>
 
 <script>
-    BUI.use('common/main',function(){
+    BUI.use('common/main', function () {
         var config = [{
-            id:'menu',
+            id: 'menu',
 //            homePage : 'code',
-            menu:[{
-                text:'用户管理',
-                items:[
-                    {id:'bootStrapUI',text:'业务人员',href:'/api/goBootStrapUI'},
-                    {id:'main-menu',text:'司机管理',href:'main/menu.html'},
-                    {id:'second-menu',text:'客户管理',href:'main/second-menu.html'}
+            menu: [{
+                text: '用户管理',
+                items: [
+                    {id: 'bootStrapUI', text: '业务人员', href: '/api/goBootStrapUI'},
+                    {id: 'main-menu', text: '司机管理', href: 'main/menu.html'},
+                    {id: 'second-menu', text: '客户管理', href: 'main/second-menu.html'}
                 ]
-            },{
-                text:'设备管理',
-                items:[
-                    {id:'operation',text:'农机管理',href:'main/operation.html'},
-                    {id:'quick',text:'XXXX',href:'main/quick.html'}
+            }, {
+                text: '设备管理',
+                items: [
+                    {id: 'operation', text: '农机管理', href: 'main/operation.html'},
+                    {id: 'quick', text: 'XXXX', href: 'main/quick.html'}
                 ]
             }]
-        },{
-            id:'form',
-            menu:[{
-                text:'农机监控',
-                items:[
-                    {id:'code',text:'农机状态',href:'form/code.html'},
-                    {id:'example',text:'历史记录',href:'form/example.html'}
+        }, {
+            id: 'form',
+            menu: [{
+                text: '农机监控',
+                items: [
+                    {id: 'mach_map', text: '农机跟踪', href: '/api/business/mach_map'},
+                    {id: 'example', text: '历史记录', href: 'form/example.html'}
                 ]
             }]
         }];
         new PageUtil.MainPage({
-            modulesConfig : config
+            modulesConfig: config
         });
     });
 </script>
