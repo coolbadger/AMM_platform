@@ -56,11 +56,15 @@ public class ViewController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/goAMMHomeUI", method = RequestMethod.GET)
+    /**
+     * 返回系统登录进去后的主界面
+     * @return
+     */
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public ModelAndView goAMMHomeUI() {
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/AMMHome");
+        modelAndView.setViewName("home");
 
         return modelAndView;
     }

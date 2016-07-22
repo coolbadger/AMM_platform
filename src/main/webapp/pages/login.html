@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <style type="text/css">
+        body {
+            padding-top: 100px;
+            padding-bottom: 40px;
+            background-color: #41437F;
+            text-align: center;
+        }
+
+        .form-signin {
+            max-width: 300px;
+            /*padding: 19px 29px 29px;*/
+            /*text-align: center;*/
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px #3C3771;
+            -moz-box-shadow: 0 1px 2px #3C3771;
+            box-shadow: 0 1px 2px #3C3771;
+        }
+
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+
+        .form-signin input[type="text"],
+        .form-signin input[type="password"] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <form id="loginForm" class="form-signin" method="post">
+        <h2 class="form-signin-heading col-lg-12">登录系统</h2>
+        <input ng-model="username" type="text" name="username" class="input-block-level" placeholder="账号">
+        <input ng-model="password" type="password" name="password" class="input-block-level" placeholder="密码">
+        <!--<input type="text" name="verify" class="input-medium" placeholder="验证码">-->
+
+        <div style="padding: 10px 50px">
+            <button ng-click="login()" id="loginBtn" class="btn btn-lg btn-block btn-primary" type="submit">登录
+            </button>
+        </div>
+        <div ng-model="name"><p>我的第一个表达式: {{ name }}</p></div>
+    </form>
+</div>
+</body>
+</html>
