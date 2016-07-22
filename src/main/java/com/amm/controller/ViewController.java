@@ -69,4 +69,13 @@ public class ViewController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/business/mach_map", method = RequestMethod.GET)
+    public ModelAndView goMachMap() {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/business/mach_view/mach_map");
+
+        return modelAndView;
+    }
+
 }
