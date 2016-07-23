@@ -13,19 +13,22 @@
 
         var postURL = function (url, params, successFunc) {
             var strUrl = baseURL + url;
-            $http
-                .post(strUrl, params)
-                .success(function (responseData) {
-                    successFunc(responseData);  //成功处理信息
-                    console.log(responseData);
-                })
-                .error(function (errorData) {
 
-                })
+            $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            var paramStr = transformParams(params);
+
+            $http.post(strUrl, paramStr, {
+                'Content-Type': "application/json"
+            }).success(function (responseData) {
+                successFunc(responseData);  //成功处理信息
+                console.log(responseData);
+            }).error(function (errorData) {
+
+            })
         };
 
-
-        //把接口返回
+        //把接口方法返回
         return {
             postUrl: postURL
         }

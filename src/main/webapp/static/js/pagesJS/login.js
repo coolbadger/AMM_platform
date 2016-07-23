@@ -7,10 +7,11 @@ var secondCtrl = angular.module('login', ['ngRoute', 'httpService']);
 secondCtrl.controller('loginCtrl', function ($scope, $location, httpService) {
     $scope.login = function () {
         var params = {
-            'username': $scope.username,
-            'password': $scope.password
+            "username": $scope.username,
+            "password": $scope.password
         };
-        httpService.postUrl("api/users/login", params, function (data) {
+
+        httpService.postUrl("api/orgUsers/login", params, function (data) {
             //alert(data);
             if (data.code == '200') {
                 alert("success")
@@ -22,6 +23,7 @@ secondCtrl.controller('loginCtrl', function ($scope, $location, httpService) {
             }
         });
 
+        console.log(params);
         console.log($scope.username, $scope.password);
         console.log("登录");
 

@@ -80,6 +80,30 @@
 		<property name="removeAbandonedTimeout" value="60"/><!--连接泄漏回收参数，60秒，泄露的连接可以被删除的超时值-->
 	</bean>
 
-    <!--引入mina的配置文件 -->
+	<!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
+		<!--<property name="annotatedClasses">-->
+			<!--<list>-->
+				<!--<value>com.amm.entity.BaseOrgEntity</value>-->
+				<!--<value>com.amm.entity.GpsRecordEntity</value>-->
+				<!--<value>com.amm.entity.MachTerminalEntity</value>-->
+				<!--<value>com.amm.entity.MachineEntity</value>-->
+				<!--<value>com.amm.entity.MachineHistoryEntity</value>-->
+				<!--<value>com.amm.entity.MaintainRecordEntity</value>-->
+				<!--<value>com.amm.entity.OrgUserEntity</value>-->
+				<!--<value>com.amm.entity.RefMachTerminalEntity</value>-->
+				<!--<value>com.amm.entity.TerminalEntity</value>-->
+				<!--<value>com.amm.entity.TerminalHistoryEntity</value>-->
+				<!--<value>com.amm.entity.WorkerEntity</value>-->
+			<!--</list>-->
+		<!--</property>-->
+		<!--<property name="hibernateProperties">-->
+			<!--<props>-->
+				<!--<prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/amm</prop>-->
+				<!--<prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
+
+	<!--引入mina的配置文件 -->
     <import resource="mina-spring.xml"/>
 </beans>
