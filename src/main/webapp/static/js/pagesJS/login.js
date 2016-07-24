@@ -14,7 +14,7 @@ secondCtrl.controller('loginCtrl', function ($scope, $location, httpService) {
         httpService.postUrl("api/orgUsers/login", params, function (data) {
             //alert(data);
             if (data.code == '200') {
-                alert("success")
+                //alert("success")
                 //$location.path('/home');
                 window.location.href="http://localhost:8080/pages/home.html";
             } else {

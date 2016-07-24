@@ -3,12 +3,13 @@ package com.amm.entity;
 import javax.persistence.*;
 
 /**
- * Created by csw on 2016/7/22.
+ * Created by csw on 2016/7/24 17:21.
+ * Explain:
  */
 @Entity
 @Table(name = "org_user", schema = "", catalog = "amm")
 public class OrgUserEntity {
-    private int id;
+    private Integer id;
     private String user;
     private String password;
     private String fullName;
@@ -17,14 +18,15 @@ public class OrgUserEntity {
     private String email;
     private String state;
     private String notes;
+    private BaseOrgEntity baseOrgByOrgId;
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -115,7 +117,7 @@ public class OrgUserEntity {
 
         OrgUserEntity that = (OrgUserEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
         if (fullName != null ? !fullName.equals(that.fullName) : that.fullName != null) return false;
@@ -130,7 +132,7 @@ public class OrgUserEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
@@ -140,5 +142,15 @@ public class OrgUserEntity {
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
+    public BaseOrgEntity getBaseOrgByOrgId() {
+        return baseOrgByOrgId;
+    }
+
+    public void setBaseOrgByOrgId(BaseOrgEntity baseOrgByOrgId) {
+        this.baseOrgByOrgId = baseOrgByOrgId;
     }
 }

@@ -2,24 +2,29 @@ package com.amm.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
- * Created by csw on 2016/7/22.
+ * Created by csw on 2016/7/24 17:21.
+ * Explain:
  */
 @Entity
 @Table(name = "mach_terminal", schema = "", catalog = "amm")
 public class MachTerminalEntity {
-    private int id;
+    private Integer id;
     private Timestamp startTime;
     private Timestamp endTime;
+    private MachineEntity machineByMachId;
+    private TerminalEntity terminalByTerminalId;
+    private Collection<RefMachTerminalEntity> refMachTerminalsById;
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,7 +55,7 @@ public class MachTerminalEntity {
 
         MachTerminalEntity that = (MachTerminalEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
         if (endTime != null ? !endTime.equals(that.endTime) : that.endTime != null) return false;
 
@@ -59,9 +64,38 @@ public class MachTerminalEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
         result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "mach_id", referencedColumnName = "id", nullable = false)
+    public MachineEntity getMachineByMachId() {
+        return machineByMachId;
+    }
+
+    public void setMachineByMachId(MachineEntity machineByMachId) {
+        this.machineByMachId = machineByMachId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "terminal_id", referencedColumnName = "id", nullable = false)
+    public TerminalEntity getTerminalByTerminalId() {
+        return terminalByTerminalId;
+    }
+
+    public void setTerminalByTerminalId(TerminalEntity terminalByTerminalId) {
+        this.terminalByTerminalId = terminalByTerminalId;
+    }
+
+    @OneToMany(mappedBy = "machTerminalByMachTerminalId")
+    public Collection<RefMachTerminalEntity> getRefMachTerminalsById() {
+        return refMachTerminalsById;
+    }
+
+    public void setRefMachTerminalsById(Collection<RefMachTerminalEntity> refMachTerminalsById) {
+        this.refMachTerminalsById = refMachTerminalsById;
     }
 }

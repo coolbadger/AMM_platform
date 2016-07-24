@@ -3,21 +3,23 @@ package com.amm.entity;
 import javax.persistence.*;
 
 /**
- * Created by csw on 2016/7/22.
+ * Created by csw on 2016/7/24 17:21.
+ * Explain:
  */
 @Entity
 @Table(name = "terminal_history", schema = "", catalog = "amm")
 public class TerminalHistoryEntity {
-    private int id;
+    private Integer id;
     private String editInfo;
+    private TerminalEntity terminalByTerminalId;
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -38,7 +40,7 @@ public class TerminalHistoryEntity {
 
         TerminalHistoryEntity that = (TerminalHistoryEntity) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (editInfo != null ? !editInfo.equals(that.editInfo) : that.editInfo != null) return false;
 
         return true;
@@ -46,8 +48,18 @@ public class TerminalHistoryEntity {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (editInfo != null ? editInfo.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "terminal_id", referencedColumnName = "id", nullable = false)
+    public TerminalEntity getTerminalByTerminalId() {
+        return terminalByTerminalId;
+    }
+
+    public void setTerminalByTerminalId(TerminalEntity terminalByTerminalId) {
+        this.terminalByTerminalId = terminalByTerminalId;
     }
 }
