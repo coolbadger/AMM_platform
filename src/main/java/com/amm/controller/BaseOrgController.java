@@ -1,13 +1,12 @@
 package com.amm.controller;
 
 import com.amm.entity.BaseOrgEntity;
+import com.amm.entity.OrgUserEntity;
 import com.amm.service.BaseOrgService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,13 +23,14 @@ public class BaseOrgController extends BaseController{
     private BaseOrgService baseOrgService;
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public BaseOrgEntity create(@RequestParam(value = "orgCode", required = true) String orgCode,
                                 @RequestParam(value = "orgName", required = true) String orgName,
                                 @RequestParam(value = "orgContact", required = true) String orgContact) {
 
-        Validate.notNull(orgCode, "The orgCode must not be null.");
-        Validate.notNull(orgName, "The orgCode must not be null.");
-        Validate.notNull(orgContact, "The orgCode must not be null.");
+        Validate.notNull(orgCode, "The orgCode must not be null, create failure.");
+        Validate.notNull(orgName, "The orgCode must not be null, create failure.");
+        Validate.notNull(orgContact, "The orgCode must not be null, create failure.");
 
         BaseOrgEntity baseOrgEntity = new BaseOrgEntity(orgCode, orgName, orgContact);
 
@@ -45,5 +45,28 @@ public class BaseOrgController extends BaseController{
         List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findAllBaseOrg();
 
         return baseOrgEntityList;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.RESET_CONTENT)
+    public BaseOrgEntity update(@PathVariable Integer id,
+                                @RequestBody BaseOrgEntity baseOrg) {
+
+        Validate.notNull(id, "The id of baseOrg must not be null, update failure.");
+        Validate.notNull(baseOrg, "The baseOrg object must not be null, update failure.");
+
+        baseOrg.setId(id);
+
+        BaseOrgEntity baseOrgEntity = baseOrgService.updateBaseOrg(baseOrg);
+
+        return baseOrgEntity;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public BaseOrgEntity findOne(@PathVariable Integer id) {
+
+        Validate.notNull(id, "The id must not be null, find failure.");
+
+        return baseOrgService.findOne(id);
     }
 }

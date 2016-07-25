@@ -1,18 +1,14 @@
 package com.amm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by csw on 2016/7/24 17:21.
+ * Created by csw on 2016/7/25 10:26.
  * Explain:
  */
 @Entity
 @Table(name = "machine", schema = "", catalog = "amm")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class MachineEntity {
     private Integer id;
     private String machCode;
@@ -96,7 +92,6 @@ public class MachineEntity {
         this.machTerminalsById = machTerminalsById;
     }
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
     public BaseOrgEntity getBaseOrgByOrgId() {

@@ -1,16 +1,24 @@
 package com.amm.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
- * Created by csw on 2016/7/24 17:21.
+ * Created by csw on 2016/7/25 10:26.
  * Explain:
  */
 @Entity
 @Table(name = "gps_record", schema = "", catalog = "amm")
 public class GpsRecordEntity {
     private Integer id;
-    private String position;
+    private Timestamp gpsTime;
+    private Timestamp localTime;
+    private BigDecimal lng;
+    private BigDecimal lat;
+    private Integer alt;
+    private Integer accuracy;
+    private Integer speed;
     private WorkerEntity workerByWorkerId;
     private RefMachTerminalEntity refMachTerminalByRefMachTerminalId;
 
@@ -25,13 +33,73 @@ public class GpsRecordEntity {
     }
 
     @Basic
-    @Column(name = "position")
-    public String getPosition() {
-        return position;
+    @Column(name = "gps_time")
+    public Timestamp getGpsTime() {
+        return gpsTime;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setGpsTime(Timestamp gpsTime) {
+        this.gpsTime = gpsTime;
+    }
+
+    @Basic
+    @Column(name = "local_time")
+    public Timestamp getLocalTime() {
+        return localTime;
+    }
+
+    public void setLocalTime(Timestamp localTime) {
+        this.localTime = localTime;
+    }
+
+    @Basic
+    @Column(name = "lng")
+    public BigDecimal getLng() {
+        return lng;
+    }
+
+    public void setLng(BigDecimal lng) {
+        this.lng = lng;
+    }
+
+    @Basic
+    @Column(name = "lat")
+    public BigDecimal getLat() {
+        return lat;
+    }
+
+    public void setLat(BigDecimal lat) {
+        this.lat = lat;
+    }
+
+    @Basic
+    @Column(name = "alt")
+    public Integer getAlt() {
+        return alt;
+    }
+
+    public void setAlt(Integer alt) {
+        this.alt = alt;
+    }
+
+    @Basic
+    @Column(name = "accuracy")
+    public Integer getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Integer accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    @Basic
+    @Column(name = "speed")
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
     }
 
     @Override
@@ -42,7 +110,13 @@ public class GpsRecordEntity {
         GpsRecordEntity that = (GpsRecordEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (position != null ? !position.equals(that.position) : that.position != null) return false;
+        if (gpsTime != null ? !gpsTime.equals(that.gpsTime) : that.gpsTime != null) return false;
+        if (localTime != null ? !localTime.equals(that.localTime) : that.localTime != null) return false;
+        if (lng != null ? !lng.equals(that.lng) : that.lng != null) return false;
+        if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
+        if (alt != null ? !alt.equals(that.alt) : that.alt != null) return false;
+        if (accuracy != null ? !accuracy.equals(that.accuracy) : that.accuracy != null) return false;
+        if (speed != null ? !speed.equals(that.speed) : that.speed != null) return false;
 
         return true;
     }
@@ -50,7 +124,13 @@ public class GpsRecordEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (gpsTime != null ? gpsTime.hashCode() : 0);
+        result = 31 * result + (localTime != null ? localTime.hashCode() : 0);
+        result = 31 * result + (lng != null ? lng.hashCode() : 0);
+        result = 31 * result + (lat != null ? lat.hashCode() : 0);
+        result = 31 * result + (alt != null ? alt.hashCode() : 0);
+        result = 31 * result + (accuracy != null ? accuracy.hashCode() : 0);
+        result = 31 * result + (speed != null ? speed.hashCode() : 0);
         return result;
     }
 

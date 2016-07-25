@@ -5,16 +5,14 @@
 <%@ page contentType="text/html;charset=gb2312" language="java" %>
 
 <jsp:include page="/pages/base/head1.jsp" flush="true"></jsp:include>
-<%--<%@ include file="/pages/base/head1.jsp" %>--%>
 
-<body>
-
-<div class="container" style="font-size: 12px">
+<body style="font-size: 12px">
+<div class="container">
     <div id="toolbar">
-        <button id="add" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <button id="add" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="font-size: 12px">
             <i class="glyphicon glyphicon-plus"></i> 添加
         </button>
-        <button id="remove" class="btn btn-danger" disabled>
+        <button id="remove" class="btn btn-danger" disabled style="font-size: 12px">
             <i class="glyphicon glyphicon-remove"></i> 删除已选
         </button>
     </div>
@@ -36,12 +34,12 @@
            datatype="json"
            data-local="zh-US"
             >
-
     </table>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+<div ng-app="orgApp" ng-controller="orgCtrl" class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -52,17 +50,21 @@
             <div class="modal-body">
                 <form id="myForm" action="#" method="post" class="form-horizontal">
                     <div class="form-group">
+                        <input type="text" class="form-control hidden" id="id" ng-model="id">
+                    </div>
+                    <div class="form-group">
                         <label for="orgCode" class="col-sm-2 control-label">组织代码</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="orgCode" name="orgCode" placeholder="请输入组织代码">
+                            <input type="text" class="form-control" id="orgCode" ng-model="orgCode"
+                                   placeholder="请输入组织代码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="orgName" class="col-sm-2 control-label">组织名称</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="orgName" name="orgName"
+                            <input type="text" class="form-control" id="orgName" ng-model="orgName"
                                    placeholder="请输入组织名称">
                         </div>
                     </div>
@@ -70,13 +72,14 @@
                         <label for="orgContact" class="col-sm-2 control-label">联系人</label>
 
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="orgContact" name="orgContact" placeholder="请输入联系人">
+                            <input type="text" class="form-control" id="orgContact" ng-model="orgContact"
+                                   placeholder="请输入联系人">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">
+                <button ng-click="saveOrg()" class="btn btn-success">
                     <i class="glyphicon glyphicon-ok"></i> 保存
                 </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">
@@ -87,7 +90,68 @@
     </div>
 </div>
 
+<script type="text/javascript" src="../static/frameworks/angular-1.5.5/angular.js" charset="utf-8"></script>
+<script type="text/javascript" src="../static/js/utilJS/util.js" charset="utf-8"></script>
+
 <script>
+    //angularjs提交新增记录或修改记录的js
+    var app = angular.module('orgApp', []);
+    app.controller('orgCtrl', function ($scope, $http) {
+        $scope.saveOrg = function () {
+            var params = {
+                "orgCode": $("#orgCode").val(),
+                "orgName": $("#orgName").val(),
+                "orgContact": $("#orgContact").val()
+            };
+            $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            var id = $('#id').val();//取得隐藏id控件的值，用来判断saveOrg方法是创建记录，还是还是修改记录
+            if (id != "") {  //修改
+//                alert(id);
+                var url = 'http://localhost:8080/api/baseOrgs/' + id;
+                console.log(params);
+                $http({
+                    method: 'put',
+                    url: url,
+                    data: params
+                }).success(function (data, state) {
+                    console.log(data);
+                    console.log(state);
+                    if (state == '205') {
+                        alert("success");
+                        $('#table').bootstrapTable('refresh', {url: 'http://localhost:8080/api/baseOrgs'});
+                    } else {
+                        alert("error");
+                    }
+                }).error(function (data) {
+                    console.log(data);
+                    alert("error!!!!!!")
+                });
+            } else {    //创建
+                var url = 'http://localhost:8080/api/baseOrgs';
+                var paramStr = transformParams(params);
+                console.log(paramStr);
+                $http.post(url, paramStr, {
+                    'Content-Type': "application/json"
+                }).success(function (data, state) {
+                    console.log(data);
+                    console.log(state);
+                    if (state == '201') {
+                        alert("success");
+                        $('#table').bootstrapTable('refresh', {url: 'http://localhost:8080/api/baseOrgs'});
+                    } else {
+                        alert("error");
+                    }
+                }).error(function (data) {
+                    console.log(data);
+                    alert("error!!!!!!")
+                });
+            }
+            $('#myModal').modal('hide');
+        };
+    });
+
+    //bootstrap相关的js
     $(function () {
         var $table = $('#table');
         var $remove = $('#remove');
@@ -149,29 +213,18 @@
                 events: operateEvents
             }]
         });
-
         setTimeout(function () {
             $table.bootstrapTable('resetView');
         }, 200);
         $table.on('check.bs.table uncheck.bs.table ' +
                 'check-all.bs.table uncheck-all.bs.table', function () {
             $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
-
             // save your data, here just save the current page
             selections = getIdSelections();
             // push or splice the selections if you want to save all data selections
         });
-        $table.on('expand-row.bs.table', function (e, index, row, $detail) {
-            if (index % 2 == 1) {
-                $detail.html('Loading from ajax request...');
-                $.get('LICENSE', function (res) {
-                    $detail.html(res.replace(/\n/g, '<br>'));
-                });
-            }
-        });
-        $table.on('all.bs.table', function (e, name, args) {
-            console.log(name, args);
-        });
+
+        //'删除已选'按钮操作
         $remove.click(function () {
             var ids = getIdSelections();
             $table.bootstrapTable('remove', {
@@ -179,6 +232,16 @@
                 values: ids
             });
             $remove.prop('disabled', true);
+        });
+
+        //'添加'按钮操作，清除模态框内的数据
+        $("#add").click(function () {
+            //清除form表单中原来的数据
+            $(':input', '#myForm')
+                    .not(':button, :submit')
+                    .val('')
+                    .removeAttr('checked')
+                    .removeAttr('selected');
         });
 
         $(window).resize(function () {
@@ -205,7 +268,7 @@
             return [
                 '<a class="edit" href="javascript:void(0)" title="修改">',
                 '<i class="glyphicon glyphicon-edit"></i>',
-                '</a>  ',
+                '</a>&nbsp;&nbsp;&nbsp;',
                 '<a class="remove" href="javascript:void(0)" title="删除">',
                 '<i class="glyphicon glyphicon-remove"></i>',
                 '</a>'
@@ -219,12 +282,11 @@
 
     window.operateEvents = {
         'click .edit': function (e, value, row, index) {
-            var rowJsonData = jQuery.parseJSON(JSON.stringify(row));
-            //alert('你选择了编辑第'+index+'条记录,'+value+'是: ' + JSON.stringify(row));
-            //alert(rowJsonData.userName);
-            $('#userName').val(rowJsonData.userName);
+            $('#id').val(row.id);
+            $('#orgCode').val(row.orgCode);
+            $('#orgName').val(row.orgName);
+            $('#orgContact').val(row.orgContact);
             $('#myModal').modal('show');
-//            window.parent.window.$(document).find("#myModal").modal('show');
         },
         'click .remove': function (e, value, row, index) {
             alert('你选择了删除第' + index + '条记录,' + value + '是: ' + JSON.stringify(row));
@@ -234,6 +296,7 @@
             });
         }
     };
+
 </script>
 
 </body>

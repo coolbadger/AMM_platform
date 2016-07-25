@@ -1,22 +1,26 @@
 package com.amm.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
- * Created by csw on 2016/7/24 17:21.
+ * Created by csw on 2016/7/25 10:26.
  * Explain:
  */
 @Entity
 @Table(name = "org_user", schema = "", catalog = "amm")
 public class OrgUserEntity {
     private Integer id;
-    private String user;
+    private String userName;
     private String password;
     private String fullName;
     private String post;
     private String tell;
     private String email;
     private String state;
+    private Timestamp createTime;
+    private String creater;
+    private Byte active;
     private String notes;
     private BaseOrgEntity baseOrgByOrgId;
 
@@ -31,13 +35,13 @@ public class OrgUserEntity {
     }
 
     @Basic
-    @Column(name = "user")
-    public String getUser() {
-        return user;
+    @Column(name = "user_name")
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Basic
@@ -101,6 +105,36 @@ public class OrgUserEntity {
     }
 
     @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "creater")
+    public String getCreater() {
+        return creater;
+    }
+
+    public void setCreater(String creater) {
+        this.creater = creater;
+    }
+
+    @Basic
+    @Column(name = "active")
+    public Byte getActive() {
+        return active;
+    }
+
+    public void setActive(Byte active) {
+        this.active = active;
+    }
+
+    @Basic
     @Column(name = "notes")
     public String getNotes() {
         return notes;
@@ -118,13 +152,16 @@ public class OrgUserEntity {
         OrgUserEntity that = (OrgUserEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (user != null ? !user.equals(that.user) : that.user != null) return false;
+        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
         if (fullName != null ? !fullName.equals(that.fullName) : that.fullName != null) return false;
         if (post != null ? !post.equals(that.post) : that.post != null) return false;
         if (tell != null ? !tell.equals(that.tell) : that.tell != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+        if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
+        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
         return true;
@@ -133,13 +170,16 @@ public class OrgUserEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
         result = 31 * result + (post != null ? post.hashCode() : 0);
         result = 31 * result + (tell != null ? tell.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (creater != null ? creater.hashCode() : 0);
+        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }

@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
- * Created by csw on 2016/7/24 17:21.
+ * Created by csw on 2016/7/25 10:26.
  * Explain:
  */
 @Entity
@@ -22,13 +23,18 @@ public class BaseOrgEntity {
     private String orgTell;
     private String orgFax;
     private String orgEmail;
+    private Timestamp createTime;
+    private String creater;
+    private Byte active;
+    private String notes;
     private Collection<MachineEntity> machinesById;
     private Collection<OrgUserEntity> orgUsersById;
     private Collection<TerminalEntity> terminalsById;
     private Collection<WorkerEntity> workersById;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
@@ -107,6 +113,46 @@ public class BaseOrgEntity {
         this.orgEmail = orgEmail;
     }
 
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "creater")
+    public String getCreater() {
+        return creater;
+    }
+
+    public void setCreater(String creater) {
+        this.creater = creater;
+    }
+
+    @Basic
+    @Column(name = "active")
+    public Byte getActive() {
+        return active;
+    }
+
+    public void setActive(Byte active) {
+        this.active = active;
+    }
+
+    @Basic
+    @Column(name = "notes")
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -122,6 +168,10 @@ public class BaseOrgEntity {
         if (orgTell != null ? !orgTell.equals(that.orgTell) : that.orgTell != null) return false;
         if (orgFax != null ? !orgFax.equals(that.orgFax) : that.orgFax != null) return false;
         if (orgEmail != null ? !orgEmail.equals(that.orgEmail) : that.orgEmail != null) return false;
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+        if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
+        if (active != null ? !active.equals(that.active) : that.active != null) return false;
+        if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
         return true;
     }
@@ -136,6 +186,10 @@ public class BaseOrgEntity {
         result = 31 * result + (orgTell != null ? orgTell.hashCode() : 0);
         result = 31 * result + (orgFax != null ? orgFax.hashCode() : 0);
         result = 31 * result + (orgEmail != null ? orgEmail.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (creater != null ? creater.hashCode() : 0);
+        result = 31 * result + (active != null ? active.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }
 
@@ -179,11 +233,21 @@ public class BaseOrgEntity {
         this.workersById = workersById;
     }
 
-    public BaseOrgEntity(){}
+    public BaseOrgEntity() {}
 
     public BaseOrgEntity(String orgCode, String orgName, String orgContact) {
         this.orgCode = orgCode;
         this.orgName = orgName;
         this.orgContact = orgContact;
+    }
+
+    public BaseOrgEntity changeUpdateInfoToSave(BaseOrgEntity saveBaseOrg) {
+
+        if(saveBaseOrg != null) {
+            saveBaseOrg.setOrgCode(this.orgCode);
+            saveBaseOrg.setOrgName(this.orgName);
+            saveBaseOrg.setOrgContact(this.orgContact);
+        }
+        return saveBaseOrg;
     }
 }

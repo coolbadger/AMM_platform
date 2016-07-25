@@ -12,4 +12,8 @@ public interface BaseOrgService {
     BaseOrgEntity createOrg(BaseOrgEntity baseOrgEntity);
 
     List<BaseOrgEntity> findAllBaseOrg();
+
+    BaseOrgEntity updateBaseOrg(BaseOrgEntity baseOrg);
+
+    BaseOrgEntity findOne(Integer id);
 }

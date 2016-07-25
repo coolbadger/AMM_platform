@@ -8,5 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * Explain:
  */
 public interface OrgUserRepository extends PagingAndSortingRepository<OrgUserEntity, Integer>{
-    OrgUserEntity findByUserAndPassword(String username, String password);
+    OrgUserEntity findByUserNameAndPassword(String username, String password);
 }
