@@ -1,8 +1,12 @@
 package com.amm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by csw on 2016/7/25 10:26.
@@ -10,6 +14,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "worker", schema = "", catalog = "amm")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class WorkerEntity {
     private Integer id;
     private String userName;
@@ -20,15 +25,16 @@ public class WorkerEntity {
     private String tell;
     private String email;
     private String states;
-    private Timestamp createTime;
+    private Date createTime;
     private String creater;
-    private Byte active;
+    private boolean active;
     private String notes;
     private Collection<GpsRecordEntity> gpsRecordsById;
     private BaseOrgEntity baseOrgByOrgId;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
@@ -119,11 +125,12 @@ public class WorkerEntity {
 
     @Basic
     @Column(name = "create_time")
-    public Timestamp getCreateTime() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -139,11 +146,11 @@ public class WorkerEntity {
 
     @Basic
     @Column(name = "active")
-    public Byte getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Byte active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -175,7 +182,7 @@ public class WorkerEntity {
         if (states != null ? !states.equals(that.states) : that.states != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
         if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
-        if (active != null ? !active.equals(that.active) : that.active != null) return false;
+//        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
         return true;
@@ -194,12 +201,13 @@ public class WorkerEntity {
         result = 31 * result + (states != null ? states.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (creater != null ? creater.hashCode() : 0);
-        result = 31 * result + (active != null ? active.hashCode() : 0);
+//        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }
 
     @OneToMany(mappedBy = "workerByWorkerId")
+    @JsonIgnore
     public Collection<GpsRecordEntity> getGpsRecordsById() {
         return gpsRecordsById;
     }

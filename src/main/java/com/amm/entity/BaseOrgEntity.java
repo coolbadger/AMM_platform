@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by csw on 2016/7/25 10:26.
@@ -23,9 +24,9 @@ public class BaseOrgEntity {
     private String orgTell;
     private String orgFax;
     private String orgEmail;
-    private Timestamp createTime;
+    private Date createTime;
     private String creater;
-    private Byte active;
+    private boolean active;
     private String notes;
     private Collection<MachineEntity> machinesById;
     private Collection<OrgUserEntity> orgUsersById;
@@ -44,7 +45,7 @@ public class BaseOrgEntity {
     }
 
     @Basic
-    @Column(name = "org_code")
+    @Column(name = "org_code", nullable = false)
     public String getOrgCode() {
         return orgCode;
     }
@@ -54,7 +55,7 @@ public class BaseOrgEntity {
     }
 
     @Basic
-    @Column(name = "org_name")
+    @Column(name = "org_name", nullable = false)
     public String getOrgName() {
         return orgName;
     }
@@ -64,7 +65,7 @@ public class BaseOrgEntity {
     }
 
     @Basic
-    @Column(name = "org_contact")
+    @Column(name = "org_contact", nullable = false)
     public String getOrgContact() {
         return orgContact;
     }
@@ -115,11 +116,12 @@ public class BaseOrgEntity {
 
     @Basic
     @Column(name = "create_time")
-    public Timestamp getCreateTime() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -135,11 +137,11 @@ public class BaseOrgEntity {
 
     @Basic
     @Column(name = "active")
-    public Byte getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Byte active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -170,7 +172,7 @@ public class BaseOrgEntity {
         if (orgEmail != null ? !orgEmail.equals(that.orgEmail) : that.orgEmail != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
         if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
-        if (active != null ? !active.equals(that.active) : that.active != null) return false;
+//        if (active != null ? active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
         return true;
@@ -188,7 +190,7 @@ public class BaseOrgEntity {
         result = 31 * result + (orgEmail != null ? orgEmail.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (creater != null ? creater.hashCode() : 0);
-        result = 31 * result + (active != null ? active.hashCode() : 0);
+//        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }

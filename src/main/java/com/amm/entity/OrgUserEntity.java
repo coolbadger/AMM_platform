@@ -2,6 +2,7 @@ package com.amm.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by csw on 2016/7/25 10:26.
@@ -18,14 +19,15 @@ public class OrgUserEntity {
     private String tell;
     private String email;
     private String state;
-    private Timestamp createTime;
+    private Date createTime;
     private String creater;
-    private Byte active;
+    private boolean active;
     private String notes;
     private BaseOrgEntity baseOrgByOrgId;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
@@ -106,11 +108,12 @@ public class OrgUserEntity {
 
     @Basic
     @Column(name = "create_time")
-    public Timestamp getCreateTime() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -126,11 +129,11 @@ public class OrgUserEntity {
 
     @Basic
     @Column(name = "active")
-    public Byte getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(Byte active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -161,7 +164,7 @@ public class OrgUserEntity {
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
         if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
-        if (active != null ? !active.equals(that.active) : that.active != null) return false;
+//        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
         return true;
@@ -179,7 +182,7 @@ public class OrgUserEntity {
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (creater != null ? creater.hashCode() : 0);
-        result = 31 * result + (active != null ? active.hashCode() : 0);
+//        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }

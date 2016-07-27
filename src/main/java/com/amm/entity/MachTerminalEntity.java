@@ -1,8 +1,12 @@
 package com.amm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by csw on 2016/7/25 10:26.
@@ -10,16 +14,18 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "mach_terminal", schema = "", catalog = "amm")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class MachTerminalEntity {
     private Integer id;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private Date startTime;
+    private Date endTime;
     private MachineEntity machineByMachId;
     private TerminalEntity terminalByTerminalId;
     private Collection<RefMachTerminalEntity> refMachTerminalsById;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
@@ -30,21 +36,23 @@ public class MachTerminalEntity {
 
     @Basic
     @Column(name = "start_time")
-    public Timestamp getStartTime() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
     @Basic
     @Column(name = "end_time")
-    public Timestamp getEndTime() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
@@ -91,6 +99,7 @@ public class MachTerminalEntity {
     }
 
     @OneToMany(mappedBy = "machTerminalByMachTerminalId")
+    @JsonIgnore
     public Collection<RefMachTerminalEntity> getRefMachTerminalsById() {
         return refMachTerminalsById;
     }

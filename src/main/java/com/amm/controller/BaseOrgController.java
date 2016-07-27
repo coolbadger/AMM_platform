@@ -71,7 +71,7 @@ public class BaseOrgController extends BaseController{
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public BaseOrgEntity deleteOne(@PathVariable Integer id) {
 
         Validate.notNull(id, "The id must not be null, delete failure.");

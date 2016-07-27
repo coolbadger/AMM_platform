@@ -1,5 +1,8 @@
 package com.amm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -9,6 +12,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "machine", schema = "", catalog = "amm")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class MachineEntity {
     private Integer id;
     private String machCode;
@@ -20,7 +24,8 @@ public class MachineEntity {
     private Collection<MaintainRecordEntity> maintainRecordsById;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
@@ -84,6 +89,7 @@ public class MachineEntity {
     }
 
     @OneToMany(mappedBy = "machineByMachId")
+    @JsonIgnore
     public Collection<MachTerminalEntity> getMachTerminalsById() {
         return machTerminalsById;
     }
@@ -103,6 +109,7 @@ public class MachineEntity {
     }
 
     @OneToMany(mappedBy = "machineByMachId")
+    @JsonIgnore
     public Collection<MachineHistoryEntity> getMachineHistoriesById() {
         return machineHistoriesById;
     }
@@ -112,6 +119,7 @@ public class MachineEntity {
     }
 
     @OneToMany(mappedBy = "machineByMachId")
+    @JsonIgnore
     public Collection<MaintainRecordEntity> getMaintainRecordsById() {
         return maintainRecordsById;
     }

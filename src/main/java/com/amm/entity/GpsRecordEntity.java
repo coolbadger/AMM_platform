@@ -3,6 +3,7 @@ package com.amm.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by csw on 2016/7/25 10:26.
@@ -12,8 +13,8 @@ import java.sql.Timestamp;
 @Table(name = "gps_record", schema = "", catalog = "amm")
 public class GpsRecordEntity {
     private Integer id;
-    private Timestamp gpsTime;
-    private Timestamp localTime;
+    private Date gpsTime;
+    private Date localTime;
     private BigDecimal lng;
     private BigDecimal lat;
     private Integer alt;
@@ -23,7 +24,8 @@ public class GpsRecordEntity {
     private RefMachTerminalEntity refMachTerminalByRefMachTerminalId;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
@@ -34,21 +36,23 @@ public class GpsRecordEntity {
 
     @Basic
     @Column(name = "gps_time")
-    public Timestamp getGpsTime() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getGpsTime() {
         return gpsTime;
     }
 
-    public void setGpsTime(Timestamp gpsTime) {
+    public void setGpsTime(Date gpsTime) {
         this.gpsTime = gpsTime;
     }
 
     @Basic
     @Column(name = "local_time")
-    public Timestamp getLocalTime() {
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getLocalTime() {
         return localTime;
     }
 
-    public void setLocalTime(Timestamp localTime) {
+    public void setLocalTime(Date localTime) {
         this.localTime = localTime;
     }
 

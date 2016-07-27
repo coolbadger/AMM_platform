@@ -14,7 +14,8 @@ public class TerminalHistoryEntity {
     private TerminalEntity terminalByTerminalId;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public Integer getId() {
         return id;
     }
