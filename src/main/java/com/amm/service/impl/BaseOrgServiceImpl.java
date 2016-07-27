@@ -1,6 +1,7 @@
 package com.amm.service.impl;
 
 import com.amm.entity.BaseOrgEntity;
+import com.amm.exception.ObjectNotFoundException;
 import com.amm.repository.BaseOrgRepository;
 import com.amm.service.BaseOrgService;
 import org.apache.commons.lang3.Validate;
@@ -37,20 +38,39 @@ public class BaseOrgServiceImpl extends BaseService implements BaseOrgService {
         return (List<BaseOrgEntity>) baseOrgRepository.findAll();
     }
 
+    @Transactional
     public BaseOrgEntity updateBaseOrg(BaseOrgEntity baseOrg) {
 
         Validate.notNull(baseOrg.getId(), "The id of baseOrg must not be null, update failure.");
         Validate.notNull(baseOrg, "The baseOrg object must not be null, update failure.");
 
-        BaseOrgEntity saveBaseOrg = this.findOne(baseOrg.getId());
-        saveBaseOrg = baseOrg.changeUpdateInfoToSave(saveBaseOrg);
+        BaseOrgEntity saved = this.findOne(baseOrg.getId());
+        if(saved == null) {
+            throw new ObjectNotFoundException("组织机构不存在");
+        }
 
-        saveBaseOrg = baseOrgRepository.save(saveBaseOrg);
-        return saveBaseOrg;
+        saved = baseOrg.changeUpdateInfoToSave(saved);
+
+        saved = baseOrgRepository.save(saved);
+        return saved;
     }
 
     public BaseOrgEntity findOne(Integer id) {
 
         return baseOrgRepository.findOne(id);
+    }
+
+    @Transactional
+    public BaseOrgEntity deleteBaseOrg(Integer id) {
+
+        Validate.notNull(id, "The id of baseOrg must not be null, delete failure.");
+
+        BaseOrgEntity deleted = baseOrgRepository.findOne(id);
+        if(deleted == null) {
+            throw new ObjectNotFoundException("组织机构不存在");
+        }
+        baseOrgRepository.delete(deleted);
+
+        return deleted;
     }
 }

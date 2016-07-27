@@ -69,4 +69,13 @@ public class BaseOrgController extends BaseController{
 
         return baseOrgService.findOne(id);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public BaseOrgEntity deleteOne(@PathVariable Integer id) {
+
+        Validate.notNull(id, "The id must not be null, delete failure.");
+
+        return baseOrgService.deleteBaseOrg(id);
+    }
 }

@@ -16,4 +16,6 @@ public interface BaseOrgService {
     BaseOrgEntity updateBaseOrg(BaseOrgEntity baseOrg);
 
     BaseOrgEntity findOne(Integer id);
+
+    BaseOrgEntity deleteBaseOrg(Integer id);
 }
