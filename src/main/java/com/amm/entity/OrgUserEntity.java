@@ -21,7 +21,7 @@ public class OrgUserEntity {
     private String state;
     private Date createTime;
     private String creater;
-    private boolean active;
+    private boolean active = true;
     private String notes;
     private BaseOrgEntity baseOrgByOrgId;
 

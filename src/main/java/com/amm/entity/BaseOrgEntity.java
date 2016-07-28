@@ -26,7 +26,7 @@ public class BaseOrgEntity {
     private String orgEmail;
     private Date createTime;
     private String creater;
-    private boolean active;
+    private boolean active = true;
     private String notes;
     private Collection<MachineEntity> machinesById;
     private Collection<OrgUserEntity> orgUsersById;
@@ -249,6 +249,12 @@ public class BaseOrgEntity {
             saveBaseOrg.setOrgCode(this.orgCode);
             saveBaseOrg.setOrgName(this.orgName);
             saveBaseOrg.setOrgContact(this.orgContact);
+            saveBaseOrg.setOrgAddress(this.orgAddress);
+            saveBaseOrg.setOrgTell(this.orgTell);
+            saveBaseOrg.setOrgFax(this.orgFax);
+            saveBaseOrg.setOrgEmail(this.orgEmail);
+            saveBaseOrg.setNotes(this.notes);
+            saveBaseOrg.setActive(this.active);
         }
         return saveBaseOrg;
     }

@@ -18,4 +18,6 @@ public interface BaseOrgService {
     BaseOrgEntity findOne(Integer id);
 
     BaseOrgEntity deleteBaseOrg(Integer id);
+
+    List<BaseOrgEntity> findAllBaseOrgByActive(Boolean active);
 }

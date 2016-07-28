@@ -1,13 +1,13 @@
 package com.amm.controller;
 
 import com.amm.entity.BaseOrgEntity;
-import com.amm.entity.OrgUserEntity;
 import com.amm.service.BaseOrgService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,25 +24,23 @@ public class BaseOrgController extends BaseController{
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public BaseOrgEntity create(@RequestParam(value = "orgCode", required = true) String orgCode,
-                                @RequestParam(value = "orgName", required = true) String orgName,
-                                @RequestParam(value = "orgContact", required = true) String orgContact) {
+    public BaseOrgEntity create(@RequestBody(required = true) BaseOrgEntity baseOrgEntity) {
 
-        Validate.notNull(orgCode, "The orgCode must not be null, create failure.");
-        Validate.notNull(orgName, "The orgCode must not be null, create failure.");
-        Validate.notNull(orgContact, "The orgCode must not be null, create failure.");
+        Validate.notNull(baseOrgEntity, "The baseOrgEntity must not be null, create failure.");
+        Validate.notNull(baseOrgEntity.getOrgCode(), "The orgCode must not be null, create failure.");
+        Validate.notNull(baseOrgEntity.getOrgName(), "The orgName must not be null, create failure.");
+        Validate.notNull(baseOrgEntity.getOrgContact(), "The orgContact must not be null, create failure.");
 
-        BaseOrgEntity baseOrgEntity = new BaseOrgEntity(orgCode, orgName, orgContact);
-
+        baseOrgEntity.setCreateTime(new Date());
         baseOrgEntity = baseOrgService.createOrg(baseOrgEntity);
 
         return baseOrgEntity;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<BaseOrgEntity> listBaseOrg() {
+    public List<BaseOrgEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
 
-        List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findAllBaseOrg();
+        List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findAllBaseOrgByActive(active);
 
         return baseOrgEntityList;
     }

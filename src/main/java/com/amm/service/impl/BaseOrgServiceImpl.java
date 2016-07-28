@@ -49,6 +49,7 @@ public class BaseOrgServiceImpl extends BaseService implements BaseOrgService {
             throw new ObjectNotFoundException("组织机构不存在");
         }
 
+        //将传过来的需要改变的对象，赋值给从数据库中取出来的对象saved，然后对saved对象进行save保存
         saved = baseOrg.changeUpdateInfoToSave(saved);
 
         saved = baseOrgRepository.save(saved);
@@ -69,8 +70,14 @@ public class BaseOrgServiceImpl extends BaseService implements BaseOrgService {
         if(deleted == null) {
             throw new ObjectNotFoundException("组织机构不存在");
         }
-        baseOrgRepository.delete(deleted);
+        deleted.setActive(Boolean.FALSE);//改变active为false，则表示数据库这条记录被删除
+        baseOrgRepository.save(deleted);
 
         return deleted;
+    }
+
+    public List<BaseOrgEntity> findAllBaseOrgByActive(Boolean active) {
+
+        return baseOrgRepository.findByActive(active);//按active字段为true查找，即为查找所有
     }
 }
