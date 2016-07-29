@@ -1,5 +1,6 @@
 package com.amm.socketserver;
 
+import com.amm.socketserver.packetentity.AMMPacket;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
@@ -60,14 +61,25 @@ public class AMMIOHandler extends IoHandlerAdapter {
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
         super.messageReceived(session, message);
-        logger.info("AMMSocket: Message Received:" + message.toString());
-        session.write("I have received your message!");
-        session.write("I will repeat your message after 5 seconds...");
+        logger.info("AMMSocket: Message Received!");
+        AMMPacket ammPacket = (AMMPacket) message;
 
-        Thread.sleep(5000);
+        logger.info("机器编号:" + ammPacket.AMMMachineID);
+        logger.info("工人编号:" + ammPacket.AMMWorkerID);
+        logger.info("DATA字符串:" + ammPacket.AMMDataString);
 
-
-        session.write("Your message is: " + message);
+        String[] parseResult = ammPacket.AMMDataString.split("\\|",-1);
+        if(parseResult[0].equalsIgnoreCase("logreq")){
+            String resDataString;
+            if(ammPacket.AMMWorkerID.equals("111")){
+                resDataString = "logrep|1";
+            }
+            else {
+                resDataString = "logrep|0";
+            }
+            ammPacket.AMMDataString = resDataString;
+            session.write(ammPacket);
+        }
 
 
     }
