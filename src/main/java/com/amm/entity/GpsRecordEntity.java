@@ -1,34 +1,109 @@
 package com.amm.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Created by csw on 2016/7/22.
+ * Created by csw on 2016/7/25 10:26.
+ * Explain:
  */
 @Entity
 @Table(name = "gps_record", schema = "", catalog = "amm")
 public class GpsRecordEntity {
-    private int id;
-    private String position;
+    private Integer id;
+    private Date gpsTime;
+    private Date localTime;
+    private BigDecimal lng;
+    private BigDecimal lat;
+    private Integer alt;
+    private Integer accuracy;
+    private Integer speed;
+    private WorkerEntity workerByWorkerId;
+    private RefMachTerminalEntity refMachTerminalByRefMachTerminalId;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
-    @Column(name = "position")
-    public String getPosition() {
-        return position;
+    @Column(name = "gps_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getGpsTime() {
+        return gpsTime;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setGpsTime(Date gpsTime) {
+        this.gpsTime = gpsTime;
+    }
+
+    @Basic
+    @Column(name = "local_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getLocalTime() {
+        return localTime;
+    }
+
+    public void setLocalTime(Date localTime) {
+        this.localTime = localTime;
+    }
+
+    @Basic
+    @Column(name = "lng")
+    public BigDecimal getLng() {
+        return lng;
+    }
+
+    public void setLng(BigDecimal lng) {
+        this.lng = lng;
+    }
+
+    @Basic
+    @Column(name = "lat")
+    public BigDecimal getLat() {
+        return lat;
+    }
+
+    public void setLat(BigDecimal lat) {
+        this.lat = lat;
+    }
+
+    @Basic
+    @Column(name = "alt")
+    public Integer getAlt() {
+        return alt;
+    }
+
+    public void setAlt(Integer alt) {
+        this.alt = alt;
+    }
+
+    @Basic
+    @Column(name = "accuracy")
+    public Integer getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Integer accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    @Basic
+    @Column(name = "speed")
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
     }
 
     @Override
@@ -38,16 +113,48 @@ public class GpsRecordEntity {
 
         GpsRecordEntity that = (GpsRecordEntity) o;
 
-        if (id != that.id) return false;
-        if (position != null ? !position.equals(that.position) : that.position != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (gpsTime != null ? !gpsTime.equals(that.gpsTime) : that.gpsTime != null) return false;
+        if (localTime != null ? !localTime.equals(that.localTime) : that.localTime != null) return false;
+        if (lng != null ? !lng.equals(that.lng) : that.lng != null) return false;
+        if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
+        if (alt != null ? !alt.equals(that.alt) : that.alt != null) return false;
+        if (accuracy != null ? !accuracy.equals(that.accuracy) : that.accuracy != null) return false;
+        if (speed != null ? !speed.equals(that.speed) : that.speed != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (position != null ? position.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (gpsTime != null ? gpsTime.hashCode() : 0);
+        result = 31 * result + (localTime != null ? localTime.hashCode() : 0);
+        result = 31 * result + (lng != null ? lng.hashCode() : 0);
+        result = 31 * result + (lat != null ? lat.hashCode() : 0);
+        result = 31 * result + (alt != null ? alt.hashCode() : 0);
+        result = 31 * result + (accuracy != null ? accuracy.hashCode() : 0);
+        result = 31 * result + (speed != null ? speed.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "worker_id", referencedColumnName = "id", nullable = false)
+    public WorkerEntity getWorkerByWorkerId() {
+        return workerByWorkerId;
+    }
+
+    public void setWorkerByWorkerId(WorkerEntity workerByWorkerId) {
+        this.workerByWorkerId = workerByWorkerId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ref_mach_terminal_id", referencedColumnName = "id", nullable = false)
+    public RefMachTerminalEntity getRefMachTerminalByRefMachTerminalId() {
+        return refMachTerminalByRefMachTerminalId;
+    }
+
+    public void setRefMachTerminalByRefMachTerminalId(RefMachTerminalEntity refMachTerminalByRefMachTerminalId) {
+        this.refMachTerminalByRefMachTerminalId = refMachTerminalByRefMachTerminalId;
     }
 }

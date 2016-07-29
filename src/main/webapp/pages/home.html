@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>XXX农机管理系统</title>
 
     <!--bui框架-->
     <link rel="stylesheet" type="text/css" href="../static/frameworks/assets/css/dpl-min.css">
@@ -37,10 +37,10 @@
         </div>
         <ul id="J_Nav" class="nav-list ks-clear">
             <li class="nav-item dl-selected">
-                <div class="nav-item-inner nav-home">系统管理</div>
+                <div class="nav-item-inner nav-home">业务管理</div>
             </li>
             <li class="nav-item dl-selected">
-                <div class="nav-item-inner nav-order">业务管理</div>
+                <div class="nav-item-inner nav-order">系统管理</div>
             </li>
 
         </ul>
@@ -52,29 +52,35 @@
 <script>
     BUI.use('common/main', function () {
         var config = [{
-            id: 'menu',
+            id: 'business',
 //            homePage : 'code',
             menu: [{
+                text: '农机监控',
+                items: [
+                    {id: 'code', text: '农机状态', href: 'form/code.html'},
+                    {id: 'example', text: '历史记录', href: 'form/example.html'}
+                ]
+            }]
+        }, {
+            id: 'menu',
+            menu: [{
+                text: '组织机构',
+                items: [
+                    {id: 'baseOrg', text: '机构维护', href: 'baseOrg1.jsp'}
+                ]
+            },{
                 text: '用户管理',
                 items: [
-                    {id: 'baseOrg', text: '业务人员', href: 'baseOrg.html'},
+                    {id: 'orgUser', text: '业务人员', href: 'baseOrg.html'},
                     {id: 'main-menu', text: '司机管理', href: 'main/menu.html'},
                     {id: 'second-menu', text: '客户管理', href: 'main/second-menu.html'}
                 ]
             }, {
                 text: '设备管理',
                 items: [
-                    {id: 'operation', text: '农机管理', href: 'main/operation.html'},
-                    {id: 'quick', text: 'XXXX', href: 'main/quick.html'}
-                ]
-            }]
-        }, {
-            id: 'form',
-            menu: [{
-                text: '农机监控',
-                items: [
-                    {id: 'code', text: '农机状态', href: 'form/code.html'},
-                    {id: 'example', text: '历史记录', href: 'form/example.html'}
+                    {id: 'mach', text: '农机管理', href: 'main/operation.html'},
+                    {id: 'terminal', text: '终端管理', href: 'main/quick.html'},
+                    {id: 'mach_terminal', text: '农机终端', href: 'main/quick.html'}
                 ]
             }]
         }];

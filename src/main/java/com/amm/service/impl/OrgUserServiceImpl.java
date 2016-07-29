@@ -25,7 +25,7 @@ public class OrgUserServiceImpl extends BaseService implements OrgUserService{
         Validate.notNull(username, "The username must not be null");
         Validate.notNull(password, "The password must not be null");
 
-        OrgUserEntity orgUser = orgUserRepository.findByUserAndPassword(username, password);
+        OrgUserEntity orgUser = orgUserRepository.findByUserNameAndPassword(username, password);
 
         return orgUser;
     }

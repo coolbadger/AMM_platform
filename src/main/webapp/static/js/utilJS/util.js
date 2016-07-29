@@ -2,6 +2,11 @@
  * Created by csw on 2016/7/23 10:37.
  * Explain:
  */
+/**
+ * 将json对象里面的字段拼接成url请求头的形式
+ * @param params
+ * @returns {string}
+ */
 function transformParams(params) {
 
     var paramStr = "";
@@ -15,5 +20,6 @@ function transformParams(params) {
         val = params[keyArr[i]];
         paramStr += "" + keyArr[i] + "=" + val + "&";
     }
+
     return paramStr;
 }
