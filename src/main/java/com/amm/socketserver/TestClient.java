@@ -39,9 +39,9 @@ public class TestClient {
 
         AMMPacket ammPacket = new AMMPacket();
         System.out.println(ammPacket.AMMHeaders.length);
-        ammPacket.AMMWorkerID = "1";
-        ammPacket.AMMMachineID = "9012";
-        ammPacket.AMMDataString = "logreq|admin";
+        ammPacket.AMMMachineID = "1";
+        ammPacket.AMMWorkerID = "789012";
+        ammPacket.AMMDataString = "locreq|admin";
 
         session.write(ammPacket);
         session.closeOnFlush();
@@ -50,17 +50,16 @@ public class TestClient {
         }
 
     }
+    //将byte[]转换为ASCII,0x00除外
     public String bytesASCIIToString(byte[] src){
         int tRecvCount = src.length;
         String nRcvString;
         StringBuffer  tStringBuf=new StringBuffer ();
-        char[] tChars=new char[tRecvCount];
-
-        for(int i=0;i<tRecvCount;i++){
-            tChars[i]=(char)src[i];
+        for(int i=0;i<tRecvCount;i++) {
+            if(src[i]!=0x00){
+                tStringBuf.append((char)src[i]);
+            }
         }
-
-        tStringBuf.append(tChars);
         nRcvString=tStringBuf.toString();
         return nRcvString;
     }

@@ -56,9 +56,9 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
 
                 //包尾
                 byte[] packetTailBytes = new byte[2];
+                ioBuffer.get(packetTailBytes);
                 logger.info("包尾:" + bytesToHexString(packetTailBytes));
 
-                ioBuffer.get(packetTailBytes);
                 if(Arrays.equals(packetTailBytes,ammPacket.AMMTails)){
                     logger.info("解码成功");
                     protocolDecoderOutput.write(ammPacket);
@@ -102,18 +102,16 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
         return bytesToHexString(bytes);
     }
 
-    //将byte[]转换为ASCII
+    //将byte[]转换为ASCII,0x00除外
     public String bytesASCIIToString(byte[] src){
         int tRecvCount = src.length;
         String nRcvString;
         StringBuffer  tStringBuf=new StringBuffer ();
-        char[] tChars=new char[tRecvCount];
-
-        for(int i=0;i<tRecvCount;i++){
-            tChars[i]=(char)src[i];
+        for(int i=0;i<tRecvCount;i++) {
+            if(src[i]!=0x00){
+                tStringBuf.append((char)src[i]);
+            }
         }
-
-        tStringBuf.append(tChars);
         nRcvString=tStringBuf.toString();
         return nRcvString;
     }

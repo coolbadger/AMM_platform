@@ -78,6 +78,13 @@ public class AMMIOHandler extends IoHandlerAdapter {
             ammPacket.AMMDataString = resDataString;
             session.write(ammPacket);
         }
+        else {
+            //返回位置上报成功信息
+            logger.info("返回位置上报成功信息");
+            String resDataString = "locrep|0|5";
+            ammPacket.AMMDataString = resDataString;
+            session.write(ammPacket);
+        }
 
 
     }
