@@ -196,4 +196,18 @@ public class OrgUserEntity {
     public void setBaseOrgByOrgId(BaseOrgEntity baseOrgByOrgId) {
         this.baseOrgByOrgId = baseOrgByOrgId;
     }
+
+    public OrgUserEntity changeUpdateInfoToSave(OrgUserEntity saved) {
+        if(saved != null) {
+            saved.setUserName(this.userName);
+            saved.setPassword(this.password);
+            saved.setFullName(this.fullName);
+            saved.setPost(this.post);
+            saved.setEmail(this.email);
+            saved.setNotes(this.notes);
+            saved.setTell(this.tell);
+            saved.setState(this.state);
+        }
+        return saved;
+    }
 }

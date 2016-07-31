@@ -53,10 +53,13 @@ public class BaseOrgServiceImpl extends BaseService implements BaseOrgService {
         saved = baseOrg.changeUpdateInfoToSave(saved);
 
         saved = baseOrgRepository.save(saved);
+
         return saved;
     }
 
     public BaseOrgEntity findOne(Integer id) {
+
+        Validate.notNull(id, "The id must not be null, find failure.");
 
         return baseOrgRepository.findOne(id);
     }
