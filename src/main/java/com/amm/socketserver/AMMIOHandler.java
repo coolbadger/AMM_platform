@@ -32,8 +32,6 @@ public class AMMIOHandler extends IoHandlerAdapter {
     public void sessionOpened(IoSession session) throws Exception {
         super.sessionOpened(session);
         logger.info("AMMSocket: Session Opened");
-        session.write("session opened,welcome!");
-
     }
 
     @Override
