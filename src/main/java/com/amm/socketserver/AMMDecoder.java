@@ -25,38 +25,38 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
             //判断包头是否正确
             byte[] headerBytes = new byte[ammPacket.AMMHeaders.length];
             ioBuffer.get(headerBytes);
-            logger.info("包头:" + bytesASCIIToString(headerBytes));
+            logger.info("包头:" + bytesToHexString(headerBytes));
             if(Arrays.equals(headerBytes,ammPacket.AMMHeaders)){
                 //获取包总长
                 byte packtTotalLengthByte = ioBuffer.get();
                 ammPacket.AMMTotalLength = (int)packtTotalLengthByte;
-                logger.info("包总长:" + byteASCIIToString(packtTotalLengthByte) + "  " + ammPacket.AMMTotalLength);
+                logger.info("包总长:" + byteToHexString(packtTotalLengthByte) + "  " + ammPacket.AMMTotalLength);
                 //机器ID
                 byte[] machineIdBytes = new byte[2];
                 ioBuffer.get(machineIdBytes);
                 ammPacket.AMMMachineID = String.valueOf(machineIdBytesToInt(machineIdBytes));
-                logger.info("机器ID:" + bytesASCIIToString(machineIdBytes) + "  " + ammPacket.AMMMachineID);
+                logger.info("机器ID:" + bytesToHexString(machineIdBytes) + "  " + ammPacket.AMMMachineID);
 
                 //工号
                 byte[] workerIdBytes = new byte[12];
-                ioBuffer.get(machineIdBytes);
+                ioBuffer.get(workerIdBytes);
                 ammPacket.AMMWorkerID = bytesASCIIToString(workerIdBytes);
-                logger.info("机器ID:" + bytesASCIIToString(workerIdBytes) + "  " + ammPacket.AMMWorkerID);
+                logger.info("工人ID:" + bytesToHexString(workerIdBytes) + "  " + ammPacket.AMMWorkerID);
 
                 //data段长度
                 byte dataLengthByte = ioBuffer.get();
                 ammPacket.AMMDataLength = (int)dataLengthByte;
-                logger.info("data段长度:" + byteASCIIToString(dataLengthByte) + "  " + ammPacket.AMMDataLength);
+                logger.info("data段长度:" + byteToHexString(dataLengthByte) + "  " + ammPacket.AMMDataLength);
 
                 //data段内容
                 byte[] dataStringBytes =  new byte[ammPacket.AMMDataLength];
                 ioBuffer.get(dataStringBytes);
                 ammPacket.AMMDataString = bytesASCIIToString(dataStringBytes);
-                logger.info("data段内容:" + bytesASCIIToString(dataStringBytes) + "  " + ammPacket.AMMDataString);
+                logger.info("data段内容:" + bytesToHexString(dataStringBytes) + "  " + ammPacket.AMMDataString);
 
                 //包尾
-                byte[] packetTailBytes = new byte[ammPacket.AMMTails.length];
-                logger.info("包尾:" + bytesASCIIToString(packetTailBytes));
+                byte[] packetTailBytes = new byte[2];
+                logger.info("包尾:" + bytesToHexString(packetTailBytes));
 
                 ioBuffer.get(packetTailBytes);
                 if(Arrays.equals(packetTailBytes,ammPacket.AMMTails)){
@@ -96,6 +96,12 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
         }
         return stringBuilder.toString();
     }
+
+    public String byteToHexString(byte src){
+        byte[] bytes = {src};
+        return bytesToHexString(bytes);
+    }
+
     //将byte[]转换为ASCII
     public String bytesASCIIToString(byte[] src){
         int tRecvCount = src.length;

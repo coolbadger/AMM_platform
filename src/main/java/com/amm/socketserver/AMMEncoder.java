@@ -40,16 +40,17 @@ public class AMMEncoder implements ProtocolEncoder {
             }
             workerIdBytes = spliceBytes(preBytes,workerIdBytes);
         }
-        spliceBytes(tempBytes,workerIdBytes);
+        tempBytes = spliceBytes(tempBytes,workerIdBytes);
         //DATA长度
         byte[] dataLengthbytes = {(byte)ammPacket.AMMDataLength};
-        spliceBytes(tempBytes,dataLengthbytes);
+        tempBytes = spliceBytes(tempBytes,dataLengthbytes);
         //DATA字符串
-        spliceBytes(tempBytes,ammPacket.AMMDataString.getBytes("ASCII"));
+        tempBytes = spliceBytes(tempBytes,ammPacket.AMMDataString.getBytes("ASCII"));
         //尾字节
-        spliceBytes(tempBytes,ammPacket.AMMTails);
+        tempBytes = spliceBytes(tempBytes,ammPacket.AMMTails);
         logger.info("编码完成");
-//        logger.info(bytesASCIIToString(tempBytes));
+        logger.info(bytesToHexString(tempBytes));
+        System.out.println(bytesToHexString(tempBytes));
 
         protocolEncoderOutput.write(IoBuffer.wrap(tempBytes));//this is important
     }
@@ -89,5 +90,22 @@ public class AMMEncoder implements ProtocolEncoder {
         nRcvString=tStringBuf.toString();
         return nRcvString;
 
+    }
+    //将byte[]转为Hex
+    public String bytesToHexString(byte[] src){
+        StringBuilder stringBuilder = new StringBuilder("");
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+
+            stringBuilder.append(hv.toUpperCase());
+        }
+        return stringBuilder.toString();
     }
 }
