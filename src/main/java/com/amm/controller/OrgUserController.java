@@ -6,10 +6,7 @@ import com.amm.model.ResultModel;
 import com.amm.service.OrgUserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by csw on 2016/7/22 19:45.
@@ -44,5 +41,16 @@ public class OrgUserController extends BaseController{
         }
 
         return resultModel;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public OrgUserEntity create(@RequestParam(value = "baseOrgId", required = true) Integer baseOrgId,
+                                @RequestBody(required = true) OrgUserEntity orgUserEntity) {
+
+        Validate.notNull(orgUserEntity, "The orgUser must not be null, create failure");
+        Validate.notNull(baseOrgId, "The baseOrgId must not be null, create failure");
+
+
+        return null;
     }
 }
