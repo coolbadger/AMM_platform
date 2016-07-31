@@ -32,8 +32,6 @@ public class AMMIOHandler extends IoHandlerAdapter {
     public void sessionOpened(IoSession session) throws Exception {
         super.sessionOpened(session);
         logger.info("AMMSocket: Session Opened");
-        session.write("session opened,welcome!");
-
     }
 
     @Override
@@ -77,6 +75,13 @@ public class AMMIOHandler extends IoHandlerAdapter {
             else {
                 resDataString = "logrep|0";
             }
+            ammPacket.AMMDataString = resDataString;
+            session.write(ammPacket);
+        }
+        else {
+            //返回位置上报成功信息
+            logger.info("返回位置上报成功信息");
+            String resDataString = "locrep|0|5";
             ammPacket.AMMDataString = resDataString;
             session.write(ammPacket);
         }

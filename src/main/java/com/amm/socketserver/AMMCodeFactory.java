@@ -15,8 +15,8 @@ import java.nio.charset.Charset;
  */
 public class AMMCodeFactory implements ProtocolCodecFactory {
     public ProtocolEncoder getEncoder(IoSession ioSession) throws Exception {
-        TextLineEncoder textLineEncoder = new TextLineEncoder(Charset.forName("US-ASCII"));
-        return textLineEncoder;
+        AMMEncoder ammEncoder = new AMMEncoder();
+        return ammEncoder;
     }
 
     public ProtocolDecoder getDecoder(IoSession ioSession) throws Exception {
