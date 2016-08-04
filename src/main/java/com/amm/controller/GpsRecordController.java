@@ -41,6 +41,7 @@ public class GpsRecordController extends BaseController{
             gpsRecord.setGpsTime(gpsRecordEntity.getGpsTime());
             gpsRecord.setLocalTime(gpsRecordEntity.getLocalTime());
             gpsRecord.setLng(gpsRecordEntity.getLng());
+            gpsRecord.setLat(gpsRecordEntity.getLat());
             gpsRecord.setSpeed(gpsRecordEntity.getSpeed());
             gpsRecord.setWorkerId(gpsRecordEntity.getWorkerByWorkerId().getId());
             gpsRecord.setBaseOrgId(gpsRecordEntity.getWorkerByWorkerId().getBaseOrgByOrgId().getId());
