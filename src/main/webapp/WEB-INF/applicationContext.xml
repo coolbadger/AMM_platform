@@ -60,7 +60,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
 	<!-- 数据源配置, 使用Tomcat JDBC连接池-->
-	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
 		  destroy-method="close">
 		<!-- Connection Info-->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -70,14 +70,16 @@
 
 		<!--数据库连接配置-->
 		<property name="maxIdle" value="5"/><!--最大空闲连接-->
-		<property name="maxActive" value="10"/><!--最大活动连接-->
+		<property name="maxTotal" value="50"/><!--最大活动连接-->
 		<property name="initialSize" value="3"/><!--初始化连接-->
 		<property name="minIdle" value="3"/><!--最小空闲连接-->
-		<property name="maxWait" value="10000"/><!--从池中取连接的最大等待时间，单位ms-->
+		<property name="maxWaitMillis" value="10000"/><!--从池中取连接的最大等待时间，单位ms-->
 		<property name="timeBetweenEvictionRunsMillis" value="30000"/><!--每30秒运行一次空闲连接回收器-->
 		<property name="minEvictableIdleTimeMillis" value="30000"/><!--池中的连接空闲30秒后被回收-->
-		<property name="removeAbandoned" value="true"/><!--连接泄漏回收参数，当可用连接数少于3个时才执行-->
+		<property name="removeAbandonedOnBorrow" value="true"/><!--连接泄漏回收参数，当可用连接数少于3个时才执行-->
 		<property name="removeAbandonedTimeout" value="60"/><!--连接泄漏回收参数，60秒，泄露的连接可以被删除的超时值-->
+		<property name="validationQuery" value="select 1"/>
+		<property name="testWhileIdle" value="true"/>
 	</bean>
 
 	<!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
