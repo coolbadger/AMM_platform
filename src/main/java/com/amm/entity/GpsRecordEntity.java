@@ -138,7 +138,7 @@ public class GpsRecordEntity {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "worker_id", referencedColumnName = "id", nullable = false)
     public WorkerEntity getWorkerByWorkerId() {
         return workerByWorkerId;
@@ -148,7 +148,7 @@ public class GpsRecordEntity {
         this.workerByWorkerId = workerByWorkerId;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ref_mach_terminal_id", referencedColumnName = "id", nullable = false)
     public RefMachTerminalEntity getRefMachTerminalByRefMachTerminalId() {
         return refMachTerminalByRefMachTerminalId;

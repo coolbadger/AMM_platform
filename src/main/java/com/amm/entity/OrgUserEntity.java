@@ -20,7 +20,7 @@ public class OrgUserEntity {
     private String email;
     private String state;
     private Date createTime;
-    private String creater;
+    private String creator;
     private boolean active = true;
     private String notes;
     private BaseOrgEntity baseOrgByOrgId;
@@ -118,13 +118,13 @@ public class OrgUserEntity {
     }
 
     @Basic
-    @Column(name = "creater")
-    public String getCreater() {
-        return creater;
+    @Column(name = "creator")
+    public String getCreator() {
+        return creator;
     }
 
-    public void setCreater(String creater) {
-        this.creater = creater;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     @Basic
@@ -163,7 +163,7 @@ public class OrgUserEntity {
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
+        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
 //        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
@@ -181,7 +181,7 @@ public class OrgUserEntity {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (creater != null ? creater.hashCode() : 0);
+        result = 31 * result + (creator != null ? creator.hashCode() : 0);
 //        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;

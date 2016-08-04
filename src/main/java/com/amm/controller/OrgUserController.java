@@ -63,7 +63,7 @@ public class OrgUserController extends BaseController{
         orgUserEntity.setCreateTime(new Date());
 
         //根据当前用户的组织id,查找BaseOrgEntity对象
-        BaseOrgEntity baseOrg = baseOrgService.findOne(13);
+        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
         orgUserEntity.setBaseOrgByOrgId(baseOrg);
 
         OrgUserEntity created = orgUserService.createOrgUser(orgUserEntity);

@@ -18,6 +18,8 @@ public class MachineEntity {
     private String machCode;
     private String machName;
     private String workingType;
+    private String state;
+    private String notes;
     private Collection<MachTerminalEntity> machTerminalsById;
     private BaseOrgEntity baseOrgByOrgId;
     private Collection<MachineHistoryEntity> machineHistoriesById;
@@ -62,6 +64,26 @@ public class MachineEntity {
 
     public void setWorkingType(String workingType) {
         this.workingType = workingType;
+    }
+
+    @Basic
+    @Column(name = "state")
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Basic
+    @Column(name = "notes")
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     @Override
@@ -126,5 +148,18 @@ public class MachineEntity {
 
     public void setMaintainRecordsById(Collection<MaintainRecordEntity> maintainRecordsById) {
         this.maintainRecordsById = maintainRecordsById;
+    }
+
+    public MachineEntity changeUpdateInfoToSave(MachineEntity updated) {
+
+        if(updated != null) {
+            updated.setMachCode(this.machCode);
+            updated.setMachName(this.machName);
+            updated.setWorkingType(this.workingType);
+            updated.setState(this.state);
+            updated.setNotes(this.notes);
+        }
+
+        return updated;
     }
 }

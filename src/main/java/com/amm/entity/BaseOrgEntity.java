@@ -25,7 +25,7 @@ public class BaseOrgEntity {
     private String orgFax;
     private String orgEmail;
     private Date createTime;
-    private String creater;
+    private String creator;
     private boolean active = true;
     private String notes;
     private Collection<MachineEntity> machinesById;
@@ -126,13 +126,13 @@ public class BaseOrgEntity {
     }
 
     @Basic
-    @Column(name = "creater")
-    public String getCreater() {
-        return creater;
+    @Column(name = "creator")
+    public String getCreator() {
+        return creator;
     }
 
-    public void setCreater(String creater) {
-        this.creater = creater;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     @Basic
@@ -171,7 +171,7 @@ public class BaseOrgEntity {
         if (orgFax != null ? !orgFax.equals(that.orgFax) : that.orgFax != null) return false;
         if (orgEmail != null ? !orgEmail.equals(that.orgEmail) : that.orgEmail != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
+        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
 //        if (active != null ? active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
@@ -189,7 +189,7 @@ public class BaseOrgEntity {
         result = 31 * result + (orgFax != null ? orgFax.hashCode() : 0);
         result = 31 * result + (orgEmail != null ? orgEmail.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (creater != null ? creater.hashCode() : 0);
+        result = 31 * result + (creator != null ? creator.hashCode() : 0);
 //        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;

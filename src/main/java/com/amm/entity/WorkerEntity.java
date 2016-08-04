@@ -26,7 +26,6 @@ public class WorkerEntity {
     private String email;
     private String states;
     private Date createTime;
-    private String creater;
     private boolean active = true;
     private String notes;
     private Collection<GpsRecordEntity> gpsRecordsById;
@@ -135,16 +134,6 @@ public class WorkerEntity {
     }
 
     @Basic
-    @Column(name = "creater")
-    public String getCreater() {
-        return creater;
-    }
-
-    public void setCreater(String creater) {
-        this.creater = creater;
-    }
-
-    @Basic
     @Column(name = "active")
     public boolean getActive() {
         return active;
@@ -181,7 +170,7 @@ public class WorkerEntity {
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (states != null ? !states.equals(that.states) : that.states != null) return false;
         if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
+//        if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
 //        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
@@ -200,7 +189,7 @@ public class WorkerEntity {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (states != null ? states.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (creater != null ? creater.hashCode() : 0);
+//        result = 31 * result + (creater != null ? creater.hashCode() : 0);
 //        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
@@ -224,5 +213,21 @@ public class WorkerEntity {
 
     public void setBaseOrgByOrgId(BaseOrgEntity baseOrgByOrgId) {
         this.baseOrgByOrgId = baseOrgByOrgId;
+    }
+
+    public WorkerEntity changeUpdateInfoToSave(WorkerEntity updated) {
+
+        if(updated != null) {
+            updated.setUserName(this.userName);
+            updated.setPassword(this.password);
+            updated.setTell(this.tell);
+            updated.setEmail(this.email);
+            updated.setName(this.name);
+            updated.setPost(this.post);
+            updated.setNotes(this.notes);
+            updated.setStates(this.states);
+        }
+
+        return updated;
     }
 }

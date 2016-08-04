@@ -142,4 +142,17 @@ public class TerminalEntity {
     public void setTerminalHistoriesById(Collection<TerminalHistoryEntity> terminalHistoriesById) {
         this.terminalHistoriesById = terminalHistoriesById;
     }
+
+    public TerminalEntity changeUpdateInfoToSave(TerminalEntity updated) {
+
+        if(updated != null) {
+            updated.setTerminalCode(this.terminalCode);
+            updated.setTerminalName(this.terminalName);
+            updated.setCallNo(this.callNo);
+            updated.setState(this.state);
+            updated.setNotes(this.notes);
+        }
+
+        return updated;
+    }
 }
