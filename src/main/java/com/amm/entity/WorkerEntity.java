@@ -1,22 +1,18 @@
 package com.amm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Date;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "worker", schema = "", catalog = "amm")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class WorkerEntity {
     private Integer id;
+    private Integer orgId;
     private String userName;
     private String password;
     private String name;
@@ -24,12 +20,10 @@ public class WorkerEntity {
     private String post;
     private String tell;
     private String email;
-    private String states;
+    private String state;
     private Date createTime;
     private boolean active = true;
     private String notes;
-    private Collection<GpsRecordEntity> gpsRecordsById;
-    private BaseOrgEntity baseOrgByOrgId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +34,16 @@ public class WorkerEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "org_id")
+    public Integer getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Integer orgId) {
+        this.orgId = orgId;
     }
 
     @Basic
@@ -113,18 +117,17 @@ public class WorkerEntity {
     }
 
     @Basic
-    @Column(name = "states")
-    public String getStates() {
-        return states;
+    @Column(name = "state")
+    public String getState() {
+        return state;
     }
 
-    public void setStates(String states) {
-        this.states = states;
+    public void setState(String state) {
+        this.state = state;
     }
 
     @Basic
     @Column(name = "create_time")
-    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreateTime() {
         return createTime;
     }
@@ -161,16 +164,16 @@ public class WorkerEntity {
         WorkerEntity that = (WorkerEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (orgId != null ? !orgId.equals(that.orgId) : that.orgId != null) return false;
         if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
+//        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
         if (post != null ? !post.equals(that.post) : that.post != null) return false;
         if (tell != null ? !tell.equals(that.tell) : that.tell != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (states != null ? !states.equals(that.states) : that.states != null) return false;
-        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-//        if (creater != null ? !creater.equals(that.creater) : that.creater != null) return false;
+        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+//        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
 //        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
@@ -180,39 +183,19 @@ public class WorkerEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (orgId != null ? orgId.hashCode() : 0);
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (creator != null ? creator.hashCode() : 0);
+//        result = 31 * result + (creator != null ? creator.hashCode() : 0);
         result = 31 * result + (post != null ? post.hashCode() : 0);
         result = 31 * result + (tell != null ? tell.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (states != null ? states.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-//        result = 31 * result + (creater != null ? creater.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+//        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
 //        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "workerByWorkerId")
-    @JsonIgnore
-    public Collection<GpsRecordEntity> getGpsRecordsById() {
-        return gpsRecordsById;
-    }
-
-    public void setGpsRecordsById(Collection<GpsRecordEntity> gpsRecordsById) {
-        this.gpsRecordsById = gpsRecordsById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
-    public BaseOrgEntity getBaseOrgByOrgId() {
-        return baseOrgByOrgId;
-    }
-
-    public void setBaseOrgByOrgId(BaseOrgEntity baseOrgByOrgId) {
-        this.baseOrgByOrgId = baseOrgByOrgId;
     }
 
     public WorkerEntity changeUpdateInfoToSave(WorkerEntity updated) {
@@ -220,12 +203,13 @@ public class WorkerEntity {
         if(updated != null) {
             updated.setUserName(this.userName);
             updated.setPassword(this.password);
-            updated.setTell(this.tell);
-            updated.setEmail(this.email);
             updated.setName(this.name);
             updated.setPost(this.post);
+            updated.setActive(this.active);
             updated.setNotes(this.notes);
-            updated.setStates(this.states);
+            updated.setEmail(this.email);
+            updated.setTell(this.tell);
+            updated.setState(this.state);
         }
 
         return updated;

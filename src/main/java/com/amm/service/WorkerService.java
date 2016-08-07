@@ -11,11 +11,13 @@ import java.util.List;
 public interface WorkerService {
     WorkerEntity create(WorkerEntity workerEntity);
 
-    List<WorkerEntity> findAll();
+    List<WorkerEntity> findAllByActive(Boolean active);
 
     WorkerEntity update(WorkerEntity worker);
 
     WorkerEntity findOne(Integer id);
 
     WorkerEntity delete(Integer id);
+
+    WorkerEntity findByUserName(String userName);
 }

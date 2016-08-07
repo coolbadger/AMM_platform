@@ -3,15 +3,15 @@ package com.amm.entity;
 import javax.persistence.*;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "maintain_record", schema = "", catalog = "amm")
 public class MaintainRecordEntity {
     private Integer id;
+    private Integer machId;
     private String maintainInfo;
-    private MachineEntity machineByMachId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,16 @@ public class MaintainRecordEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "mach_id")
+    public Integer getMachId() {
+        return machId;
+    }
+
+    public void setMachId(Integer machId) {
+        this.machId = machId;
     }
 
     @Basic
@@ -42,6 +52,7 @@ public class MaintainRecordEntity {
         MaintainRecordEntity that = (MaintainRecordEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (machId != null ? !machId.equals(that.machId) : that.machId != null) return false;
         if (maintainInfo != null ? !maintainInfo.equals(that.maintainInfo) : that.maintainInfo != null) return false;
 
         return true;
@@ -50,17 +61,8 @@ public class MaintainRecordEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (machId != null ? machId.hashCode() : 0);
         result = 31 * result + (maintainInfo != null ? maintainInfo.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "mach_id", referencedColumnName = "id", nullable = false)
-    public MachineEntity getMachineByMachId() {
-        return machineByMachId;
-    }
-
-    public void setMachineByMachId(MachineEntity machineByMachId) {
-        this.machineByMachId = machineByMachId;
     }
 }

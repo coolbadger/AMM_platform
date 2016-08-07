@@ -1,29 +1,26 @@
 package com.amm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.Collection;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "machine", schema = "", catalog = "amm")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class MachineEntity {
     private Integer id;
+    private Integer orgId;
     private String machCode;
     private String machName;
     private String workingType;
+    private String creator;
+    private Date createTime;
     private String state;
+    private boolean active = true;
     private String notes;
-    private Collection<MachTerminalEntity> machTerminalsById;
-    private BaseOrgEntity baseOrgByOrgId;
-    private Collection<MachineHistoryEntity> machineHistoriesById;
-    private Collection<MaintainRecordEntity> maintainRecordsById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +31,16 @@ public class MachineEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "org_id")
+    public Integer getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Integer orgId) {
+        this.orgId = orgId;
     }
 
     @Basic
@@ -67,6 +74,26 @@ public class MachineEntity {
     }
 
     @Basic
+    @Column(name = "creator")
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    @Basic
+    @Column(name = "create_time")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
     @Column(name = "state")
     public String getState() {
         return state;
@@ -74,6 +101,16 @@ public class MachineEntity {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Basic
+    @Column(name = "active")
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Basic
@@ -94,9 +131,15 @@ public class MachineEntity {
         MachineEntity that = (MachineEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+//        if (orgId != null ? !orgId.equals(that.orgId) : that.orgId != null) return false;
         if (machCode != null ? !machCode.equals(that.machCode) : that.machCode != null) return false;
         if (machName != null ? !machName.equals(that.machName) : that.machName != null) return false;
         if (workingType != null ? !workingType.equals(that.workingType) : that.workingType != null) return false;
+//        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
+//        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+//        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+//        if (active != null ? !active.equals(that.active) : that.active != null) return false;
+//        if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
         return true;
     }
@@ -104,50 +147,16 @@ public class MachineEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (orgId != null ? orgId.hashCode() : 0);
         result = 31 * result + (machCode != null ? machCode.hashCode() : 0);
         result = 31 * result + (machName != null ? machName.hashCode() : 0);
         result = 31 * result + (workingType != null ? workingType.hashCode() : 0);
+//        result = 31 * result + (creator != null ? creator.hashCode() : 0);
+//        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+//        result = 31 * result + (active != null ? active.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "machineByMachId")
-    @JsonIgnore
-    public Collection<MachTerminalEntity> getMachTerminalsById() {
-        return machTerminalsById;
-    }
-
-    public void setMachTerminalsById(Collection<MachTerminalEntity> machTerminalsById) {
-        this.machTerminalsById = machTerminalsById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
-    public BaseOrgEntity getBaseOrgByOrgId() {
-        return baseOrgByOrgId;
-    }
-
-    public void setBaseOrgByOrgId(BaseOrgEntity baseOrgByOrgId) {
-        this.baseOrgByOrgId = baseOrgByOrgId;
-    }
-
-    @OneToMany(mappedBy = "machineByMachId")
-    @JsonIgnore
-    public Collection<MachineHistoryEntity> getMachineHistoriesById() {
-        return machineHistoriesById;
-    }
-
-    public void setMachineHistoriesById(Collection<MachineHistoryEntity> machineHistoriesById) {
-        this.machineHistoriesById = machineHistoriesById;
-    }
-
-    @OneToMany(mappedBy = "machineByMachId")
-    @JsonIgnore
-    public Collection<MaintainRecordEntity> getMaintainRecordsById() {
-        return maintainRecordsById;
-    }
-
-    public void setMaintainRecordsById(Collection<MaintainRecordEntity> maintainRecordsById) {
-        this.maintainRecordsById = maintainRecordsById;
     }
 
     public MachineEntity changeUpdateInfoToSave(MachineEntity updated) {
@@ -156,8 +165,9 @@ public class MachineEntity {
             updated.setMachCode(this.machCode);
             updated.setMachName(this.machName);
             updated.setWorkingType(this.workingType);
-            updated.setState(this.state);
+            updated.setActive(this.active);
             updated.setNotes(this.notes);
+            updated.setState(this.state);
         }
 
         return updated;

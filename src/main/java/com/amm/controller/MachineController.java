@@ -37,8 +37,8 @@ public class MachineController extends BaseController{
         Validate.notNull(machineEntity.getMachName(), "The machName must not be null, create failure.");
 
         //根据当前用户的组织id,查找BaseOrgEntity对象
-        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
-        machineEntity.setBaseOrgByOrgId(baseOrg);
+//        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
+        machineEntity.setOrgId(1);
 
         MachineEntity created = machineService.create(machineEntity);
 
@@ -46,9 +46,9 @@ public class MachineController extends BaseController{
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<MachineEntity> getAll() {
+    public List<MachineEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
 
-        List<MachineEntity> machineEntityList = machineService.findAll();
+        List<MachineEntity> machineEntityList = machineService.findAllByActive(active);
 
         return machineEntityList;
     }

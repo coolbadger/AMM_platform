@@ -74,11 +74,11 @@
 		<property name="initialSize" value="3"/><!--初始化连接-->
 		<property name="minIdle" value="3"/><!--最小空闲连接-->
 		<property name="maxWaitMillis" value="10000"/><!--从池中取连接的最大等待时间，单位ms-->
-		<property name="timeBetweenEvictionRunsMillis" value="30000"/><!--每30秒运行一次空闲连接回收器-->
-		<property name="minEvictableIdleTimeMillis" value="30000"/><!--池中的连接空闲30秒后被回收-->
+		<property name="timeBetweenEvictionRunsMillis" value="60000"/><!--每60秒运行一次空闲连接回收器-->
+		<property name="minEvictableIdleTimeMillis" value="60000"/><!--池中的连接空闲60秒后被回收-->
 		<property name="removeAbandonedOnBorrow" value="true"/><!--连接泄漏回收参数，当可用连接数少于3个时才执行-->
 		<property name="removeAbandonedTimeout" value="60"/><!--连接泄漏回收参数，60秒，泄露的连接可以被删除的超时值-->
-		<property name="validationQuery" value="select 1"/>
+		<property name="validationQuery" value="select 1"/><!--mysql wait_time超时解决-->
 		<property name="testWhileIdle" value="true"/>
 	</bean>
 
@@ -89,12 +89,11 @@
 				<!--<value>com.amm.entity.GpsRecordEntity</value>-->
 				<!--<value>com.amm.entity.MachTerminalEntity</value>-->
 				<!--<value>com.amm.entity.MachineEntity</value>-->
-				<!--<value>com.amm.entity.MachineHistoryEntity</value>-->
 				<!--<value>com.amm.entity.MaintainRecordEntity</value>-->
 				<!--<value>com.amm.entity.OrgUserEntity</value>-->
 				<!--<value>com.amm.entity.RefMachTerminalEntity</value>-->
+				<!--<value>com.amm.entity.SystemUserEntity</value>-->
 				<!--<value>com.amm.entity.TerminalEntity</value>-->
-				<!--<value>com.amm.entity.TerminalHistoryEntity</value>-->
 				<!--<value>com.amm.entity.WorkerEntity</value>-->
 			<!--</list>-->
 		<!--</property>-->

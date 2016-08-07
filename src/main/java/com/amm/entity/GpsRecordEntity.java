@@ -6,22 +6,27 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "gps_record", schema = "", catalog = "amm")
 public class GpsRecordEntity {
     private Integer id;
+    private Integer workerId;
+    private Integer refMachTerminalId;
     private Date gpsTime;
     private Date localTime;
     private BigDecimal lng;
     private BigDecimal lat;
-    private Integer alt;
-    private Integer accuracy;
-    private Integer speed;
-    private WorkerEntity workerByWorkerId;
-    private RefMachTerminalEntity refMachTerminalByRefMachTerminalId;
+    private BigDecimal alt;
+    private BigDecimal accuracy;
+    private BigDecimal speed;
+    private String sensor1;
+    private String sensor2;
+    private String sensor3;
+    private String sensor4;
+    private String sensorExtra;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +40,27 @@ public class GpsRecordEntity {
     }
 
     @Basic
+    @Column(name = "worker_id")
+    public Integer getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(Integer workerId) {
+        this.workerId = workerId;
+    }
+
+    @Basic
+    @Column(name = "ref_mach_terminal_id")
+    public Integer getRefMachTerminalId() {
+        return refMachTerminalId;
+    }
+
+    public void setRefMachTerminalId(Integer refMachTerminalId) {
+        this.refMachTerminalId = refMachTerminalId;
+    }
+
+    @Basic
     @Column(name = "gps_time")
-    @Temporal(TemporalType.TIMESTAMP)
     public Date getGpsTime() {
         return gpsTime;
     }
@@ -47,7 +71,6 @@ public class GpsRecordEntity {
 
     @Basic
     @Column(name = "local_time")
-    @Temporal(TemporalType.TIMESTAMP)
     public Date getLocalTime() {
         return localTime;
     }
@@ -78,32 +101,82 @@ public class GpsRecordEntity {
 
     @Basic
     @Column(name = "alt")
-    public Integer getAlt() {
+    public BigDecimal getAlt() {
         return alt;
     }
 
-    public void setAlt(Integer alt) {
+    public void setAlt(BigDecimal alt) {
         this.alt = alt;
     }
 
     @Basic
     @Column(name = "accuracy")
-    public Integer getAccuracy() {
+    public BigDecimal getAccuracy() {
         return accuracy;
     }
 
-    public void setAccuracy(Integer accuracy) {
+    public void setAccuracy(BigDecimal accuracy) {
         this.accuracy = accuracy;
     }
 
     @Basic
     @Column(name = "speed")
-    public Integer getSpeed() {
+    public BigDecimal getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Integer speed) {
+    public void setSpeed(BigDecimal speed) {
         this.speed = speed;
+    }
+
+    @Basic
+    @Column(name = "sensor1")
+    public String getSensor1() {
+        return sensor1;
+    }
+
+    public void setSensor1(String sensor1) {
+        this.sensor1 = sensor1;
+    }
+
+    @Basic
+    @Column(name = "sensor2")
+    public String getSensor2() {
+        return sensor2;
+    }
+
+    public void setSensor2(String sensor2) {
+        this.sensor2 = sensor2;
+    }
+
+    @Basic
+    @Column(name = "sensor3")
+    public String getSensor3() {
+        return sensor3;
+    }
+
+    public void setSensor3(String sensor3) {
+        this.sensor3 = sensor3;
+    }
+
+    @Basic
+    @Column(name = "sensor4")
+    public String getSensor4() {
+        return sensor4;
+    }
+
+    public void setSensor4(String sensor4) {
+        this.sensor4 = sensor4;
+    }
+
+    @Basic
+    @Column(name = "sensor_extra")
+    public String getSensorExtra() {
+        return sensorExtra;
+    }
+
+    public void setSensorExtra(String sensorExtra) {
+        this.sensorExtra = sensorExtra;
     }
 
     @Override
@@ -114,6 +187,9 @@ public class GpsRecordEntity {
         GpsRecordEntity that = (GpsRecordEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (workerId != null ? !workerId.equals(that.workerId) : that.workerId != null) return false;
+        if (refMachTerminalId != null ? !refMachTerminalId.equals(that.refMachTerminalId) : that.refMachTerminalId != null)
+            return false;
         if (gpsTime != null ? !gpsTime.equals(that.gpsTime) : that.gpsTime != null) return false;
         if (localTime != null ? !localTime.equals(that.localTime) : that.localTime != null) return false;
         if (lng != null ? !lng.equals(that.lng) : that.lng != null) return false;
@@ -121,6 +197,11 @@ public class GpsRecordEntity {
         if (alt != null ? !alt.equals(that.alt) : that.alt != null) return false;
         if (accuracy != null ? !accuracy.equals(that.accuracy) : that.accuracy != null) return false;
         if (speed != null ? !speed.equals(that.speed) : that.speed != null) return false;
+        if (sensor1 != null ? !sensor1.equals(that.sensor1) : that.sensor1 != null) return false;
+        if (sensor2 != null ? !sensor2.equals(that.sensor2) : that.sensor2 != null) return false;
+        if (sensor3 != null ? !sensor3.equals(that.sensor3) : that.sensor3 != null) return false;
+        if (sensor4 != null ? !sensor4.equals(that.sensor4) : that.sensor4 != null) return false;
+        if (sensorExtra != null ? !sensorExtra.equals(that.sensorExtra) : that.sensorExtra != null) return false;
 
         return true;
     }
@@ -128,6 +209,8 @@ public class GpsRecordEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (workerId != null ? workerId.hashCode() : 0);
+        result = 31 * result + (refMachTerminalId != null ? refMachTerminalId.hashCode() : 0);
         result = 31 * result + (gpsTime != null ? gpsTime.hashCode() : 0);
         result = 31 * result + (localTime != null ? localTime.hashCode() : 0);
         result = 31 * result + (lng != null ? lng.hashCode() : 0);
@@ -135,26 +218,11 @@ public class GpsRecordEntity {
         result = 31 * result + (alt != null ? alt.hashCode() : 0);
         result = 31 * result + (accuracy != null ? accuracy.hashCode() : 0);
         result = 31 * result + (speed != null ? speed.hashCode() : 0);
+        result = 31 * result + (sensor1 != null ? sensor1.hashCode() : 0);
+        result = 31 * result + (sensor2 != null ? sensor2.hashCode() : 0);
+        result = 31 * result + (sensor3 != null ? sensor3.hashCode() : 0);
+        result = 31 * result + (sensor4 != null ? sensor4.hashCode() : 0);
+        result = 31 * result + (sensorExtra != null ? sensorExtra.hashCode() : 0);
         return result;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "worker_id", referencedColumnName = "id", nullable = false)
-    public WorkerEntity getWorkerByWorkerId() {
-        return workerByWorkerId;
-    }
-
-    public void setWorkerByWorkerId(WorkerEntity workerByWorkerId) {
-        this.workerByWorkerId = workerByWorkerId;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ref_mach_terminal_id", referencedColumnName = "id", nullable = false)
-    public RefMachTerminalEntity getRefMachTerminalByRefMachTerminalId() {
-        return refMachTerminalByRefMachTerminalId;
-    }
-
-    public void setRefMachTerminalByRefMachTerminalId(RefMachTerminalEntity refMachTerminalByRefMachTerminalId) {
-        this.refMachTerminalByRefMachTerminalId = refMachTerminalByRefMachTerminalId;
     }
 }

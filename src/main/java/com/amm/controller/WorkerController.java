@@ -39,8 +39,8 @@ public class WorkerController extends BaseController{
         workerEntity.setCreateTime(new Date());
 
         //根据当前用户的组织id,查找BaseOrgEntity对象
-        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
-        workerEntity.setBaseOrgByOrgId(baseOrg);
+//        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
+        workerEntity.setOrgId(1);
 
         WorkerEntity created = workerService.create(workerEntity);
 
@@ -48,9 +48,9 @@ public class WorkerController extends BaseController{
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<WorkerEntity> getAll() {
+    public List<WorkerEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
 
-        List<WorkerEntity> workerEntityList = workerService.findAll();
+        List<WorkerEntity> workerEntityList = workerService.findAllByActive(active);
 
         return workerEntityList;
     }

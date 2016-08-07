@@ -1,28 +1,26 @@
 package com.amm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.Collection;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "terminal", schema = "", catalog = "amm")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TerminalEntity {
     private Integer id;
+    private Integer orgId;
     private String terminalCode;
     private String terminalName;
     private String callNo;
+    private String creator;
+    private Date createTime;
     private String state;
     private String notes;
-    private Collection<MachTerminalEntity> machTerminalsById;
-    private BaseOrgEntity baseOrgByOrgId;
-    private Collection<TerminalHistoryEntity> terminalHistoriesById;
+    private boolean active = true;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +31,16 @@ public class TerminalEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "org_id")
+    public Integer getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Integer orgId) {
+        this.orgId = orgId;
     }
 
     @Basic
@@ -66,6 +74,26 @@ public class TerminalEntity {
     }
 
     @Basic
+    @Column(name = "creator")
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    @Basic
+    @Column(name = "create_time")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
     @Column(name = "state")
     public String getState() {
         return state;
@@ -85,6 +113,16 @@ public class TerminalEntity {
         this.notes = notes;
     }
 
+    @Basic
+    @Column(name = "active")
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,11 +131,15 @@ public class TerminalEntity {
         TerminalEntity that = (TerminalEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+//        if (orgId != null ? !orgId.equals(that.orgId) : that.orgId != null) return false;
         if (terminalCode != null ? !terminalCode.equals(that.terminalCode) : that.terminalCode != null) return false;
         if (terminalName != null ? !terminalName.equals(that.terminalName) : that.terminalName != null) return false;
         if (callNo != null ? !callNo.equals(that.callNo) : that.callNo != null) return false;
-        if (state != null ? !state.equals(that.state) : that.state != null) return false;
-        if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
+//        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
+//        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+//        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+//        if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
+//        if (active != null ? !active.equals(that.active) : that.active != null) return false;
 
         return true;
     }
@@ -105,52 +147,27 @@ public class TerminalEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (orgId != null ? orgId.hashCode() : 0);
         result = 31 * result + (terminalCode != null ? terminalCode.hashCode() : 0);
         result = 31 * result + (terminalName != null ? terminalName.hashCode() : 0);
         result = 31 * result + (callNo != null ? callNo.hashCode() : 0);
+//        result = 31 * result + (creator != null ? creator.hashCode() : 0);
+//        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
+//        result = 31 * result + (active != null ? active.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "terminalByTerminalId")
-    @JsonIgnore
-    public Collection<MachTerminalEntity> getMachTerminalsById() {
-        return machTerminalsById;
-    }
-
-    public void setMachTerminalsById(Collection<MachTerminalEntity> machTerminalsById) {
-        this.machTerminalsById = machTerminalsById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
-    public BaseOrgEntity getBaseOrgByOrgId() {
-        return baseOrgByOrgId;
-    }
-
-    public void setBaseOrgByOrgId(BaseOrgEntity baseOrgByOrgId) {
-        this.baseOrgByOrgId = baseOrgByOrgId;
-    }
-
-    @OneToMany(mappedBy = "terminalByTerminalId")
-    @JsonIgnore
-    public Collection<TerminalHistoryEntity> getTerminalHistoriesById() {
-        return terminalHistoriesById;
-    }
-
-    public void setTerminalHistoriesById(Collection<TerminalHistoryEntity> terminalHistoriesById) {
-        this.terminalHistoriesById = terminalHistoriesById;
     }
 
     public TerminalEntity changeUpdateInfoToSave(TerminalEntity updated) {
 
         if(updated != null) {
-            updated.setTerminalCode(this.terminalCode);
             updated.setTerminalName(this.terminalName);
+            updated.setTerminalCode(this.terminalCode);
             updated.setCallNo(this.callNo);
             updated.setState(this.state);
             updated.setNotes(this.notes);
+            updated.setActive(this.active);
         }
 
         return updated;

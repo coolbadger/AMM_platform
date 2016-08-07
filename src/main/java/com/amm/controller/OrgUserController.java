@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -63,8 +64,8 @@ public class OrgUserController extends BaseController{
         orgUserEntity.setCreateTime(new Date());
 
         //根据当前用户的组织id,查找BaseOrgEntity对象
-        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
-        orgUserEntity.setBaseOrgByOrgId(baseOrg);
+//        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
+        orgUserEntity.setOrgId(1);
 
         OrgUserEntity created = orgUserService.createOrgUser(orgUserEntity);
 

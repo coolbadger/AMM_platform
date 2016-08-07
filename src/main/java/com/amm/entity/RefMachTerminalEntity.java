@@ -1,23 +1,24 @@
 package com.amm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "ref_mach_terminal", schema = "", catalog = "amm")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class RefMachTerminalEntity {
     private Integer id;
-    private String machTerminalInfo;
-    private Collection<GpsRecordEntity> gpsRecordsById;
-    private MachTerminalEntity machTerminalByMachTerminalId;
+    private Integer machId;
+    private String machCode;
+    private String machName;
+    private String workingType;
+    private String machState;
+    private String terminalCode;
+    private String terminalName;
+    private String callNo;
+    private String terminalState;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +32,93 @@ public class RefMachTerminalEntity {
     }
 
     @Basic
-    @Column(name = "mach_terminal_info")
-    public String getMachTerminalInfo() {
-        return machTerminalInfo;
+    @Column(name = "mach_id")
+    public Integer getMachId() {
+        return machId;
     }
 
-    public void setMachTerminalInfo(String machTerminalInfo) {
-        this.machTerminalInfo = machTerminalInfo;
+    public void setMachId(Integer machId) {
+        this.machId = machId;
+    }
+
+    @Basic
+    @Column(name = "mach_code")
+    public String getMachCode() {
+        return machCode;
+    }
+
+    public void setMachCode(String machCode) {
+        this.machCode = machCode;
+    }
+
+    @Basic
+    @Column(name = "mach_name")
+    public String getMachName() {
+        return machName;
+    }
+
+    public void setMachName(String machName) {
+        this.machName = machName;
+    }
+
+    @Basic
+    @Column(name = "working_type")
+    public String getWorkingType() {
+        return workingType;
+    }
+
+    public void setWorkingType(String workingType) {
+        this.workingType = workingType;
+    }
+
+    @Basic
+    @Column(name = "mach_state")
+    public String getMachState() {
+        return machState;
+    }
+
+    public void setMachState(String machState) {
+        this.machState = machState;
+    }
+
+    @Basic
+    @Column(name = "terminal_code")
+    public String getTerminalCode() {
+        return terminalCode;
+    }
+
+    public void setTerminalCode(String terminalCode) {
+        this.terminalCode = terminalCode;
+    }
+
+    @Basic
+    @Column(name = "terminal_name")
+    public String getTerminalName() {
+        return terminalName;
+    }
+
+    public void setTerminalName(String terminalName) {
+        this.terminalName = terminalName;
+    }
+
+    @Basic
+    @Column(name = "call_no")
+    public String getCallNo() {
+        return callNo;
+    }
+
+    public void setCallNo(String callNo) {
+        this.callNo = callNo;
+    }
+
+    @Basic
+    @Column(name = "terminal_state")
+    public String getTerminalState() {
+        return terminalState;
+    }
+
+    public void setTerminalState(String terminalState) {
+        this.terminalState = terminalState;
     }
 
     @Override
@@ -48,7 +129,15 @@ public class RefMachTerminalEntity {
         RefMachTerminalEntity that = (RefMachTerminalEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (machTerminalInfo != null ? !machTerminalInfo.equals(that.machTerminalInfo) : that.machTerminalInfo != null)
+        if (machId != null ? !machId.equals(that.machId) : that.machId != null) return false;
+        if (machCode != null ? !machCode.equals(that.machCode) : that.machCode != null) return false;
+        if (machName != null ? !machName.equals(that.machName) : that.machName != null) return false;
+        if (workingType != null ? !workingType.equals(that.workingType) : that.workingType != null) return false;
+        if (machState != null ? !machState.equals(that.machState) : that.machState != null) return false;
+        if (terminalCode != null ? !terminalCode.equals(that.terminalCode) : that.terminalCode != null) return false;
+        if (terminalName != null ? !terminalName.equals(that.terminalName) : that.terminalName != null) return false;
+        if (callNo != null ? !callNo.equals(that.callNo) : that.callNo != null) return false;
+        if (terminalState != null ? !terminalState.equals(that.terminalState) : that.terminalState != null)
             return false;
 
         return true;
@@ -57,27 +146,15 @@ public class RefMachTerminalEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (machTerminalInfo != null ? machTerminalInfo.hashCode() : 0);
+        result = 31 * result + (machId != null ? machId.hashCode() : 0);
+        result = 31 * result + (machCode != null ? machCode.hashCode() : 0);
+        result = 31 * result + (machName != null ? machName.hashCode() : 0);
+        result = 31 * result + (workingType != null ? workingType.hashCode() : 0);
+        result = 31 * result + (machState != null ? machState.hashCode() : 0);
+        result = 31 * result + (terminalCode != null ? terminalCode.hashCode() : 0);
+        result = 31 * result + (terminalName != null ? terminalName.hashCode() : 0);
+        result = 31 * result + (callNo != null ? callNo.hashCode() : 0);
+        result = 31 * result + (terminalState != null ? terminalState.hashCode() : 0);
         return result;
-    }
-
-    @OneToMany(mappedBy = "refMachTerminalByRefMachTerminalId")
-    @JsonIgnore
-    public Collection<GpsRecordEntity> getGpsRecordsById() {
-        return gpsRecordsById;
-    }
-
-    public void setGpsRecordsById(Collection<GpsRecordEntity> gpsRecordsById) {
-        this.gpsRecordsById = gpsRecordsById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "mach_terminal_id", referencedColumnName = "id", nullable = false)
-    public MachTerminalEntity getMachTerminalByMachTerminalId() {
-        return machTerminalByMachTerminalId;
-    }
-
-    public void setMachTerminalByMachTerminalId(MachTerminalEntity machTerminalByMachTerminalId) {
-        this.machTerminalByMachTerminalId = machTerminalByMachTerminalId;
     }
 }

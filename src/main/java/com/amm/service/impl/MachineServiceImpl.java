@@ -1,8 +1,14 @@
 package com.amm.service.impl;
 
+import com.amm.entity.MachTerminalEntity;
 import com.amm.entity.MachineEntity;
+import com.amm.entity.RefMachTerminalEntity;
+import com.amm.entity.TerminalEntity;
 import com.amm.exception.ObjectNotFoundException;
+import com.amm.repository.MachTerminalRepository;
 import com.amm.repository.MachineRepository;
+import com.amm.repository.RefMachTerminalRepository;
+import com.amm.repository.TerminalRepository;
 import com.amm.service.MachineService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,15 @@ public class MachineServiceImpl extends BaseService implements MachineService {
     @Autowired
     private MachineRepository machineRepository;
 
+    @Autowired
+    private MachTerminalRepository machTerminalRepository;
+
+    @Autowired
+    private TerminalRepository terminalRepository;
+
+    @Autowired
+    private RefMachTerminalRepository refMachTerminalRepository;
+
     @Transactional
     public MachineEntity create(MachineEntity machineEntity) {
 
@@ -35,8 +50,8 @@ public class MachineServiceImpl extends BaseService implements MachineService {
         return created;
     }
 
-    public List<MachineEntity> findAll() {
-        return (List<MachineEntity>) machineRepository.findAll();
+    public List<MachineEntity> findAllByActive(Boolean active) {
+        return machineRepository.findAllByActive(active);
     }
 
     @Transactional
@@ -46,13 +61,37 @@ public class MachineServiceImpl extends BaseService implements MachineService {
         Validate.notNull(machine, "The machine object must not be null, update failure.");
 
         MachineEntity updated = machineRepository.findOne(machine.getId());
-        if(updated == null) {
+        if (updated == null) {
             throw new ObjectNotFoundException("需要更新的农机不存在");
+        }
+
+        if (!updated.equals(machine)) {
+            MachTerminalEntity machTerminalEntity = machTerminalRepository.findByMachId(machine.getId());
+            if (machTerminalEntity != null) {
+                TerminalEntity terminalEntity = terminalRepository.findOne(machTerminalEntity.getTerminalId());
+
+                RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
+                refMachTerminalEntity.setMachCode(machine.getMachCode());
+                refMachTerminalEntity.setMachName(machine.getMachName());
+                refMachTerminalEntity.setMachId(machine.getId());
+                refMachTerminalEntity.setWorkingType(machine.getWorkingType());
+                refMachTerminalEntity.setMachState(machine.getState());
+                refMachTerminalEntity.setTerminalCode(terminalEntity.getTerminalCode());
+                refMachTerminalEntity.setTerminalName(terminalEntity.getTerminalName());
+                refMachTerminalEntity.setCallNo(terminalEntity.getCallNo());
+                refMachTerminalEntity.setTerminalState(terminalEntity.getState());
+
+                refMachTerminalEntity = refMachTerminalRepository.save(refMachTerminalEntity);
+
+                machTerminalEntity.setRefMachTerminalId(refMachTerminalEntity.getId());
+                machTerminalRepository.save(machTerminalEntity);
+            }
         }
 
         updated = machine.changeUpdateInfoToSave(updated);
 
         updated = machineRepository.save(updated);
+
 
         return updated;
     }
@@ -74,7 +113,8 @@ public class MachineServiceImpl extends BaseService implements MachineService {
             throw new ObjectNotFoundException("需要删除的农机不存在");
         }
 
-        machineRepository.delete(id);
+        deleted.setActive(false);
+        machineRepository.save(deleted);
 
         return deleted;
     }

@@ -1,7 +1,13 @@
 package com.amm.service.impl;
 
+import com.amm.entity.MachTerminalEntity;
+import com.amm.entity.MachineEntity;
+import com.amm.entity.RefMachTerminalEntity;
 import com.amm.entity.TerminalEntity;
 import com.amm.exception.ObjectNotFoundException;
+import com.amm.repository.MachTerminalRepository;
+import com.amm.repository.MachineRepository;
+import com.amm.repository.RefMachTerminalRepository;
 import com.amm.repository.TerminalRepository;
 import com.amm.service.TerminalService;
 import org.apache.commons.lang3.Validate;
@@ -23,6 +29,15 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
     @Autowired
     private TerminalRepository terminalRepository;
 
+    @Autowired
+    private MachTerminalRepository machTerminalRepository;
+
+    @Autowired
+    private MachineRepository machineRepository;
+
+    @Autowired
+    private RefMachTerminalRepository refMachTerminalRepository;
+
     @Transactional
     public TerminalEntity create(TerminalEntity terminalEntity) {
 
@@ -35,8 +50,8 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
         return created;
     }
 
-    public List<TerminalEntity> findAll() {
-        return (List<TerminalEntity>) terminalRepository.findAll();
+    public List<TerminalEntity> findAllByActive(Boolean active) {
+        return terminalRepository.findAllByActive(active);
     }
 
     @Transactional
@@ -48,6 +63,29 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
         TerminalEntity updated = terminalRepository.findOne(terminal.getId());
         if(updated == null) {
             throw new ObjectNotFoundException("需要更新的终端不存在");
+        }
+
+        if (!updated.equals(terminal)) {
+            MachTerminalEntity machTerminalEntity = machTerminalRepository.findByTerminalId(terminal.getId());
+            if (machTerminalEntity != null) {
+                MachineEntity machineEntity = machineRepository.findOne(machTerminalEntity.getMachId());
+
+                RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
+                refMachTerminalEntity.setMachCode(machineEntity.getMachCode());
+                refMachTerminalEntity.setMachName(machineEntity.getMachName());
+                refMachTerminalEntity.setMachId(machineEntity.getId());
+                refMachTerminalEntity.setWorkingType(machineEntity.getWorkingType());
+                refMachTerminalEntity.setMachState(machineEntity.getState());
+                refMachTerminalEntity.setTerminalCode(terminal.getTerminalCode());
+                refMachTerminalEntity.setTerminalName(terminal.getTerminalName());
+                refMachTerminalEntity.setCallNo(terminal.getCallNo());
+                refMachTerminalEntity.setTerminalState(terminal.getState());
+
+                refMachTerminalEntity = refMachTerminalRepository.save(refMachTerminalEntity);
+
+                machTerminalEntity.setRefMachTerminalId(refMachTerminalEntity.getId());
+                machTerminalRepository.save(machTerminalEntity);
+            }
         }
 
         updated = terminal.changeUpdateInfoToSave(updated);
@@ -74,7 +112,8 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
             throw new ObjectNotFoundException("需要删除的终端不存在");
         }
 
-        terminalRepository.delete(id);
+        deleted.setActive(false);
+        terminalRepository.save(deleted);
 
         return deleted;
     }

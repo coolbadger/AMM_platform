@@ -9,6 +9,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,26 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
 
         RefMachTerminalEntity refMachTerminalEntity = refMachTerminalRepository.findOne(id);
 
-        return gpsRecordRepository.findByRefMachTerminalByRefMachTerminalId(refMachTerminalEntity);
+        return null;
+    }
+
+    @Transactional
+    public GpsRecordEntity create(GpsRecordEntity gpsRecordEntity) {
+
+        Validate.notNull(gpsRecordEntity, "The gpsRecordEntity must not be null, create failure.");
+
+        GpsRecordEntity created = gpsRecordRepository.save(gpsRecordEntity);
+
+        return created;
+    }
+
+    public List<GpsRecordEntity> findGpsRecordByTimeScope(String startTime, String endTime) {
+
+        Validate.notNull(startTime, "The startTime must not be null, find failure.");
+        Validate.notNull(endTime, "The endTime must not be null, find failure.");
+
+        List<GpsRecordEntity> gpsRecordEntityList = gpsRecordRepository.findByGpsTimeAfterAndGpsTimeBefore(startTime, endTime);;
+
+        return gpsRecordEntityList;
     }
 }

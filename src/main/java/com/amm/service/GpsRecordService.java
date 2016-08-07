@@ -12,4 +12,8 @@ public interface GpsRecordService {
     List<GpsRecordEntity> findAllGpsRecord();
 
     List<GpsRecordEntity> findByRefMachTerminalID(Integer id);
+
+    GpsRecordEntity create(GpsRecordEntity gpsRecordEntity);
+
+    List<GpsRecordEntity> findGpsRecordByTimeScope(String startTime, String endTime);
 }

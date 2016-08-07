@@ -15,6 +15,5 @@ import java.util.List;
 
 public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecordEntity, Integer>{
 
-//    @Query(value = "select * from gps_record where ref_mach_terminal_id = :id")
-    List<GpsRecordEntity> findByRefMachTerminalByRefMachTerminalId(RefMachTerminalEntity id);
+    List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBefore(String startTime, String endTime);
 }

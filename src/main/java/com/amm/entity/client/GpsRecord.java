@@ -15,14 +15,11 @@ public class GpsRecord {
     private Date localTime;
     private BigDecimal lng;
     private BigDecimal lat;
-    private Integer alt;
-    private Integer accuracy;
-    private Integer speed;
+    private BigDecimal alt;
+    private BigDecimal accuracy;
+    private BigDecimal speed;
     private Integer workerId;
-    private Integer baseOrgId;
-    private Integer refMachTerminalByRefMachTerminalId;
-    private Integer machTerminalByMachTerminalId;
-    private Integer machineByMachId;
+    private Integer refMachTerminalId;
     private String machCode;
     private String machName;
 
@@ -66,27 +63,27 @@ public class GpsRecord {
         this.lat = lat;
     }
 
-    public Integer getAlt() {
+    public BigDecimal getAlt() {
         return alt;
     }
 
-    public void setAlt(Integer alt) {
+    public void setAlt(BigDecimal alt) {
         this.alt = alt;
     }
 
-    public Integer getAccuracy() {
+    public BigDecimal getAccuracy() {
         return accuracy;
     }
 
-    public void setAccuracy(Integer accuracy) {
+    public void setAccuracy(BigDecimal accuracy) {
         this.accuracy = accuracy;
     }
 
-    public Integer getSpeed() {
+    public BigDecimal getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Integer speed) {
+    public void setSpeed(BigDecimal speed) {
         this.speed = speed;
     }
 
@@ -96,38 +93,6 @@ public class GpsRecord {
 
     public void setWorkerId(Integer workerId) {
         this.workerId = workerId;
-    }
-
-    public Integer getBaseOrgId() {
-        return baseOrgId;
-    }
-
-    public void setBaseOrgId(Integer baseOrgId) {
-        this.baseOrgId = baseOrgId;
-    }
-
-    public Integer getRefMachTerminalByRefMachTerminalId() {
-        return refMachTerminalByRefMachTerminalId;
-    }
-
-    public void setRefMachTerminalByRefMachTerminalId(Integer refMachTerminalByRefMachTerminalId) {
-        this.refMachTerminalByRefMachTerminalId = refMachTerminalByRefMachTerminalId;
-    }
-
-    public Integer getMachTerminalByMachTerminalId() {
-        return machTerminalByMachTerminalId;
-    }
-
-    public void setMachTerminalByMachTerminalId(Integer machTerminalByMachTerminalId) {
-        this.machTerminalByMachTerminalId = machTerminalByMachTerminalId;
-    }
-
-    public Integer getMachineByMachId() {
-        return machineByMachId;
-    }
-
-    public void setMachineByMachId(Integer machineByMachId) {
-        this.machineByMachId = machineByMachId;
     }
 
     public String getMachCode() {
@@ -144,5 +109,13 @@ public class GpsRecord {
 
     public void setMachName(String machName) {
         this.machName = machName;
+    }
+
+    public Integer getRefMachTerminalId() {
+        return refMachTerminalId;
+    }
+
+    public void setRefMachTerminalId(Integer refMachTerminalId) {
+        this.refMachTerminalId = refMachTerminalId;
     }
 }

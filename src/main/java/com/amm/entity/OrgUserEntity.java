@@ -5,13 +5,14 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "org_user", schema = "", catalog = "amm")
 public class OrgUserEntity {
     private Integer id;
+    private Integer orgId;
     private String userName;
     private String password;
     private String fullName;
@@ -23,7 +24,6 @@ public class OrgUserEntity {
     private String creator;
     private boolean active = true;
     private String notes;
-    private BaseOrgEntity baseOrgByOrgId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,16 @@ public class OrgUserEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "org_id")
+    public Integer getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Integer orgId) {
+        this.orgId = orgId;
     }
 
     @Basic
@@ -108,7 +118,6 @@ public class OrgUserEntity {
 
     @Basic
     @Column(name = "create_time")
-    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreateTime() {
         return createTime;
     }
@@ -155,6 +164,7 @@ public class OrgUserEntity {
         OrgUserEntity that = (OrgUserEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (orgId != null ? !orgId.equals(that.orgId) : that.orgId != null) return false;
         if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
         if (fullName != null ? !fullName.equals(that.fullName) : that.fullName != null) return false;
@@ -162,8 +172,8 @@ public class OrgUserEntity {
         if (tell != null ? !tell.equals(that.tell) : that.tell != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
         if (state != null ? !state.equals(that.state) : that.state != null) return false;
-        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
+//        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+//        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
 //        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
@@ -173,6 +183,7 @@ public class OrgUserEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (orgId != null ? orgId.hashCode() : 0);
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
@@ -180,34 +191,27 @@ public class OrgUserEntity {
         result = 31 * result + (tell != null ? tell.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (creator != null ? creator.hashCode() : 0);
+//        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+//        result = 31 * result + (creator != null ? creator.hashCode() : 0);
 //        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = false)
-    public BaseOrgEntity getBaseOrgByOrgId() {
-        return baseOrgByOrgId;
-    }
+    public OrgUserEntity changeUpdateInfoToSave(OrgUserEntity updated) {
 
-    public void setBaseOrgByOrgId(BaseOrgEntity baseOrgByOrgId) {
-        this.baseOrgByOrgId = baseOrgByOrgId;
-    }
-
-    public OrgUserEntity changeUpdateInfoToSave(OrgUserEntity saved) {
-        if(saved != null) {
-            saved.setUserName(this.userName);
-            saved.setPassword(this.password);
-            saved.setFullName(this.fullName);
-            saved.setPost(this.post);
-            saved.setEmail(this.email);
-            saved.setNotes(this.notes);
-            saved.setTell(this.tell);
-            saved.setState(this.state);
+        if(updated != null) {
+            updated.setUserName(this.userName);
+            updated.setPassword(this.password);
+            updated.setFullName(this.fullName);
+            updated.setPost(this.post);
+            updated.setEmail(this.email);
+            updated.setNotes(this.notes);
+            updated.setTell(this.tell);
+            updated.setState(this.state);
+            updated.setActive(this.active);
         }
-        return saved;
+
+        return updated;
     }
 }

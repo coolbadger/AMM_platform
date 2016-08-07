@@ -35,9 +35,9 @@ public class WorkerServiceImpl extends BaseService implements WorkerService {
         return created;
     }
 
-    public List<WorkerEntity> findAll() {
+    public List<WorkerEntity> findAllByActive(Boolean active) {
 
-        return (List<WorkerEntity>) workerRepository.findAll();
+        return workerRepository.findAllByActive(active);
     }
 
     @Transactional
@@ -75,8 +75,21 @@ public class WorkerServiceImpl extends BaseService implements WorkerService {
             throw new ObjectNotFoundException("删除的农机司机不存在");
         }
 
-        workerRepository.delete(id);
+        deleted.setActive(false);
+        workerRepository.save(deleted);
 
         return deleted;
+    }
+
+    public WorkerEntity findByUserName(String userName) {
+
+        Validate.notNull(userName, "The userName must not be null, login failure.");
+
+        WorkerEntity loginWorker = workerRepository.findByUserName(userName);
+        if(loginWorker == null) {
+            throw new ObjectNotFoundException("司机用户名不存在");
+        }
+
+        return loginWorker;
     }
 }

@@ -3,6 +3,7 @@ package com.amm.service.impl;
 import com.amm.entity.BaseOrgEntity;
 import com.amm.exception.ObjectNotFoundException;
 import com.amm.repository.BaseOrgRepository;
+import com.amm.repository.OrgUserRepository;
 import com.amm.service.BaseOrgService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class BaseOrgServiceImpl extends BaseService implements BaseOrgService {
 
     @Autowired
     private BaseOrgRepository baseOrgRepository;
+
+    @Autowired
+    private OrgUserRepository orgUserRepository;
 
     @Transactional
     public BaseOrgEntity createOrg(BaseOrgEntity baseOrgEntity) {

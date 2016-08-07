@@ -36,8 +36,8 @@ public class TerminalController extends BaseController{
         Validate.notNull(terminalEntity.getTerminalName(), "The terminalName must not be null, create failure.");
 
         //根据当前用户的组织id,查找BaseOrgEntity对象
-        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
-        terminalEntity.setBaseOrgByOrgId(baseOrg);
+//        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
+        terminalEntity.setOrgId(1);
 
         TerminalEntity created = terminalService.create(terminalEntity);
 
@@ -45,9 +45,9 @@ public class TerminalController extends BaseController{
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<TerminalEntity> getAll() {
+    public List<TerminalEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
 
-        List<TerminalEntity> terminalEntityList = terminalService.findAll();
+        List<TerminalEntity> terminalEntityList = terminalService.findAllByActive(active);
 
         return terminalEntityList;
     }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface MachineService {
     MachineEntity create(MachineEntity machineEntity);
 
-    List<MachineEntity> findAll();
+    List<MachineEntity> findAllByActive(Boolean active);
 
     MachineEntity update(MachineEntity machine);
 

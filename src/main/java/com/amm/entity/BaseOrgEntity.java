@@ -1,20 +1,15 @@
 package com.amm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Date;
 
 /**
- * Created by csw on 2016/7/25 10:26.
+ * Created by csw on 2016/8/6 14:56.
  * Explain:
  */
 @Entity
 @Table(name = "base_org", schema = "", catalog = "amm")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BaseOrgEntity {
     private Integer id;
     private String orgCode;
@@ -28,10 +23,6 @@ public class BaseOrgEntity {
     private String creator;
     private boolean active = true;
     private String notes;
-    private Collection<MachineEntity> machinesById;
-    private Collection<OrgUserEntity> orgUsersById;
-    private Collection<TerminalEntity> terminalsById;
-    private Collection<WorkerEntity> workersById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +36,7 @@ public class BaseOrgEntity {
     }
 
     @Basic
-    @Column(name = "org_code", nullable = false)
+    @Column(name = "org_code")
     public String getOrgCode() {
         return orgCode;
     }
@@ -55,7 +46,7 @@ public class BaseOrgEntity {
     }
 
     @Basic
-    @Column(name = "org_name", nullable = false)
+    @Column(name = "org_name")
     public String getOrgName() {
         return orgName;
     }
@@ -65,7 +56,7 @@ public class BaseOrgEntity {
     }
 
     @Basic
-    @Column(name = "org_contact", nullable = false)
+    @Column(name = "org_contact")
     public String getOrgContact() {
         return orgContact;
     }
@@ -116,7 +107,6 @@ public class BaseOrgEntity {
 
     @Basic
     @Column(name = "create_time")
-    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreateTime() {
         return createTime;
     }
@@ -170,9 +160,9 @@ public class BaseOrgEntity {
         if (orgTell != null ? !orgTell.equals(that.orgTell) : that.orgTell != null) return false;
         if (orgFax != null ? !orgFax.equals(that.orgFax) : that.orgFax != null) return false;
         if (orgEmail != null ? !orgEmail.equals(that.orgEmail) : that.orgEmail != null) return false;
-        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
-        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
-//        if (active != null ? active.equals(that.active) : that.active != null) return false;
+//        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+//        if (creator != null ? !creator.equals(that.creator) : that.creator != null) return false;
+//        if (active != null ? !active.equals(that.active) : that.active != null) return false;
         if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
 
         return true;
@@ -188,74 +178,27 @@ public class BaseOrgEntity {
         result = 31 * result + (orgTell != null ? orgTell.hashCode() : 0);
         result = 31 * result + (orgFax != null ? orgFax.hashCode() : 0);
         result = 31 * result + (orgEmail != null ? orgEmail.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (creator != null ? creator.hashCode() : 0);
+//        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+//        result = 31 * result + (creator != null ? creator.hashCode() : 0);
 //        result = 31 * result + (active != null ? active.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "baseOrgByOrgId")
-    @JsonIgnore
-    public Collection<MachineEntity> getMachinesById() {
-        return machinesById;
-    }
+    public BaseOrgEntity changeUpdateInfoToSave(BaseOrgEntity updated) {
 
-    public void setMachinesById(Collection<MachineEntity> machinesById) {
-        this.machinesById = machinesById;
-    }
-
-    @OneToMany(mappedBy = "baseOrgByOrgId")
-    @JsonIgnore
-    public Collection<OrgUserEntity> getOrgUsersById() {
-        return orgUsersById;
-    }
-
-    public void setOrgUsersById(Collection<OrgUserEntity> orgUsersById) {
-        this.orgUsersById = orgUsersById;
-    }
-
-    @OneToMany(mappedBy = "baseOrgByOrgId")
-    @JsonIgnore
-    public Collection<TerminalEntity> getTerminalsById() {
-        return terminalsById;
-    }
-
-    public void setTerminalsById(Collection<TerminalEntity> terminalsById) {
-        this.terminalsById = terminalsById;
-    }
-
-    @OneToMany(mappedBy = "baseOrgByOrgId")
-    @JsonIgnore
-    public Collection<WorkerEntity> getWorkersById() {
-        return workersById;
-    }
-
-    public void setWorkersById(Collection<WorkerEntity> workersById) {
-        this.workersById = workersById;
-    }
-
-    public BaseOrgEntity() {}
-
-    public BaseOrgEntity(String orgCode, String orgName, String orgContact) {
-        this.orgCode = orgCode;
-        this.orgName = orgName;
-        this.orgContact = orgContact;
-    }
-
-    public BaseOrgEntity changeUpdateInfoToSave(BaseOrgEntity saveBaseOrg) {
-
-        if(saveBaseOrg != null) {
-            saveBaseOrg.setOrgCode(this.orgCode);
-            saveBaseOrg.setOrgName(this.orgName);
-            saveBaseOrg.setOrgContact(this.orgContact);
-            saveBaseOrg.setOrgAddress(this.orgAddress);
-            saveBaseOrg.setOrgTell(this.orgTell);
-            saveBaseOrg.setOrgFax(this.orgFax);
-            saveBaseOrg.setOrgEmail(this.orgEmail);
-            saveBaseOrg.setNotes(this.notes);
-            saveBaseOrg.setActive(this.active);
+        if(updated != null) {
+            updated.setOrgCode(this.orgCode);
+            updated.setOrgName(this.orgName);
+            updated.setOrgContact(this.orgContact);
+            updated.setOrgAddress(this.orgAddress);
+            updated.setOrgTell(this.orgTell);
+            updated.setOrgFax(this.orgFax);
+            updated.setOrgEmail(this.orgEmail);
+            updated.setNotes(this.notes);
+            updated.setActive(this.active);
         }
-        return saveBaseOrg;
+
+        return updated;
     }
 }
