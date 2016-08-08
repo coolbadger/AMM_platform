@@ -29,6 +29,7 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
     private RefMachTerminalRepository refMachTerminalRepository;
 
     public List<GpsRecordEntity> findAllGpsRecord() {
+
         return (List<GpsRecordEntity>) gpsRecordRepository.findAll();
     }
 
@@ -59,5 +60,15 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         List<GpsRecordEntity> gpsRecordEntityList = gpsRecordRepository.findByGpsTimeAfterAndGpsTimeBefore(startTime, endTime);;
 
         return gpsRecordEntityList;
+    }
+
+    @Override
+    public List<GpsRecordEntity> findByRefMachTerminalIDAndTimeScope(Integer id, Date startTime, Date endTime) {
+
+        Validate.notNull(id, "The id must not be null, find failure.");
+        Validate.notNull(startTime, "The startTime must not be null, find failure.");
+        Validate.notNull(endTime, "The endTime must not be null, find failure.");
+
+        return gpsRecordRepository.findByRefMachTerminalIdAndGpsTimeAfterAndGpsTimeBefore(id, startTime, endTime);
     }
 }

@@ -17,4 +17,6 @@ import java.util.List;
 public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecordEntity, Integer>{
 
     List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBefore(Date startTime, Date endTime);
+
+    List<GpsRecordEntity> findByRefMachTerminalIdAndGpsTimeAfterAndGpsTimeBefore(Integer id, Date startTime, Date endTime);
 }

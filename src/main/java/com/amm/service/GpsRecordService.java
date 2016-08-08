@@ -17,4 +17,6 @@ public interface GpsRecordService {
     GpsRecordEntity create(GpsRecordEntity gpsRecordEntity);
 
     List<GpsRecordEntity> findGpsRecordByTimeScope(Date startTime, Date endTime);
+
+    List<GpsRecordEntity> findByRefMachTerminalIDAndTimeScope(Integer id, Date startTime, Date endTime);
 }

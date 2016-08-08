@@ -29,8 +29,8 @@ public class GpsRecordController extends BaseController{
     private RefMachTerminalService refMachTerminalService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<GpsRecordMachine> findAllByTimeScope(@RequestParam String startTime,
-                                   @RequestParam String endTime, @RequestParam(required = false) String machCode){
+    public List<GpsRecordMachine> findAllByTimeScope(@RequestParam(required = true) String startTime,
+                                   @RequestParam(required = true) String endTime, @RequestParam(required = false) String machCode){
 
         Validate.notNull(startTime, "The startTime must not be null, find failure.");
         Validate.notNull(endTime, "The endTime must not be null, find failure.");
@@ -55,35 +55,39 @@ public class GpsRecordController extends BaseController{
             gpsRecordMachine.setGpsEndTime(gpsETime);
 
             RefMachTerminalEntity refMachTerminalEntity = refMachTerminalService.findOne(refId);
+            Validate.notNull(refMachTerminalEntity, "The refMachTerminalEntity must not be null, find failure.");
 
             gpsRecordMachine.setMachCode(refMachTerminalEntity.getMachCode());
             gpsRecordMachine.setMachName(refMachTerminalEntity.getMachName());
 
-            gpsRecordMachineList.add(gpsRecordMachine);
-        }
-
-        //按machCode查找
-        List<GpsRecordMachine> gpsRecordMachineListNew = new ArrayList<GpsRecordMachine>();
-        if(machCode != null && !"".equals(machCode)) {
-            for(GpsRecordMachine gpsRecordMachine : gpsRecordMachineList) {
-                if(machCode.equals(gpsRecordMachine.getMachCode())) {
-                    gpsRecordMachineListNew.add(gpsRecordMachine);
+            //按machCode查找
+            if(machCode != null && !"".equals(machCode)) {
+                if(gpsRecordMachine.getMachCode().indexOf(machCode) >= 0 || gpsRecordMachine.getMachName().indexOf(machCode) >= 0) {
+                    gpsRecordMachineList.add(gpsRecordMachine);
                 }
+            } else {
+                gpsRecordMachineList.add(gpsRecordMachine);
             }
-        } else {
-            gpsRecordMachineListNew = gpsRecordMachineList;
+
         }
 
-        return gpsRecordMachineListNew;
+        return gpsRecordMachineList;
     }
 
 
     @RequestMapping(value = "/refMachTerminal/{id}", method = RequestMethod.GET)
-    public List<GpsRecordEntity> findByRefMachTerminalID(@PathVariable Integer id) {
+    public List<GpsRecordEntity> findByRefMachTerminalID(@PathVariable Integer id,
+                                                         @RequestParam(required = true) String startTime,
+                                                         @RequestParam(required = true) String endTime) {
 
         Validate.notNull(id, "The id must not be null, find failure.");
+        Validate.notNull(startTime, "The startTime must not be null, find failure.");
+        Validate.notNull(endTime, "The endTime must not be null, find failure.");
 
-        return gpsRecordService.findByRefMachTerminalID(id);
+        Date startTimeDate = DateUtil.parseDate(startTime);
+        Date endTimeDate = DateUtil.parseDate(endTime);
+
+        return gpsRecordService.findByRefMachTerminalIDAndTimeScope(id, startTimeDate, endTimeDate);
     }
 
     //按时间排序
