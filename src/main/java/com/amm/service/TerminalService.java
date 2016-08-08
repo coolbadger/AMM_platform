@@ -11,7 +11,7 @@ import java.util.List;
 public interface TerminalService {
     TerminalEntity create(TerminalEntity terminalEntity);
 
-    List<TerminalEntity> findAllByActive(Boolean active);
+    List<TerminalEntity> findAllByActive(Boolean active, Boolean isBind);
 
     TerminalEntity update(TerminalEntity terminal);
 

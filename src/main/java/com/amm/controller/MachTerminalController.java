@@ -28,6 +28,8 @@ public class MachTerminalController extends BaseController {
     public MachTerminalEntity create(@RequestBody(required = true) MachTerminalEntity machTerminalEntity) {
 
         Validate.notNull(machTerminalEntity, "The machTerminalEntity must not be null, create failure.");
+        Validate.notNull(machTerminalEntity.getMachId(), "The machId of machTerminal must not be null, create failure.");
+        Validate.notNull(machTerminalEntity.getTerminalId(), "The terminalId of machTerminal must not be null, create failure.");
 
         machTerminalEntity.setStartTime(new Date());
 

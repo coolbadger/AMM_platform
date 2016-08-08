@@ -6,6 +6,7 @@ import com.amm.entity.client.GpsRecord;
 import com.amm.entity.client.GpsRecordMachine;
 import com.amm.service.GpsRecordService;
 import com.amm.service.RefMachTerminalService;
+import com.amm.utils.DateUtil;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,9 @@ public class GpsRecordController extends BaseController{
         Validate.notNull(startTime, "The startTime must not be null, find failure.");
         Validate.notNull(endTime, "The endTime must not be null, find failure.");
 
-        List<GpsRecordEntity> gpsRecordEntityList = gpsRecordService.findGpsRecordByTimeScope(startTime, endTime);
+        Date startTimeDate = DateUtil.parseDate(startTime);
+        Date endTimeDate = DateUtil.parseDate(endTime);
+        List<GpsRecordEntity> gpsRecordEntityList = gpsRecordService.findGpsRecordByTimeScope(startTimeDate, endTimeDate);
 
         Map<Integer, List<GpsRecordEntity>> gpsMap = this.getGpsMap(gpsRecordEntityList);
 

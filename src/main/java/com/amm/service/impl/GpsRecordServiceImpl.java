@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,7 +51,7 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         return created;
     }
 
-    public List<GpsRecordEntity> findGpsRecordByTimeScope(String startTime, String endTime) {
+    public List<GpsRecordEntity> findGpsRecordByTimeScope(Date startTime, Date endTime) {
 
         Validate.notNull(startTime, "The startTime must not be null, find failure.");
         Validate.notNull(endTime, "The endTime must not be null, find failure.");

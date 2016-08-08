@@ -2,6 +2,7 @@ package com.amm.service;
 
 import com.amm.entity.GpsRecordEntity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ public interface GpsRecordService {
 
     GpsRecordEntity create(GpsRecordEntity gpsRecordEntity);
 
-    List<GpsRecordEntity> findGpsRecordByTimeScope(String startTime, String endTime);
+    List<GpsRecordEntity> findGpsRecordByTimeScope(Date startTime, Date endTime);
 }

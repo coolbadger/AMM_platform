@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ import java.util.List;
 
 public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecordEntity, Integer>{
 
-    List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBefore(String startTime, String endTime);
+    List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBefore(Date startTime, Date endTime);
 }

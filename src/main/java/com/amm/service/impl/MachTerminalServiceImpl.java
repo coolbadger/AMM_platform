@@ -2,10 +2,12 @@ package com.amm.service.impl;
 
 import com.amm.entity.MachTerminalEntity;
 import com.amm.entity.MachineEntity;
+import com.amm.entity.RefMachTerminalEntity;
 import com.amm.entity.TerminalEntity;
 import com.amm.entity.client.MachTerminal;
 import com.amm.repository.MachTerminalRepository;
 import com.amm.repository.MachineRepository;
+import com.amm.repository.RefMachTerminalRepository;
 import com.amm.repository.TerminalRepository;
 import com.amm.service.MachTerminalService;
 import org.apache.commons.lang3.Validate;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +37,36 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
     @Autowired
     private TerminalRepository terminalRepository;
 
+    @Autowired
+    private RefMachTerminalRepository refMachTerminalRepository;
+
     @Override
     @Transactional
     public MachTerminalEntity create(MachTerminalEntity machTerminalEntity) {
 
         Validate.notNull(machTerminalEntity, "The machTerminalEntity must not be null, create failure.");
+        Validate.notNull(machTerminalEntity.getMachId(), "The machId of machTerminal must not be null, create failure.");
+        Validate.notNull(machTerminalEntity.getTerminalId(), "The terminalId of machTerminal must not be null, create failure.");
 
         MachTerminalEntity created = machTerminalRepository.save(machTerminalEntity);
+
+        Validate.notNull(created, "The machine terminal must have been binding, refMachTerminal create failure.");
+
+        MachineEntity machineEntity = machineRepository.findOne(created.getMachId());
+        TerminalEntity terminalEntity = terminalRepository.findOne(created.getTerminalId());
+
+        RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
+        refMachTerminalEntity.setMachCode(machineEntity.getMachCode());
+        refMachTerminalEntity.setMachName(machineEntity.getMachName());
+        refMachTerminalEntity.setWorkingType(machineEntity.getWorkingType());
+        refMachTerminalEntity.setMachId(machineEntity.getId());
+        refMachTerminalEntity.setMachState(machineEntity.getState());
+        refMachTerminalEntity.setTerminalCode(terminalEntity.getTerminalCode());
+        refMachTerminalEntity.setTerminalState(terminalEntity.getState());
+        refMachTerminalEntity.setTerminalName(terminalEntity.getTerminalName());
+        refMachTerminalEntity.setCallNo(terminalEntity.getCallNo());
+        RefMachTerminalEntity refMachTerminalCreated = refMachTerminalRepository.save(refMachTerminalEntity);
+        Validate.notNull(refMachTerminalCreated, "The refMachTerminalEntity are not created.");
 
         return created;
     }

@@ -1,5 +1,6 @@
 package com.amm.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,5 +14,13 @@ public class DateUtil {
 
     public static String formatDate(Date date) {
         return sdf.format(date);
+    }
+    public static Date parseDate(String dateStr) {
+        try {
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

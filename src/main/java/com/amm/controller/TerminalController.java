@@ -45,9 +45,10 @@ public class TerminalController extends BaseController{
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<TerminalEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
+    public List<TerminalEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active,
+                                               @RequestParam(required = false, defaultValue = "true") Boolean isBind) {
 
-        List<TerminalEntity> terminalEntityList = terminalService.findAllByActive(active);
+        List<TerminalEntity> terminalEntityList = terminalService.findAllByActive(active, isBind);
 
         return terminalEntityList;
     }

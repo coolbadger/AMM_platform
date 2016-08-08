@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,8 +51,24 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
         return created;
     }
 
-    public List<TerminalEntity> findAllByActive(Boolean active) {
-        return terminalRepository.findAllByActive(active);
+    public List<TerminalEntity> findAllByActive(Boolean active, Boolean isBind) {
+
+        List<TerminalEntity> terminalEntityListFind = new ArrayList<TerminalEntity>();
+
+        List<TerminalEntity> terminalEntityList = terminalRepository.findAllByActive(active);
+
+        for (TerminalEntity terminalEntity : terminalEntityList) {
+            if (isBind) {
+                terminalEntityListFind.add(terminalEntity);
+            } else {
+                MachTerminalEntity machTerminalEntity = machTerminalRepository.findByTerminalId(terminalEntity.getId());
+                if(machTerminalEntity == null) {
+                    terminalEntityListFind.add(terminalEntity);
+                }
+            }
+        }
+
+        return terminalEntityListFind;
     }
 
     @Transactional
@@ -61,7 +78,7 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
         Validate.notNull(terminal.getId(), "The id of terminal must not be null, update failure.");
 
         TerminalEntity updated = terminalRepository.findOne(terminal.getId());
-        if(updated == null) {
+        if (updated == null) {
             throw new ObjectNotFoundException("需要更新的终端不存在");
         }
 
