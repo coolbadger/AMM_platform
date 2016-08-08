@@ -18,5 +18,5 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
 
     List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBefore(Date startTime, Date endTime);
 
-    List<GpsRecordEntity> findByRefMachTerminalIdAndGpsTimeAfterAndGpsTimeBefore(Integer id, Date startTime, Date endTime);
+    List<GpsRecordEntity> findByRefMachTerminalIdAndGpsTimeBetween(Integer id, Date startTime, Date endTime);
 }
