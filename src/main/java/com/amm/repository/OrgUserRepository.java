@@ -13,4 +13,6 @@ public interface OrgUserRepository extends PagingAndSortingRepository<OrgUserEnt
     OrgUserEntity findByUserNameAndPassword(String username, String password);
 
     List<OrgUserEntity> findByActive(Boolean active);
+
+    OrgUserEntity findByUserName(String userName);
 }

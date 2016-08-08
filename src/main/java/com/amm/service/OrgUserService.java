@@ -12,6 +12,8 @@ public interface OrgUserService {
 
     OrgUserEntity findOrgUser(String username, String password);
 
+    OrgUserEntity findByUserName(String userName);
+
     OrgUserEntity createOrgUser(OrgUserEntity orgUserEntity);
 
     List<OrgUserEntity> findAllOrgUserByActive(Boolean active);
