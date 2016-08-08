@@ -108,6 +108,7 @@ public class GpsRecordController extends BaseController{
                 resultMap.get(gpsRecordEntity.getRefMachTerminalId()).add(gpsRecordEntity);
             } else {
                 resultMap.put(gpsRecordEntity.getRefMachTerminalId(), new ArrayList<GpsRecordEntity>());
+                resultMap.get(gpsRecordEntity.getRefMachTerminalId()).add(gpsRecordEntity);
             }
         }
 
