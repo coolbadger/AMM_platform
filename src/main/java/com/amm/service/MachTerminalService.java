@@ -15,4 +15,6 @@ public interface MachTerminalService {
     List<MachTerminal> findAll(Boolean isBind);
 
     MachTerminalEntity findByMachId(Integer machId);
+
+    MachTerminalEntity updateToUnBind(Integer id, MachTerminalEntity machTerminalEntity);
 }
