@@ -92,14 +92,18 @@ public class AMMIOHandler extends IoHandlerAdapter {
 //                gpsRecordEntity.setSpeed(Integer.parseInt(parseResult[5]));
 //                gpsRecordEntity.setAccuracy(Integer.parseInt(parseResult[6]));
 //                gpsRecordEntity.setGpsTime();
+                logger.info("返回位置上报成功信息");
+                String resDataString = "locrep|1|5";
+                ammPacket.AMMDataString = resDataString;
+                session.write(ammPacket);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         else {
             //返回位置上报成功信息
-            logger.info("返回位置上报成功信息");
-            String resDataString = "locrep|1|5";
+            logger.info("返回位置上报失败信息");
+            String resDataString = "locrep|0|5";
             ammPacket.AMMDataString = resDataString;
             session.write(ammPacket);
         }
