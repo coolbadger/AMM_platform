@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="bui.css.build" default="build" basedir=".">
+<project name="bui.css.build" default="build" basedir="">
   
   <property name="tools.dir" location="../tools/"/>
-    <property name="build.dir" location="./"/>
+    <property name="build.dir" location="/"/>
   <property name="less.dir" location="./less"/>
     <property name="component.files" value="*"/>
     <property name="charset" value="UTF-8"/>

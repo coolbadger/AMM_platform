@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="lplib.build" default="build" basedir=".">
+<project name="lplib.build" default="build" basedir="">
 	
 	<property name="tools.dir" location="./tools"/>
-  <property name="build.dir" location="./"/>
+  <property name="build.dir" location="/"/>
   <property name="charset" value="UTF-8"/>
 	
 	<target name="build" depends="build-all">
