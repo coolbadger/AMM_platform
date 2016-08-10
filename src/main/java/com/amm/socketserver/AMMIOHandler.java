@@ -1,5 +1,7 @@
 package com.amm.socketserver;
 
+import com.amm.entity.GpsRecordEntity;
+import com.amm.entity.client.GpsRecord;
 import com.amm.socketserver.packetentity.AMMPacket;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
@@ -9,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.math.BigDecimal;
 
 /**
  * Created by liuminhang on 16/7/16.
@@ -61,26 +64,45 @@ public class AMMIOHandler extends IoHandlerAdapter {
         super.messageReceived(session, message);
         logger.info("AMMSocket: Message Received!");
         AMMPacket ammPacket = (AMMPacket) message;
-
-        logger.info("机器编号:" + ammPacket.AMMMachineID);
-        logger.info("工人编号:" + ammPacket.AMMWorkerID);
-        logger.info("DATA字符串:" + ammPacket.AMMDataString);
+        logger.info("机器编号:" + ammPacket.AMMMachineID
+                + ";工人编号:" + ammPacket.AMMWorkerID
+                + ";DATA字符串:" + ammPacket.AMMDataString);
 
         String[] parseResult = ammPacket.AMMDataString.split("\\|",-1);
         if(parseResult[0].equalsIgnoreCase("logreq")){
             String resDataString;
             if(ammPacket.AMMWorkerID.equals("111")){
-                resDataString = "logrep|1";
+                resDataString = "logrep|1|5";
             }
             else {
-                resDataString = "logrep|0";
+                resDataString = "logrep|0|5";
             }
             ammPacket.AMMDataString = resDataString;
             session.write(ammPacket);
         }
+        if(parseResult[0].equalsIgnoreCase("locreq")){
+            //locreq|补传|经度|纬度|高度|速度|精度|时间|传感器1|传感器2
+            try {
+                GpsRecordEntity gpsRecordEntity = new GpsRecordEntity();
+
+//                gpsRecordEntity.
+                gpsRecordEntity.setLng(new BigDecimal(parseResult[2]).setScale(6,BigDecimal.ROUND_HALF_UP));
+                gpsRecordEntity.setLat(new BigDecimal(parseResult[3]).setScale(6,BigDecimal.ROUND_HALF_UP));
+//                gpsRecordEntity.setAlt(Integer.parseInt(parseResult[4]));
+//                gpsRecordEntity.setSpeed(Integer.parseInt(parseResult[5]));
+//                gpsRecordEntity.setAccuracy(Integer.parseInt(parseResult[6]));
+//                gpsRecordEntity.setGpsTime();
+                logger.info("返回位置上报成功信息");
+                String resDataString = "locrep|1|5";
+                ammPacket.AMMDataString = resDataString;
+                session.write(ammPacket);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         else {
             //返回位置上报成功信息
-            logger.info("返回位置上报成功信息");
+            logger.info("返回位置上报失败信息");
             String resDataString = "locrep|0|5";
             ammPacket.AMMDataString = resDataString;
             session.write(ammPacket);
