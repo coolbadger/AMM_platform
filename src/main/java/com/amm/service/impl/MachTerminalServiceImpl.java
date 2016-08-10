@@ -5,6 +5,7 @@ import com.amm.entity.MachineEntity;
 import com.amm.entity.RefMachTerminalEntity;
 import com.amm.entity.TerminalEntity;
 import com.amm.entity.client.MachTerminal;
+import com.amm.exception.ObjectNotFoundException;
 import com.amm.repository.MachTerminalRepository;
 import com.amm.repository.MachineRepository;
 import com.amm.repository.RefMachTerminalRepository;
@@ -68,6 +69,9 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
         RefMachTerminalEntity refMachTerminalCreated = refMachTerminalRepository.save(refMachTerminalEntity);
         Validate.notNull(refMachTerminalCreated, "The refMachTerminalEntity are not created.");
 
+        created.setRefMachTerminalId(refMachTerminalCreated.getId());
+        created = machTerminalRepository.save(created);
+
         return created;
     }
 
@@ -84,7 +88,9 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
 
             TerminalEntity terminalEntity = null;
             if(machTerminalEntity != null) {
-                terminalEntity = terminalRepository.findOne(machTerminalEntity.getTerminalId());
+                if (machTerminalEntity.getTerminalId() != null) {
+                    terminalEntity = terminalRepository.findOne(machTerminalEntity.getTerminalId());
+                }
             }
 
             MachTerminal machTerminal = new MachTerminal();
@@ -118,5 +124,27 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
         Validate.notNull(machId, "The machId must not be null, find failure.");
 
         return machTerminalRepository.findByMachId(machId);
+    }
+
+    @Override
+    @Transactional
+    public MachTerminalEntity updateToUnBind(Integer id, MachTerminalEntity machTerminalEntity) {
+
+        Validate.notNull(id, "The id of baseOrg must not be null, update failure.");
+        Validate.notNull(machTerminalEntity, "The machTerminalEntity object must not be null, update failure.");
+
+        MachTerminalEntity updated = machTerminalRepository.findOne(id);
+
+        if(updated == null) {
+            throw new ObjectNotFoundException("需要解除绑定的记录没找到!");
+        }
+
+        updated.setTerminalId(null);
+        updated.setRefMachTerminalId(null);
+        updated.setStartTime(null);
+
+        updated = machTerminalRepository.save(updated);
+
+        return updated;
     }
 }

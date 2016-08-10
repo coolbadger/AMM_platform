@@ -1,5 +1,8 @@
 package com.amm.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -61,6 +64,8 @@ public class GpsRecordEntity {
 
     @Basic
     @Column(name = "gps_time")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getGpsTime() {
         return gpsTime;
     }
@@ -71,6 +76,8 @@ public class GpsRecordEntity {
 
     @Basic
     @Column(name = "local_time")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getLocalTime() {
         return localTime;
     }

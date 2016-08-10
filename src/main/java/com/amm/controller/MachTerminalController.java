@@ -44,4 +44,15 @@ public class MachTerminalController extends BaseController {
         return machTerminalService.findAll(isBind);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public MachTerminalEntity update(@PathVariable Integer id,
+                                     @RequestBody MachTerminalEntity machTerminalEntity) {
+
+        Validate.notNull(id, "The id of baseOrg must not be null, update failure.");
+        Validate.notNull(machTerminalEntity, "The machTerminalEntity object must not be null, update failure.");
+
+        return machTerminalService.updateToUnBind(id, machTerminalEntity);
+    }
+
 }
