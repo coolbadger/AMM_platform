@@ -22,6 +22,8 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
         AMMPacket ammPacket = new AMMPacket();
         if(ioBuffer.remaining()>ammPacket.AMMHeaders.length + 1){
             logger.info("开始解码");
+            //标记,用于检测可能发生断包时reset
+            ioBuffer.mark();
             //判断包头是否正确
             byte[] headerBytes = new byte[ammPacket.AMMHeaders.length];
             ioBuffer.get(headerBytes);
@@ -33,7 +35,8 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
                 logger.info("包总长:" + byteToHexString(packtTotalLengthByte) + "  " + ammPacket.AMMTotalLength);
                 //剩余字节数不足(小于总长-包头字节数-总长字节数)
                 if(ioBuffer.remaining()<ammPacket.AMMTotalLength - ammPacket.AMMHeaders.length -1){
-                    logger.info("剩余字节数不足,不处理");
+                    logger.info("剩余字节数不足,等待后续包");
+                    ioBuffer.reset();
                     return false;
                 }
                 //机器ID
