@@ -94,7 +94,7 @@ public class GpsRecordController extends BaseController{
     private List<GpsRecordEntity> sortByTime(List<GpsRecordEntity> valueList) {
 
         Collections.sort(valueList, new Comparator<GpsRecordEntity>() {
-            @Override
+
             public int compare(GpsRecordEntity o1, GpsRecordEntity o2) {
                 return o1.getGpsTime().compareTo(o2.getGpsTime());
             }

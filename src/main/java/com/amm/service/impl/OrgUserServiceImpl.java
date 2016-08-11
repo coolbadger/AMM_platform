@@ -34,7 +34,6 @@ public class OrgUserServiceImpl extends BaseService implements OrgUserService{
         return orgUser;
     }
 
-    @Override
     public OrgUserEntity findByUserName(String userName) {
 
         Validate.notNull(userName, "The userName must not be null, find failure.");

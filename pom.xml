@@ -202,6 +202,37 @@
           <artifactId>spring-jms</artifactId>
           <version>4.1.6.RELEASE</version>
         </dependency>
+        <!--Spring security-->
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-core</artifactId>
+          <version>4.1.1.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-web</artifactId>
+          <version>4.1.1.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-taglibs</artifactId>
+          <version>4.1.1.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-acl</artifactId>
+          <version>4.1.1.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-crypto</artifactId>
+          <version>4.1.1.RELEASE</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-config</artifactId>
+          <version>4.1.1.RELEASE</version>
+        </dependency>
 
         <dependency>
           <groupId>org.slf4j</groupId>

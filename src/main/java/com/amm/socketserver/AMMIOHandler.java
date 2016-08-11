@@ -69,18 +69,19 @@ public class AMMIOHandler extends IoHandlerAdapter {
                 + ";DATA字符串:" + ammPacket.AMMDataString);
 
         String[] parseResult = ammPacket.AMMDataString.split("\\|",-1);
+        String time = parseResult[1];
         if(parseResult[0].equalsIgnoreCase("logreq")){
             String resDataString;
             if(ammPacket.AMMWorkerID.equals("111")){
-                resDataString = "logrep|1|5";
+                resDataString = "logrep|"+time+"|1|5";
             }
             else {
-                resDataString = "logrep|0|5";
+                resDataString = "logrep|"+time+"|0|5";
             }
             ammPacket.AMMDataString = resDataString;
             session.write(ammPacket);
         }
-        if(parseResult[0].equalsIgnoreCase("locreq")){
+        else if(parseResult[0].equalsIgnoreCase("locreq")){
             //locreq|补传|经度|纬度|高度|速度|精度|时间|传感器1|传感器2
             try {
                 GpsRecordEntity gpsRecordEntity = new GpsRecordEntity();
@@ -93,7 +94,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
 //                gpsRecordEntity.setAccuracy(Integer.parseInt(parseResult[6]));
 //                gpsRecordEntity.setGpsTime();
                 logger.info("返回位置上报成功信息");
-                String resDataString = "locrep|1|5";
+                String resDataString = "locrep|"+ time +"|1|5";
                 ammPacket.AMMDataString = resDataString;
                 session.write(ammPacket);
             } catch (Exception e) {
@@ -101,11 +102,6 @@ public class AMMIOHandler extends IoHandlerAdapter {
             }
         }
         else {
-            //返回位置上报成功信息
-            logger.info("返回位置上报失败信息");
-            String resDataString = "locrep|0|5";
-            ammPacket.AMMDataString = resDataString;
-            session.write(ammPacket);
         }
 
 

@@ -31,9 +31,9 @@ public class TestClient {
         connector.setConnectTimeoutMillis(CONNECT_TIMEOUT);
         connector.getFilterChain().addLast("codec",
                 new ProtocolCodecFilter(new AMMCodeFactory()));
-        connector.setHandler(new AMMIOHandler());
-        future = connector.connect(new InetSocketAddress("127.0.0.1",8088));
-//        future = connector.connect(new InetSocketAddress("192.168.1.200",8088));
+        connector.setHandler(new TestClientIOHandler());
+//        future = connector.connect(new InetSocketAddress("127.0.0.1",8088));
+        future = connector.connect(new InetSocketAddress("192.168.1.200",8088));
         future.awaitUninterruptibly();
         session = future.getSession();
 
@@ -44,10 +44,10 @@ public class TestClient {
         ammPacket.AMMDataString = "locreq|admin";
 
         session.write(ammPacket);
-        session.closeOnFlush();
-        if(future.isConnected()){
-            connector.dispose();
-        }
+//        session.closeOnFlush();
+//        if(future.isConnected()){
+//            connector.dispose();
+//        }
 
     }
     //将byte[]转换为ASCII,0x00除外

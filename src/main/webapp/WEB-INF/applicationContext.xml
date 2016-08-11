@@ -19,6 +19,7 @@
 
 	<description>Spring公共配置 </description>
 
+
 	<!-- 启动对@AspectJ（面向切面）注解的支持 -->
 	<aop:aspectj-autoproxy />
 
@@ -64,7 +65,7 @@
 		  destroy-method="close">
 		<!-- Connection Info-->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://localhost:3306/amm"/>
+		<property name="url" value="jdbc:mysql://192.168.1.200:3306/amm"/>
 		<property name="username" value="root"/>
 		<property name="password" value="root"/>
 
@@ -107,4 +108,6 @@
 
 	<!--引入mina的配置文件 -->
     <import resource="mina-spring.xml"/>
+	<!--引入spring security配置为文件-->
+	<import resource="spring-security.xml"/>
 </beans>
