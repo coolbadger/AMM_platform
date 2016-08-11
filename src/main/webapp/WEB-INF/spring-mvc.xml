@@ -47,4 +47,6 @@
   		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+	<mvc:resources mapping="/static/**" location="/static/" cache-period="31556926"/>
+
 </beans>
