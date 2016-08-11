@@ -14,8 +14,16 @@
         <intercept-url pattern="/api/**" access="hasRole('ROLE_ORG_USER')"/>
 
         <http-basic/>
-
+        <csrf request-matcher-ref="ammRequestCsrfMatcher"/>
     </http>
+
+    <beans:bean id="ammRequestCsrfMatcher" class="com.amm.filter.AMMRequestCsrfMatcher">
+        <beans:property name="excludeUrls">
+            <beans:list>
+                <beans:value>/api/</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
 
 
     <authentication-manager id="authenticationManager">
