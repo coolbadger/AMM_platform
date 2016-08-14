@@ -108,7 +108,7 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
             if(isBind) {
                 machTerminalList.add(machTerminal);
             } else {
-                if(machTerminalEntity == null) {
+                if(terminalEntity == null) {
                     machTerminalList.add(machTerminal);
                 }
             }
