@@ -147,8 +147,6 @@ public class AMMIOHandler extends IoHandlerAdapter {
             }
             else if(msgTypeStr.equalsIgnoreCase("locreq")){
                 boolean locreqSucess = false;
-                GpsRecordEntity gpsRecordEntity2 = null;
-
                 try {
                     //locreq|时间|补传|经度|纬度|高度|速度|精度|传感器1|传感器2
                     GpsRecordEntity gpsRecordEntity = new GpsRecordEntity();
@@ -159,12 +157,12 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     gpsRecordEntity.setSpeed(new BigDecimal(parseResult[6]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     gpsRecordEntity.setAccuracy(new BigDecimal(parseResult[7]).setScale(2,BigDecimal.ROUND_HALF_UP));
 
-                    gpsRecordEntity.setSensor1(Validate.notNull(parseResult[8],"sensor1 is null",null));
-                    gpsRecordEntity.setSensor2(Validate.notNull(parseResult[9],"sensor2 is null",null));
-                    gpsRecordEntity.setSensor3(Validate.notNull(parseResult[10],"sensor2 is null",null));
-                    gpsRecordEntity.setSensor4(Validate.notNull(parseResult[11],"sensor2 is null",null));
+                    if(parseResult.length>8){gpsRecordEntity.setSensor1(parseResult[8]);}
+                    if(parseResult.length>9){gpsRecordEntity.setSensor1(parseResult[9]);}
+                    if(parseResult.length>10){gpsRecordEntity.setSensor1(parseResult[10]);}
+                    if(parseResult.length>11){gpsRecordEntity.setSensor1(parseResult[11]);}
 
-                    gpsRecordEntity2 = gpsRecordService.create(gpsRecordEntity);
+                    GpsRecordEntity gpsRecordEntity2 = gpsRecordService.create(gpsRecordEntity);
                     if(gpsRecordEntity2!=null){
                         //位置信息记录成功
                         locreqSucess = true;
