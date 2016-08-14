@@ -18,6 +18,7 @@ public class GpsRecordEntity {
     private Integer id;
     private Integer workerId;
     private Integer refMachTerminalId;
+    private String terminalCode;
     private Date gpsTime;
     private Date localTime;
     private BigDecimal lng;
@@ -60,6 +61,16 @@ public class GpsRecordEntity {
 
     public void setRefMachTerminalId(Integer refMachTerminalId) {
         this.refMachTerminalId = refMachTerminalId;
+    }
+
+    @Basic
+    @Column(name = "terminal_code")
+    public String getTerminalCode() {
+        return terminalCode;
+    }
+
+    public void setTerminalCode(String terminalCode) {
+        this.terminalCode = terminalCode;
     }
 
     @Basic

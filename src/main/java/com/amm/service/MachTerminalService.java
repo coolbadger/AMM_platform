@@ -17,4 +17,6 @@ public interface MachTerminalService {
     MachTerminalEntity findByMachId(Integer machId);
 
     MachTerminalEntity updateToUnBind(Integer id, MachTerminalEntity machTerminalEntity);
+
+    MachTerminalEntity findByTerminalCode(String terminalCode);
 }

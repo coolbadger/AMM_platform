@@ -9,6 +9,8 @@ import com.amm.service.OrgUserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -63,9 +65,14 @@ public class OrgUserController extends BaseController{
 
         orgUserEntity.setCreateTime(new Date());
 
-        //根据当前用户的组织id,查找BaseOrgEntity对象
-//        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
-        orgUserEntity.setOrgId(1);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = userDetails.getUsername();
+        String password = userDetails.getPassword();
+        OrgUserEntity currentUser = orgUserService.findOrgUser(userName, password);
+        Validate.notNull(currentUser, "The currentUser is null, no user login, create failure.");
+
+        orgUserEntity.setOrgId(currentUser.getOrgId());
+        orgUserEntity.setCreator(currentUser.getUserName());
 
         OrgUserEntity created = orgUserService.createOrgUser(orgUserEntity);
 

@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface TerminalRepository extends PagingAndSortingRepository<TerminalEntity, Integer> {
     List<TerminalEntity> findAllByActive(Boolean active);
+
+    TerminalEntity findByTerminalCode(String terminalCode);
 }

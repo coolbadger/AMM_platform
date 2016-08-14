@@ -92,4 +92,12 @@ public class WorkerServiceImpl extends BaseService implements WorkerService {
 
         return loginWorker;
     }
+
+    public WorkerEntity findByUserNameAndPassword(String userName, String password) {
+
+        Validate.notNull(userName, "The userName must not be null, login failure.");
+        Validate.notNull(password, "The password must not be null, login failure.");
+
+        return workerRepository.findByUserNameAndPassword(userName, password);
+    }
 }

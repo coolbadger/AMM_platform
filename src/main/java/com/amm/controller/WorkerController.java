@@ -1,13 +1,17 @@
 package com.amm.controller;
 
 import com.amm.entity.BaseOrgEntity;
+import com.amm.entity.OrgUserEntity;
 import com.amm.entity.WorkerEntity;
 import com.amm.service.BaseOrgService;
+import com.amm.service.OrgUserService;
 import com.amm.service.WorkerService;
 import com.amm.service.impl.BaseService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -28,6 +32,9 @@ public class WorkerController extends BaseController{
     @Autowired
     private BaseOrgService baseOrgService;
 
+    @Autowired
+    private OrgUserService orgUserService;
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public WorkerEntity create(@RequestBody(required = true) WorkerEntity workerEntity) {
@@ -38,9 +45,14 @@ public class WorkerController extends BaseController{
 
         workerEntity.setCreateTime(new Date());
 
-        //根据当前用户的组织id,查找BaseOrgEntity对象
-//        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
-        workerEntity.setOrgId(1);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = userDetails.getUsername();
+        String password = userDetails.getPassword();
+        OrgUserEntity currentUser = orgUserService.findOrgUser(userName, password);
+        Validate.notNull(currentUser, "The currentUser is null, no user login, create failure.");
+
+        workerEntity.setOrgId(currentUser.getOrgId());
+        workerEntity.setCreator(currentUser.getUserName());
 
         WorkerEntity created = workerService.create(workerEntity);
 

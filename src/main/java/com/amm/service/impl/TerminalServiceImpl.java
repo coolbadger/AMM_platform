@@ -85,23 +85,25 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
         if (!updated.equals(terminal)) {
             MachTerminalEntity machTerminalEntity = machTerminalRepository.findByTerminalId(terminal.getId());
             if (machTerminalEntity != null) {
-                MachineEntity machineEntity = machineRepository.findOne(machTerminalEntity.getMachId());
+                if(machTerminalEntity.getMachId() != null) {
+                    MachineEntity machineEntity = machineRepository.findOne(machTerminalEntity.getMachId());
 
-                RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
-                refMachTerminalEntity.setMachCode(machineEntity.getMachCode());
-                refMachTerminalEntity.setMachName(machineEntity.getMachName());
-                refMachTerminalEntity.setMachId(machineEntity.getId());
-                refMachTerminalEntity.setWorkingType(machineEntity.getWorkingType());
-                refMachTerminalEntity.setMachState(machineEntity.getState());
-                refMachTerminalEntity.setTerminalCode(terminal.getTerminalCode());
-                refMachTerminalEntity.setTerminalName(terminal.getTerminalName());
-                refMachTerminalEntity.setCallNo(terminal.getCallNo());
-                refMachTerminalEntity.setTerminalState(terminal.getState());
+                    RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
+                    refMachTerminalEntity.setMachCode(machineEntity.getMachCode());
+                    refMachTerminalEntity.setMachName(machineEntity.getMachName());
+                    refMachTerminalEntity.setMachId(machineEntity.getId());
+                    refMachTerminalEntity.setWorkingType(machineEntity.getWorkingType());
+                    refMachTerminalEntity.setMachState(machineEntity.getState());
+                    refMachTerminalEntity.setTerminalCode(terminal.getTerminalCode());
+                    refMachTerminalEntity.setTerminalName(terminal.getTerminalName());
+                    refMachTerminalEntity.setCallNo(terminal.getCallNo());
+                    refMachTerminalEntity.setTerminalState(terminal.getState());
 
-                refMachTerminalEntity = refMachTerminalRepository.save(refMachTerminalEntity);
+                    refMachTerminalEntity = refMachTerminalRepository.save(refMachTerminalEntity);
 
-                machTerminalEntity.setRefMachTerminalId(refMachTerminalEntity.getId());
-                machTerminalRepository.save(machTerminalEntity);
+                    machTerminalEntity.setRefMachTerminalId(refMachTerminalEntity.getId());
+                    machTerminalRepository.save(machTerminalEntity);
+                }
             }
         }
 
@@ -133,5 +135,13 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
         terminalRepository.save(deleted);
 
         return deleted;
+    }
+
+
+    public TerminalEntity findTerminalCode(String terminalCode) {
+
+        Validate.notNull(terminalCode, "The terminalCode must not be null, find failure.");
+
+        return terminalRepository.findByTerminalCode(terminalCode);
     }
 }

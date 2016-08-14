@@ -1,10 +1,13 @@
 package com.amm.controller;
 
 import com.amm.entity.BaseOrgEntity;
+import com.amm.entity.OrgUserEntity;
 import com.amm.service.BaseOrgService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -32,6 +35,12 @@ public class BaseOrgController extends BaseController{
         Validate.notNull(baseOrgEntity.getOrgContact(), "The orgContact must not be null, create failure.");
 
         baseOrgEntity.setCreateTime(new Date());
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = userDetails.getUsername();
+        String password = userDetails.getPassword();
+        baseOrgEntity.setCreator(userName);
+
         baseOrgEntity = baseOrgService.createOrg(baseOrgEntity);
 
         return baseOrgEntity;

@@ -13,4 +13,6 @@ public interface WorkerRepository extends PagingAndSortingRepository<WorkerEntit
     WorkerEntity findByUserName(String userName);
 
     List<WorkerEntity> findAllByActive(Boolean active);
+
+    WorkerEntity findByUserNameAndPassword(String userName, String password);
 }

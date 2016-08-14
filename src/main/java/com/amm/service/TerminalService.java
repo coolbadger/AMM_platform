@@ -18,4 +18,6 @@ public interface TerminalService {
     TerminalEntity findOne(Integer id);
 
     TerminalEntity delete(Integer id);
+
+    TerminalEntity findTerminalCode(String terminalCode);
 }

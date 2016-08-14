@@ -3,11 +3,15 @@ package com.amm.controller;
 import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.MachineEntity;
 import com.amm.entity.MachineEntity;
+import com.amm.entity.OrgUserEntity;
 import com.amm.service.BaseOrgService;
 import com.amm.service.MachineService;
+import com.amm.service.OrgUserService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -28,6 +32,9 @@ public class MachineController extends BaseController{
     @Autowired
     private BaseOrgService baseOrgService;
 
+    @Autowired
+    private OrgUserService orgUserService;
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public MachineEntity create(@RequestBody(required = true) MachineEntity machineEntity) {
@@ -36,9 +43,14 @@ public class MachineController extends BaseController{
         Validate.notNull(machineEntity.getMachCode(), "The machCode must not be null, create failure.");
         Validate.notNull(machineEntity.getMachName(), "The machName must not be null, create failure.");
 
-        //根据当前用户的组织id,查找BaseOrgEntity对象
-//        BaseOrgEntity baseOrg = baseOrgService.findOne(1);
-        machineEntity.setOrgId(1);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = userDetails.getUsername();
+        String password = userDetails.getPassword();
+        OrgUserEntity currentUser = orgUserService.findOrgUser(userName, password);
+        Validate.notNull(currentUser, "The currentUser is null, no user login, create failure.");
+
+        machineEntity.setOrgId(currentUser.getOrgId());
+        machineEntity.setCreator(currentUser.getUserName());
 
         MachineEntity created = machineService.create(machineEntity);
 

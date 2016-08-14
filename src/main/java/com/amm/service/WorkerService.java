@@ -20,4 +20,6 @@ public interface WorkerService {
     WorkerEntity delete(Integer id);
 
     WorkerEntity findByUserName(String userName);
+
+    WorkerEntity findByUserNameAndPassword(String userName, String password);
 }

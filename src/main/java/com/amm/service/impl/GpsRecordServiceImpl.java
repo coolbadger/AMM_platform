@@ -1,10 +1,12 @@
 package com.amm.service.impl;
 
 import com.amm.entity.GpsRecordEntity;
+import com.amm.entity.MachTerminalEntity;
 import com.amm.entity.RefMachTerminalEntity;
 import com.amm.repository.GpsRecordRepository;
 import com.amm.repository.RefMachTerminalRepository;
 import com.amm.service.GpsRecordService;
+import com.amm.service.MachTerminalService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -28,6 +30,9 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
     @Autowired
     private RefMachTerminalRepository refMachTerminalRepository;
 
+    @Autowired
+    private MachTerminalService machTerminalService;
+
     public List<GpsRecordEntity> findAllGpsRecord() {
 
         return (List<GpsRecordEntity>) gpsRecordRepository.findAll();
@@ -46,6 +51,12 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
     public GpsRecordEntity create(GpsRecordEntity gpsRecordEntity) {
 
         Validate.notNull(gpsRecordEntity, "The gpsRecordEntity must not be null, create failure.");
+        Validate.notNull(gpsRecordEntity.getTerminalCode(), "The terminalCode of gpsRecordEntity must not be null, create failure.");
+
+        MachTerminalEntity machTerminalEntity = machTerminalService.findByTerminalCode(gpsRecordEntity.getTerminalCode());
+        Integer refMachTerminalId = machTerminalEntity.getRefMachTerminalId();
+
+        gpsRecordEntity.setRefMachTerminalId(refMachTerminalId);
 
         GpsRecordEntity created = gpsRecordRepository.save(gpsRecordEntity);
 

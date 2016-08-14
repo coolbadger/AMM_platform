@@ -147,4 +147,16 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
 
         return updated;
     }
+
+    public MachTerminalEntity findByTerminalCode(String terminalCode) {
+
+        Validate.notNull(terminalCode, "The terminalCode must not be null, find failure.");
+
+        TerminalEntity terminalEntity = terminalRepository.findByTerminalCode(terminalCode);
+        Validate.notNull(terminalEntity, "The terminalEntity must not be found by terminalCode, find failure.");
+
+        MachTerminalEntity machTerminalEntity = machTerminalRepository.findByTerminalId(terminalEntity.getId());
+
+        return machTerminalEntity;
+    }
 }
