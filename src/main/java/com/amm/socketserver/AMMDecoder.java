@@ -20,6 +20,10 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
     protected boolean doDecode(IoSession ioSession, IoBuffer ioBuffer, ProtocolDecoderOutput protocolDecoderOutput) throws Exception {
 
         AMMPacket ammPacket = new AMMPacket();
+        //设置包头
+        ammPacket.AMMHeaders = new byte[]{(byte)0x88,(byte)0x9A,(byte)0xA8,(byte)0xFE};
+        //设置包尾
+        ammPacket.AMMTails = new byte[]{(byte)0xA5,(byte)0xFF};
         if(ioBuffer.remaining()>ammPacket.AMMHeaders.length + 1){
             logger.info("开始解码");
             //标记,用于检测可能发生断包时reset

@@ -73,7 +73,6 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         return gpsRecordEntityList;
     }
 
-    @Override
     public List<GpsRecordEntity> findByRefMachTerminalIDAndTimeScope(Integer id, Date startTime, Date endTime) {
 
         Validate.notNull(id, "The id must not be null, find failure.");

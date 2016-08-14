@@ -17,10 +17,14 @@ public class AMMEncoder implements ProtocolEncoder {
     public void encode(IoSession ioSession, Object o, ProtocolEncoderOutput protocolEncoderOutput) throws Exception {
         AMMPacket ammPacket = (AMMPacket)o;
         logger.info("开始编码");
+        //设置包头
+        ammPacket.AMMHeaders = new byte[]{(byte)0xFE,(byte)0xA8,(byte)0x9A,(byte)0x88};
+        //设置包尾
+        ammPacket.AMMTails = new byte[]{(byte)0xA5,(byte)0xFF};
         //计算Data长度和总长度
         ammPacket.AMMDataLength = ammPacket.AMMDataString.getBytes("ASCII").length;
         ammPacket.AMMTotalLength = ammPacket.AMMHeaders.length +
-                ammPacket.AMMTails.length + 26 + ammPacket.AMMDataLength;
+                ammPacket.AMMTails.length + 16 + ammPacket.AMMDataLength;
         byte[] tempBytes;
 
         //头信息
