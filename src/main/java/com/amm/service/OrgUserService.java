@@ -23,4 +23,6 @@ public interface OrgUserService {
     OrgUserEntity findById(Integer id);
 
     OrgUserEntity deleteOrgUser(Integer id);
+
+    boolean isValidUserName(String userName);
 }

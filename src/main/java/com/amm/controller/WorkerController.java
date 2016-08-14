@@ -3,6 +3,7 @@ package com.amm.controller;
 import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.entity.WorkerEntity;
+import com.amm.exception.InvalidOperatorException;
 import com.amm.service.BaseOrgService;
 import com.amm.service.OrgUserService;
 import com.amm.service.WorkerService;
@@ -43,7 +44,9 @@ public class WorkerController extends BaseController{
         Validate.notNull(workerEntity.getUserName(), "The userName must not be null, create failure.");
         Validate.notNull(workerEntity.getPassword(), "The password must not be null, create failure.");
 
-        workerEntity.setCreateTime(new Date());
+        if(workerService.isValidUserName(workerEntity.getUserName())) {
+            throw new InvalidOperatorException("用户名无效，数据库中已存在！");
+        }
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = userDetails.getUsername();
@@ -53,6 +56,7 @@ public class WorkerController extends BaseController{
 
         workerEntity.setOrgId(currentUser.getOrgId());
         workerEntity.setCreator(currentUser.getUserName());
+        workerEntity.setCreateTime(new Date());
 
         WorkerEntity created = workerService.create(workerEntity);
 

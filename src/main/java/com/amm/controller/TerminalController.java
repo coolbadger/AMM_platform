@@ -3,6 +3,7 @@ package com.amm.controller;
 import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.entity.TerminalEntity;
+import com.amm.exception.InvalidOperatorException;
 import com.amm.service.BaseOrgService;
 import com.amm.service.MachineService;
 import com.amm.service.OrgUserService;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +44,10 @@ public class TerminalController extends BaseController{
         Validate.notNull(terminalEntity.getTerminalCode(), "The terminalCode must not be null, create failure.");
         Validate.notNull(terminalEntity.getTerminalName(), "The terminalName must not be null, create failure.");
 
+        if(!terminalService.isValidTerminalCode(terminalEntity.getTerminalCode())) {
+            throw new InvalidOperatorException("终端号无效，数据库中已存在！");
+        }
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = userDetails.getUsername();
         String password = userDetails.getPassword();
@@ -50,6 +56,7 @@ public class TerminalController extends BaseController{
 
         terminalEntity.setOrgId(currentUser.getOrgId());
         terminalEntity.setCreator(currentUser.getUserName());
+        terminalEntity.setCreateTime(new Date());
 
         TerminalEntity created = terminalService.create(terminalEntity);
 

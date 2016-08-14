@@ -19,5 +19,7 @@ public interface TerminalService {
 
     TerminalEntity delete(Integer id);
 
-    TerminalEntity findTerminalCode(String terminalCode);
+    TerminalEntity findByTerminalCode(String terminalCode);
+
+    boolean isValidTerminalCode(String terminalCode);
 }

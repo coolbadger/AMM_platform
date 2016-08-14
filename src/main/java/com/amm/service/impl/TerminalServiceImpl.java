@@ -138,10 +138,22 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
     }
 
 
-    public TerminalEntity findTerminalCode(String terminalCode) {
+    public TerminalEntity findByTerminalCode(String terminalCode) {
 
         Validate.notNull(terminalCode, "The terminalCode must not be null, find failure.");
 
         return terminalRepository.findByTerminalCode(terminalCode);
+    }
+
+    public boolean isValidTerminalCode(String terminalCode) {
+
+        Validate.notNull(terminalCode, "The terminalCode must not be null, create failure.");
+
+        boolean isValid = true;
+        if(this.findByTerminalCode(terminalCode) != null) {
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

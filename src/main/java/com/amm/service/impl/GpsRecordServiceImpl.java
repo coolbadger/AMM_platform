@@ -42,9 +42,9 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
 
         Validate.notNull(id, "The id must not be null, find failure.");
 
-        RefMachTerminalEntity refMachTerminalEntity = refMachTerminalRepository.findOne(id);
+        List<GpsRecordEntity> gpsRecordEntityList = gpsRecordRepository.findByRefMachTerminalId(id);
 
-        return null;
+        return gpsRecordEntityList;
     }
 
     @Transactional
@@ -57,6 +57,7 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         Integer refMachTerminalId = machTerminalEntity.getRefMachTerminalId();
 
         gpsRecordEntity.setRefMachTerminalId(refMachTerminalId);
+        gpsRecordEntity.setLocalTime(new Date());
 
         GpsRecordEntity created = gpsRecordRepository.save(gpsRecordEntity);
 

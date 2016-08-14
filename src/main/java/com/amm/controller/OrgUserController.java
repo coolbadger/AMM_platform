@@ -3,6 +3,7 @@ package com.amm.controller;
 import com.amm.constant.ExceptionCode;
 import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.OrgUserEntity;
+import com.amm.exception.InvalidOperatorException;
 import com.amm.model.ResultModel;
 import com.amm.service.BaseOrgService;
 import com.amm.service.OrgUserService;
@@ -63,7 +64,9 @@ public class OrgUserController extends BaseController{
         Validate.notNull(orgUserEntity.getUserName(), "The userName of orgUser must not be null, create failure.");
         Validate.notNull(orgUserEntity.getPassword(), "The password of orgUser must not be null, create failure.");
 
-        orgUserEntity.setCreateTime(new Date());
+        if(!orgUserService.isValidUserName(orgUserEntity.getUserName())) {
+            throw new InvalidOperatorException("用户名无效，数据库中已存在！");
+        }
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = userDetails.getUsername();
@@ -73,6 +76,7 @@ public class OrgUserController extends BaseController{
 
         orgUserEntity.setOrgId(currentUser.getOrgId());
         orgUserEntity.setCreator(currentUser.getUserName());
+        orgUserEntity.setCreateTime(new Date());
 
         OrgUserEntity created = orgUserService.createOrgUser(orgUserEntity);
 

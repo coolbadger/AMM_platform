@@ -43,6 +43,7 @@ public class OrgUserServiceImpl extends BaseService implements OrgUserService{
 
     @Transactional
     public OrgUserEntity createOrgUser(OrgUserEntity orgUserEntity) {
+
         Validate.notNull(orgUserEntity, "The orgUser must not be null, create failure.");
 
         OrgUserEntity created = orgUserRepository.save(orgUserEntity);
@@ -94,5 +95,17 @@ public class OrgUserServiceImpl extends BaseService implements OrgUserService{
         deleted = orgUserRepository.save(deleted);
 
         return deleted;
+    }
+
+    public boolean isValidUserName(String userName) {
+
+        Validate.notNull(userName, "The userName must not be null, create failure.");
+
+        boolean isValid = true;
+        if(this.findByUserName(userName) != null) {
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

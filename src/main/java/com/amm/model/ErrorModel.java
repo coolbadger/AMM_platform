@@ -4,8 +4,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Created by csw on 2016/5/26 18:23.
- *
- * explain：
+ * explain：错误或异常代码模板
  */
 public class ErrorModel {
 

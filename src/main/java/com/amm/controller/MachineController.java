@@ -51,6 +51,7 @@ public class MachineController extends BaseController{
 
         machineEntity.setOrgId(currentUser.getOrgId());
         machineEntity.setCreator(currentUser.getUserName());
+        machineEntity.setCreateTime(new Date());
 
         MachineEntity created = machineService.create(machineEntity);
 

@@ -100,4 +100,15 @@ public class WorkerServiceImpl extends BaseService implements WorkerService {
 
         return workerRepository.findByUserNameAndPassword(userName, password);
     }
+
+    public boolean isValidUserName(String userName) {
+
+        Validate.notNull(userName, "The userName must not be null, create failure.");
+
+        boolean isValid = true;
+        if(this.findByUserName(userName) != null) {
+            isValid = false;
+        }
+        return isValid;
+    }
 }
