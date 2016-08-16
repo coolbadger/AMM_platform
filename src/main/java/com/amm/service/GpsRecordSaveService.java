@@ -10,7 +10,7 @@ import com.amm.entity.client.GpsRecordSave;
  */
 public interface GpsRecordSaveService {
 
-    WorkerEntity isLogin(String userName, String password);
+    WorkerEntity isLogin(String userName, String password, String terminalCode);
 
     GpsRecordSave save(GpsRecordSave gpsRecordSave);
 

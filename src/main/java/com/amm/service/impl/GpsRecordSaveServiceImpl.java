@@ -12,8 +12,9 @@ import org.springframework.stereotype.Component;
  */
 @Component("gpsRecordSaveService")
 @Scope("prototype")
-public class GpsRecordSaveImpl extends BaseService implements GpsRecordSaveService{
-    public WorkerEntity isLogin(String userName, String password) {
+public class GpsRecordSaveServiceImpl extends BaseService implements GpsRecordSaveService{
+
+    public WorkerEntity isLogin(String userName, String password, String terminalCode) {
         return null;
     }
 
