@@ -52,7 +52,7 @@ public class AMMEncoder implements ProtocolEncoder {
         tempBytes = spliceBytes(tempBytes,ammPacket.AMMDataString.getBytes("ASCII"));
         //尾字节
         tempBytes = spliceBytes(tempBytes,ammPacket.AMMTails);
-        logger.info("编码完成");
+        logger.info("编码完成,返回的DATA段:" + ammPacket.AMMDataString);
         logger.info(bytesToHexString(tempBytes));
         System.out.println(bytesToHexString(tempBytes));
 

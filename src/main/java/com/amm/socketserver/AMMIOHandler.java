@@ -3,6 +3,8 @@ package com.amm.socketserver;
 import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.WorkerEntity;
 import com.amm.entity.client.GpsRecord;
+import com.amm.entity.client.GpsRecordSave;
+import com.amm.service.AMMClientPacketService;
 import com.amm.service.GpsRecordService;
 import com.amm.service.WorkerService;
 import com.amm.socketserver.packetentity.AMMPacket;
@@ -26,9 +28,7 @@ import java.util.Date;
 public class AMMIOHandler extends IoHandlerAdapter {
     private Logger logger = LoggerFactory.getLogger(AMMIOHandler.class);
     @Autowired
-    private WorkerService workerService;
-    @Autowired
-    private GpsRecordService gpsRecordService;
+    private AMMClientPacketService ammClientPacketService;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyMMDDHHmmss");
 
@@ -123,7 +123,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
                 if(ammPacket.AMMWorkerID!=null){
                     try {
                         String workerPassword = parseResult[2];
-                        WorkerEntity workerEntity = workerService.findByUserNameAndPassword(ammPacket.AMMWorkerID,workerPassword);
+                        WorkerEntity workerEntity = ammClientPacketService.isLogin(ammPacket.AMMWorkerID,workerPassword,ammPacket.AMMMachineID);
                         if (workerEntity !=null){
                             //登录成功
                             logreqSuccess = true;
@@ -149,21 +149,23 @@ public class AMMIOHandler extends IoHandlerAdapter {
                 boolean locreqSucess = false;
                 try {
                     //locreq|时间|补传|经度|纬度|高度|速度|精度|传感器1|传感器2
-                    GpsRecordEntity gpsRecordEntity = new GpsRecordEntity();
-                    gpsRecordEntity.setGpsTime(msgTime);
-                    gpsRecordEntity.setLng(new BigDecimal(parseResult[3]).setScale(6,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordEntity.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordEntity.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordEntity.setSpeed(new BigDecimal(parseResult[6]).setScale(2,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordEntity.setAccuracy(new BigDecimal(parseResult[7]).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    GpsRecordSave gpsRecordSave = new GpsRecordSave();
+                    gpsRecordSave.setGpsTime(msgTime);
+                    gpsRecordSave.setUserName(ammPacket.AMMWorkerID);
+                    gpsRecordSave.setTerminalCode(ammPacket.AMMMachineID);
+                    gpsRecordSave.setLng(new BigDecimal(parseResult[3]).setScale(6,BigDecimal.ROUND_HALF_UP));
+                    gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
+                    gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    gpsRecordSave.setSpeed(new BigDecimal(parseResult[6]).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    gpsRecordSave.setAccuracy(new BigDecimal(parseResult[7]).setScale(2,BigDecimal.ROUND_HALF_UP));
 
-                    if(parseResult.length>8){gpsRecordEntity.setSensor1(parseResult[8]);}
-                    if(parseResult.length>9){gpsRecordEntity.setSensor1(parseResult[9]);}
-                    if(parseResult.length>10){gpsRecordEntity.setSensor1(parseResult[10]);}
-                    if(parseResult.length>11){gpsRecordEntity.setSensor1(parseResult[11]);}
+                    if(parseResult.length>8){gpsRecordSave.setSensor1(parseResult[8]);}
+                    if(parseResult.length>9){gpsRecordSave.setSensor1(parseResult[9]);}
+                    if(parseResult.length>10){gpsRecordSave.setSensor1(parseResult[10]);}
+                    if(parseResult.length>11){gpsRecordSave.setSensor1(parseResult[11]);}
 
-                    GpsRecordEntity gpsRecordEntity2 = gpsRecordService.create(gpsRecordEntity);
-                    if(gpsRecordEntity2!=null){
+                    GpsRecordEntity gpsRecordEntity = ammClientPacketService.save(gpsRecordSave);
+                    if(gpsRecordEntity!=null){
                         //位置信息记录成功
                         locreqSucess = true;
                     }
