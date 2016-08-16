@@ -8,7 +8,7 @@ import com.amm.entity.client.GpsRecordSave;
  * Created by csw on 2016/8/16 15:23.
  * Explain:
  */
-public interface GpsRecordSaveService {
+public interface AMMClientPacketService {
 
     WorkerEntity isLogin(String userName, String password, String terminalCode);
 
