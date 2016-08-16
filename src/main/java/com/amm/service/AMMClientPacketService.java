@@ -12,6 +12,6 @@ public interface AMMClientPacketService {
 
     WorkerEntity isLogin(String userName, String password, String terminalCode);
 
-    GpsRecordSave save(GpsRecordSave gpsRecordSave);
+    GpsRecordEntity save(GpsRecordSave gpsRecordSave);
 
 }
