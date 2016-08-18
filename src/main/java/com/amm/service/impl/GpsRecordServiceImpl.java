@@ -54,7 +54,8 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         Validate.notNull(gpsRecordEntity.getTerminalCode(), "The terminalCode of gpsRecordEntity must not be null, create failure.");
 
         MachTerminalEntity machTerminalEntity = machTerminalService.findByTerminalCode(gpsRecordEntity.getTerminalCode());
-        Integer refMachTerminalId = machTerminalEntity.getRefMachTerminalId();
+
+        Integer refMachTerminalId = machTerminalEntity != null ? machTerminalEntity.getRefMachTerminalId() : null;
 
         gpsRecordEntity.setRefMachTerminalId(refMachTerminalId);
         gpsRecordEntity.setLocalTime(new Date());
