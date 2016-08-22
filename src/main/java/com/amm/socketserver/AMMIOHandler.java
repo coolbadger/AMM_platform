@@ -30,7 +30,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
     @Autowired
     private AMMClientPacketService ammClientPacketService;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyMMDDHHmmss");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 
     public AMMIOHandler() {
         super();
