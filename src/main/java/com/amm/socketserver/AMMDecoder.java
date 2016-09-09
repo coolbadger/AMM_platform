@@ -83,6 +83,9 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
             }
             else{
                 logger.info("包头错误");
+                ioBuffer.reset();
+                byte del = ioBuffer.get();
+                logger.info("退回数据并删除一个字节:" + byteToHexString(del));
                 return false;
             }
 
