@@ -30,9 +30,27 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
             ioBuffer.mark();
             //判断包头是否正确
             byte[] headerBytes = new byte[ammPacket.AMMHeaders.length];
-            ioBuffer.get(headerBytes);
-            logger.info("包头:" + bytesToHexString(headerBytes));
-            if(Arrays.equals(headerBytes,ammPacket.AMMHeaders)){
+
+            boolean headerIsCorrect = false;
+            //当包头不匹配时,返回并删除一个字节,直至匹配或者耗尽为止
+            while(headerIsCorrect == false
+                    &&ioBuffer.remaining()>ammPacket.AMMHeaders.length){
+                //判断包头是否正确
+                ioBuffer.mark();
+                ioBuffer.get(headerBytes);
+                logger.info("包头:" + bytesToHexString(headerBytes));
+                if(Arrays.equals(headerBytes,ammPacket.AMMHeaders)){
+                    logger.info("包头匹配");
+                }
+                else {
+                    logger.info("包头不匹配,返回并删除一个字节");
+                    ioBuffer.reset();
+                    byte del = ioBuffer.get();
+                    logger.info("退回数据并删除一个字节:" + byteToHexString(del));
+                }
+            }
+
+            if(headerIsCorrect){
                 //获取包总长
                 byte packtTotalLengthByte = ioBuffer.get();
                 ammPacket.AMMTotalLength = (int)packtTotalLengthByte;
@@ -83,9 +101,6 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
             }
             else{
                 logger.info("包头错误");
-                ioBuffer.reset();
-                byte del = ioBuffer.get();
-                logger.info("退回数据并删除一个字节:" + byteToHexString(del));
                 return false;
             }
 
