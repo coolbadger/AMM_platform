@@ -41,6 +41,7 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
                 logger.info("包头:" + bytesToHexString(headerBytes));
                 if(Arrays.equals(headerBytes,ammPacket.AMMHeaders)){
                     logger.info("包头匹配");
+                    headerIsCorrect = true;
                 }
                 else {
                     logger.info("包头不匹配,返回并删除一个字节");
