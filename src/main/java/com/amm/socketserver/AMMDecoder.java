@@ -38,16 +38,14 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
                 //判断包头是否正确
                 ioBuffer.mark();
                 ioBuffer.get(headerBytes);
-                logger.info("包头:" + bytesToHexString(headerBytes));
                 if(Arrays.equals(headerBytes,ammPacket.AMMHeaders)){
-                    logger.info("包头匹配");
                     headerIsCorrect = true;
+                    logger.info("包头:" + bytesToHexString(headerBytes) + "匹配");
                 }
                 else {
-                    logger.info("包头不匹配,返回并删除一个字节");
                     ioBuffer.reset();
                     byte del = ioBuffer.get();
-                    logger.info("退回数据并删除一个字节:" + byteToHexString(del));
+                    logger.info("包头"+bytesToHexString(headerBytes)+"不匹配,退回数据并删除一个字节:" + byteToHexString(del));
                 }
             }
 
@@ -66,29 +64,29 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
                 byte[] machineIdBytes = new byte[2];
                 ioBuffer.get(machineIdBytes);
                 ammPacket.AMMMachineID = String.valueOf(machineIdBytesToInt(machineIdBytes));
-                logger.info("机器ID:" + bytesToHexString(machineIdBytes) + "  " + ammPacket.AMMMachineID);
 
                 //工号
                 byte[] workerIdBytes = new byte[12];
                 ioBuffer.get(workerIdBytes);
                 ammPacket.AMMWorkerID = bytesASCIIToString(workerIdBytes);
-                logger.info("工人ID:" + bytesToHexString(workerIdBytes) + "  " + ammPacket.AMMWorkerID);
 
                 //data段长度
                 byte dataLengthByte = ioBuffer.get();
                 ammPacket.AMMDataLength = (int)dataLengthByte;
-                logger.info("data段长度:" + byteToHexString(dataLengthByte) + "  " + ammPacket.AMMDataLength);
 
                 //data段内容
                 byte[] dataStringBytes =  new byte[ammPacket.AMMDataLength];
                 ioBuffer.get(dataStringBytes);
                 ammPacket.AMMDataString = bytesASCIIToString(dataStringBytes);
-                logger.info("data段内容:" + bytesToHexString(dataStringBytes) + "  " + ammPacket.AMMDataString);
 
                 //包尾
                 byte[] packetTailBytes = new byte[2];
                 ioBuffer.get(packetTailBytes);
-                logger.info("包尾:" + bytesToHexString(packetTailBytes));
+                logger.info("机器ID:" + bytesToHexString(machineIdBytes) + "  " + ammPacket.AMMMachineID + ";"
+                        +"工人ID:" + bytesToHexString(workerIdBytes) + "  " + ammPacket.AMMWorkerID +";"
+                        +"data段长度:" + byteToHexString(dataLengthByte) + "  " + ammPacket.AMMDataLength + ";"
+                        +"data段内容:" + bytesToHexString(dataStringBytes) + "  " + ammPacket.AMMDataString + ";"
+                        + "包尾:" + bytesToHexString(packetTailBytes));
 
                 if(Arrays.equals(packetTailBytes,ammPacket.AMMTails)){
                     logger.info("解码成功");

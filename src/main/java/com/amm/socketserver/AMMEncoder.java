@@ -54,7 +54,6 @@ public class AMMEncoder implements ProtocolEncoder {
         tempBytes = spliceBytes(tempBytes,ammPacket.AMMTails);
         logger.info("编码完成,返回的DATA段:" + ammPacket.AMMDataString);
         logger.info(bytesToHexString(tempBytes));
-        System.out.println(bytesToHexString(tempBytes));
 
         protocolEncoderOutput.write(IoBuffer.wrap(tempBytes));//this is important
     }
