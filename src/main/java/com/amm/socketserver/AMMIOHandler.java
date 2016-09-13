@@ -153,19 +153,19 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     gpsRecordSave.setGpsTime(msgTime);
                     gpsRecordSave.setUserName(ammPacket.AMMWorkerID);
                     gpsRecordSave.setTerminalCode(ammPacket.AMMMachineID);
-                    if(parseResult[3]!=null) {
+                    if(parseResult[3]!=null&&parseResult[3]!="") {
                         gpsRecordSave.setLng(new BigDecimal(parseResult[3]).setScale(6,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[4]!=null) {
+                    if(parseResult[4]!=null&&parseResult[4]!="") {
                         gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[5]!=null){
+                    if(parseResult[5]!=null&&parseResult[5]!=""){
                         gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[6]!=null){
+                    if(parseResult[6]!=null&&parseResult[6]!=""){
                         gpsRecordSave.setSpeed(new BigDecimal(parseResult[6]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[7]!=null){
+                    if(parseResult[7]!=null&&parseResult[7]!=""){
                         gpsRecordSave.setAccuracy(new BigDecimal(parseResult[7]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
                     if(parseResult.length>8){gpsRecordSave.setSensor1(parseResult[8]);}
