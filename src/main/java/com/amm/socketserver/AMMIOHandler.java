@@ -153,16 +153,26 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     gpsRecordSave.setGpsTime(msgTime);
                     gpsRecordSave.setUserName(ammPacket.AMMWorkerID);
                     gpsRecordSave.setTerminalCode(ammPacket.AMMMachineID);
-                    gpsRecordSave.setLng(new BigDecimal(parseResult[3]).setScale(6,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordSave.setSpeed(new BigDecimal(parseResult[6]).setScale(2,BigDecimal.ROUND_HALF_UP));
-                    gpsRecordSave.setAccuracy(new BigDecimal(parseResult[7]).setScale(2,BigDecimal.ROUND_HALF_UP));
-
+                    if(parseResult[3]!=null) {
+                        gpsRecordSave.setLng(new BigDecimal(parseResult[3]).setScale(6,BigDecimal.ROUND_HALF_UP));
+                    }
+                    if(parseResult[4]!=null) {
+                        gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
+                    }
+                    if(parseResult[5]!=null){
+                        gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    }
+                    if(parseResult[6]!=null){
+                        gpsRecordSave.setSpeed(new BigDecimal(parseResult[6]).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    }
+                    if(parseResult[7]!=null){
+                        gpsRecordSave.setAccuracy(new BigDecimal(parseResult[7]).setScale(2,BigDecimal.ROUND_HALF_UP));
+                    }
                     if(parseResult.length>8){gpsRecordSave.setSensor1(parseResult[8]);}
-                    if(parseResult.length>9){gpsRecordSave.setSensor1(parseResult[9]);}
-                    if(parseResult.length>10){gpsRecordSave.setSensor1(parseResult[10]);}
-                    if(parseResult.length>11){gpsRecordSave.setSensor1(parseResult[11]);}
+                    if(parseResult.length>9){gpsRecordSave.setSensor2(parseResult[9]);}
+                    if(parseResult.length>10){gpsRecordSave.setSensor3(parseResult[10]);}
+                    if(parseResult.length>11){gpsRecordSave.setSensor4(parseResult[11]);}
+                    if(parseResult.length>12){gpsRecordSave.setSensorExtra(parseResult[12]);}
 
                     GpsRecordEntity gpsRecordEntity = ammClientPacketService.save(gpsRecordSave);
                     if(gpsRecordEntity!=null){
