@@ -153,19 +153,19 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     gpsRecordSave.setGpsTime(msgTime);
                     gpsRecordSave.setUserName(ammPacket.AMMWorkerID);
                     gpsRecordSave.setTerminalCode(ammPacket.AMMMachineID);
-                    if(parseResult[3]!=null&&parseResult[3]!="") {
+                    if(parseResult[3]!=null&&!parseResult[3].equals("")) {
                         gpsRecordSave.setLng(new BigDecimal(parseResult[3]).setScale(6,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[4]!=null&&parseResult[4]!="") {
+                    if(parseResult[4]!=null&&!parseResult[4].equals("")) {
                         gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[5]!=null&&parseResult[5]!=""){
+                    if(parseResult[5]!=null&&!parseResult[5].equals("")){
                         gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[6]!=null&&parseResult[6]!=""){
+                    if(parseResult[6]!=null&&!parseResult[6].equals("")){
                         gpsRecordSave.setSpeed(new BigDecimal(parseResult[6]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
-                    if(parseResult[7]!=null&&parseResult[7]!=""){
+                    if(parseResult[7]!=null&&!parseResult[7].equals("")){
                         gpsRecordSave.setAccuracy(new BigDecimal(parseResult[7]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
                     if(parseResult.length>8){gpsRecordSave.setSensor1(parseResult[8]);}
