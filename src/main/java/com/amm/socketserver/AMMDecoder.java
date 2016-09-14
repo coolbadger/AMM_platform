@@ -26,8 +26,7 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
         ammPacket.AMMTails = new byte[]{(byte)0xA5,(byte)0xFF};
         if(ioBuffer.remaining()>ammPacket.AMMHeaders.length + 1){
             logger.info("开始解码");
-            //标记,用于检测可能发生断包时reset
-            ioBuffer.mark();
+
             //判断包头是否正确
             byte[] headerBytes = new byte[ammPacket.AMMHeaders.length];
 
@@ -36,6 +35,7 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
             while(headerIsCorrect == false
                     &&ioBuffer.remaining()>ammPacket.AMMHeaders.length){
                 //判断包头是否正确
+                //标记位置
                 ioBuffer.mark();
                 ioBuffer.get(headerBytes);
                 if(Arrays.equals(headerBytes,ammPacket.AMMHeaders)){
