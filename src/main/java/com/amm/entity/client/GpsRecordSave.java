@@ -16,6 +16,9 @@ public class GpsRecordSave {
     private Date localTime;
     private BigDecimal lng;
     private BigDecimal lat;
+
+    private BigDecimal lngFixed;
+    private BigDecimal latFixed;
     private BigDecimal alt;
     private BigDecimal accuracy;
     private BigDecimal speed;
@@ -79,6 +82,22 @@ public class GpsRecordSave {
 
     public void setLat(BigDecimal lat) {
         this.lat = lat;
+    }
+
+    public BigDecimal getLngFixed() {
+        return lngFixed;
+    }
+
+    public void setLngFixed(BigDecimal lngFixed) {
+        this.lngFixed = lngFixed;
+    }
+
+    public BigDecimal getLatFixed() {
+        return latFixed;
+    }
+
+    public void setLatFixed(BigDecimal latFixed) {
+        this.latFixed = latFixed;
     }
 
     public BigDecimal getAlt() {

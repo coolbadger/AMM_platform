@@ -4,6 +4,8 @@ import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.WorkerEntity;
 import com.amm.entity.client.GpsRecord;
 import com.amm.entity.client.GpsRecordSave;
+import com.amm.gps.GpsConvert;
+import com.amm.gps.WebRequest;
 import com.amm.service.AMMClientPacketService;
 import com.amm.service.GpsRecordService;
 import com.amm.service.WorkerService;
@@ -159,6 +161,14 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     if(parseResult[4]!=null&&parseResult[4].length()>0) {
                         gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
                     }
+
+                    if(gpsRecordSave.getLng()!=null && gpsRecordSave.getLat()!=null){
+                        Double[] fixedGps = WebRequest.getGpsFixed(gpsRecordSave.getLng().doubleValue(),gpsRecordSave.getLat().doubleValue());
+                        gpsRecordSave.setLngFixed(new BigDecimal(fixedGps[0]));
+                        gpsRecordSave.setLatFixed(new BigDecimal(fixedGps[1]));
+                    }
+
+
                     if(parseResult[5]!=null&&parseResult[5].length()>0){
                         gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }

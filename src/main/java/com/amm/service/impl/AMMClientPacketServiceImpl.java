@@ -66,6 +66,8 @@ public class AMMClientPacketServiceImpl extends BaseService implements AMMClient
         gpsRecordEntity.setAlt(gpsRecordSave.getAlt());
         gpsRecordEntity.setLat(gpsRecordSave.getLat());
         gpsRecordEntity.setLng(gpsRecordSave.getLng());
+        gpsRecordEntity.setLngFixed(gpsRecordSave.getLngFixed());
+        gpsRecordEntity.setLatFixed(gpsRecordSave.getLatFixed());
         gpsRecordEntity.setSensor1(gpsRecordSave.getSensor1());
         gpsRecordEntity.setSensor2(gpsRecordSave.getSensor2());
         gpsRecordEntity.setSensor3(gpsRecordSave.getSensor3());

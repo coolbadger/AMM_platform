@@ -83,4 +83,8 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
 
         return gpsRecordRepository.findByRefMachTerminalIdAndGpsTimeBetween(id, startTime, endTime);
     }
+
+    public List<GpsRecordEntity> findByLatFixedIsNull() {
+        return gpsRecordRepository.findByLatFixedIsNull();
+    }
 }

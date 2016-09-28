@@ -4,6 +4,8 @@ import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.RefMachTerminalEntity;
 import com.amm.entity.client.GpsRecord;
 import com.amm.entity.client.GpsRecordMachine;
+import com.amm.gps.DataRequest;
+import com.amm.gps.GpsConvert;
 import com.amm.service.GpsRecordService;
 import com.amm.service.RefMachTerminalService;
 import com.amm.utils.DateUtil;
@@ -21,6 +23,8 @@ import java.util.*;
 @RestController
 @RequestMapping("api/gpsRecords")
 public class GpsRecordController extends BaseController{
+    @Autowired
+    GpsConvert gpsConvert;
 
     @Autowired
     private GpsRecordService gpsRecordService;
@@ -88,6 +92,10 @@ public class GpsRecordController extends BaseController{
         Date endTimeDate = DateUtil.parseDate(endTime);
 
         return gpsRecordService.findByRefMachTerminalIDAndTimeScope(id, startTimeDate, endTimeDate);
+    }
+    @RequestMapping(value = "/convert",method = RequestMethod.GET)
+    public String convertGpsRecord(){
+        return "OK";
     }
 
     //按时间排序
