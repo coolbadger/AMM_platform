@@ -1,6 +1,11 @@
 package com.amm.gps;
 
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
@@ -8,22 +13,48 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Badger on 16/9/18.
  */
 public class WebRequest {
-    static String apiUrl = "http://api.map.baidu.com/geoconv/v1/";
+    String apiUrl = "http://api.map.baidu.com/geoconv/v1/";
     String coordStr = "";
-    static String accessKey = "Lf4vzvGaMijyBRRRofgZLNRIPzQqM4ac";
+    String accessKey = "Lf4vzvGaMijyBRRRofgZLNRIPzQqM4ac";
     String param;
+
+    private JsonParser jsonParser;
+    JsonArray resultArray;
+
+    public JsonArray getResultList(String cordStr) {
+        resultArray = null;
+
+        if (cordStr.length() > 0 && cordStr.charAt(cordStr.length() - 1) == ';') {
+            cordStr = cordStr.substring(0, cordStr.length() - 2);
+        }
+
+        param = "coords=" + cordStr + "&from=1&to=5&ak=" + accessKey;
+        String resultStr = sendGet(apiUrl, param);
+        jsonParser = new JsonParser();
+        try {
+            JsonObject jsonObject = (JsonObject) jsonParser.parse(resultStr);
+            int status = jsonObject.get("status").getAsInt();
+            resultArray = jsonObject.get("result").getAsJsonArray();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultArray;
+    }
 
     public static Double[] getGpsFixed(double lng, double lat) {
         Double[] gpsPoint = new Double[2];
         String newCoordStr = lng + "," + lat;
+        newCoordStr = "114.21892734521,29.575429778924;114.21892734521,29.575429778924";
 
         String param = "coords=" + newCoordStr + "&from=1&to=5&ak=" + "Lf4vzvGaMijyBRRRofgZLNRIPzQqM4ac";
-        String result = WebRequest.sendGet(WebRequest.apiUrl, param);
+        String result = WebRequest.sendGet("http://api.map.baidu.com/geoconv/v1/", param);
 
         gpsPoint[0] = new Double(result.substring(result.indexOf("\"x\":") + 4, result.indexOf(",\"y\"")));
         gpsPoint[1] = new Double(result.substring(result.indexOf(",\"y\":") + 5, result.indexOf("}]}")));
@@ -41,7 +72,8 @@ public class WebRequest {
 
     public static void main(String[] args) {
 //        new WebRequest().convert();
-        Double[] bigDecimals = getGpsFixed(114.21892734521, 29.575429778924);
+        //11735.82821,3402.19032
+        Double[] bigDecimals = getGpsFixed(117.592168, 34.036599);
         System.out.println(bigDecimals[0]);
         System.out.println(bigDecimals[1]);
     }
@@ -110,6 +142,7 @@ public class WebRequest {
                 e2.printStackTrace();
             }
         }
+        System.out.println(result);
         return result;
     }
 }

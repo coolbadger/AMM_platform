@@ -2,9 +2,7 @@ package com.amm.controller;
 
 import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.RefMachTerminalEntity;
-import com.amm.entity.client.GpsRecord;
 import com.amm.entity.client.GpsRecordMachine;
-import com.amm.gps.DataRequest;
 import com.amm.gps.GpsConvert;
 import com.amm.service.GpsRecordService;
 import com.amm.service.RefMachTerminalService;

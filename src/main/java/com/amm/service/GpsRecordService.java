@@ -15,10 +15,13 @@ public interface GpsRecordService {
     List<GpsRecordEntity> findByRefMachTerminalID(Integer id);
 
     GpsRecordEntity create(GpsRecordEntity gpsRecordEntity);
+    GpsRecordEntity findOne(Integer id);
 
     List<GpsRecordEntity> findGpsRecordByTimeScope(Date startTime, Date endTime);
 
     List<GpsRecordEntity> findByRefMachTerminalIDAndTimeScope(Integer id, Date startTime, Date endTime);
 
-    List<GpsRecordEntity> findByLatFixedIsNull();
+    List<GpsRecordEntity> findByLatFixedIsNullOrderbyGpsTimeAsc();
+
+    GpsRecordEntity updateGpsRecord(GpsRecordEntity gpsRecord);
 }

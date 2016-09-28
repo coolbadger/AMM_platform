@@ -65,6 +65,11 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         return created;
     }
 
+    public GpsRecordEntity findOne(Integer id) {
+        Validate.notNull(id, "The id must not be null, find failure.");
+        return gpsRecordRepository.findOne(id);
+    }
+
     public List<GpsRecordEntity> findGpsRecordByTimeScope(Date startTime, Date endTime) {
 
         Validate.notNull(startTime, "The startTime must not be null, find failure.");
@@ -84,7 +89,22 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         return gpsRecordRepository.findByRefMachTerminalIdAndGpsTimeBetween(id, startTime, endTime);
     }
 
-    public List<GpsRecordEntity> findByLatFixedIsNull() {
-        return gpsRecordRepository.findByLatFixedIsNull();
+    public List<GpsRecordEntity> findByLatFixedIsNullOrderbyGpsTimeAsc() {
+        return gpsRecordRepository.findByLatFixedIsNullOrderbyGpsTimeAsc();
+    }
+
+    public GpsRecordEntity updateGpsRecord(GpsRecordEntity gpsRecord) {
+
+        Validate.notNull(gpsRecord.getId(), "The id must not be null, find failure.");
+
+        GpsRecordEntity saved = gpsRecordRepository.findOne(gpsRecord.getId());
+
+        //仅改变修正后的经纬度,其他不做变动
+        saved.setLngFixed(gpsRecord.getLngFixed());
+        saved.setLatFixed(gpsRecord.getLatFixed());
+
+        saved = gpsRecordRepository.save(saved);
+
+        return null;
     }
 }
