@@ -23,6 +23,8 @@ public class GpsRecordEntity {
     private Date localTime;
     private BigDecimal lng;
     private BigDecimal lat;
+    private BigDecimal lngFixed;
+    private BigDecimal latFixed;
     private BigDecimal alt;
     private BigDecimal accuracy;
     private BigDecimal speed;
@@ -75,8 +77,8 @@ public class GpsRecordEntity {
 
     @Basic
     @Column(name = "gps_time")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getGpsTime() {
         return gpsTime;
     }
@@ -87,8 +89,8 @@ public class GpsRecordEntity {
 
     @Basic
     @Column(name = "local_time")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getLocalTime() {
         return localTime;
     }
@@ -115,6 +117,27 @@ public class GpsRecordEntity {
 
     public void setLat(BigDecimal lat) {
         this.lat = lat;
+    }
+
+
+    @Basic
+    @Column(name = "lng_fixed")
+    public BigDecimal getLngFixed() {
+        return lngFixed;
+    }
+
+    public void setLngFixed(BigDecimal lngFixed) {
+        this.lngFixed = lngFixed;
+    }
+
+    @Basic
+    @Column(name = "lat_fixed")
+    public BigDecimal getLatFixed() {
+        return latFixed;
+    }
+
+    public void setLatFixed(BigDecimal latFixed) {
+        this.latFixed = latFixed;
     }
 
     @Basic
@@ -212,6 +235,8 @@ public class GpsRecordEntity {
         if (localTime != null ? !localTime.equals(that.localTime) : that.localTime != null) return false;
         if (lng != null ? !lng.equals(that.lng) : that.lng != null) return false;
         if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
+        if (lngFixed != null ? !lngFixed.equals(that.lngFixed) : that.lngFixed != null) return false;
+        if (latFixed != null ? !latFixed.equals(that.latFixed) : that.latFixed != null) return false;
         if (alt != null ? !alt.equals(that.alt) : that.alt != null) return false;
         if (accuracy != null ? !accuracy.equals(that.accuracy) : that.accuracy != null) return false;
         if (speed != null ? !speed.equals(that.speed) : that.speed != null) return false;
@@ -233,6 +258,8 @@ public class GpsRecordEntity {
         result = 31 * result + (localTime != null ? localTime.hashCode() : 0);
         result = 31 * result + (lng != null ? lng.hashCode() : 0);
         result = 31 * result + (lat != null ? lat.hashCode() : 0);
+        result = 31 * result + (lngFixed != null ? lngFixed.hashCode() : 0);
+        result = 31 * result + (latFixed != null ? latFixed.hashCode() : 0);
         result = 31 * result + (alt != null ? alt.hashCode() : 0);
         result = 31 * result + (accuracy != null ? accuracy.hashCode() : 0);
         result = 31 * result + (speed != null ? speed.hashCode() : 0);
