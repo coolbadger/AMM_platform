@@ -162,11 +162,6 @@ public class AMMIOHandler extends IoHandlerAdapter {
                         gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
                     }
 
-                    if(gpsRecordSave.getLng()!=null && gpsRecordSave.getLat()!=null){
-                        Double[] fixedGps = WebRequest.getGpsFixed(gpsRecordSave.getLng().doubleValue(),gpsRecordSave.getLat().doubleValue());
-                        gpsRecordSave.setLngFixed(new BigDecimal(fixedGps[0]));
-                        gpsRecordSave.setLatFixed(new BigDecimal(fixedGps[1]));
-                    }
 
 
                     if(parseResult[5]!=null&&parseResult[5].length()>0){
@@ -188,6 +183,11 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     if(gpsRecordEntity!=null){
                         //位置信息记录成功
                         locreqSucess = true;
+                        // TODO: 2016/9/28 监听gps坐标保存,在新线程查询api并保存修正坐标//                if (gpsRecordSave.getLng() != null && gpsRecordSave.getLat() != null) {
+//                    Double[] fixedGps = WebRequest.getGpsFixed(gpsRecordSave.getLng().doubleValue(), gpsRecordSave.getLat().doubleValue());
+//                    gpsRecordSave.setLngFixed(new BigDecimal(fixedGps[0]));
+//                    gpsRecordSave.setLatFixed(new BigDecimal(fixedGps[1]));
+//                }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
