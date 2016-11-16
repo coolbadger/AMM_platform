@@ -90,7 +90,7 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
     }
 
     public List<GpsRecordEntity> findByLatFixedIsNullOrderbyGpsTimeAsc() {
-        return gpsRecordRepository.findByLatFixedIsNullOrderbyGpsTimeAsc();
+        return gpsRecordRepository.findByLatFixedOrderByGpsTimeAsc(null);
     }
 
     public GpsRecordEntity updateGpsRecord(GpsRecordEntity gpsRecord) {

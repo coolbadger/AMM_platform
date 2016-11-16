@@ -41,7 +41,6 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
     @Autowired
     private RefMachTerminalRepository refMachTerminalRepository;
 
-    @Override
     @Transactional
     public MachTerminalEntity create(MachTerminalEntity machTerminalEntity) {
 
@@ -75,7 +74,6 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
         return created;
     }
 
-    @Override
     public List<MachTerminal> findAll(Boolean isBind) {
 
         List<MachineEntity> machineEntityList = (List<MachineEntity>) machineRepository.findAll();
@@ -118,7 +116,6 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
         return machTerminalList;
     }
 
-    @Override
     public MachTerminalEntity findByMachId(Integer machId) {
 
         Validate.notNull(machId, "The machId must not be null, find failure.");
@@ -126,7 +123,6 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
         return machTerminalRepository.findByMachId(machId);
     }
 
-    @Override
     @Transactional
     public MachTerminalEntity updateToUnBind(Integer id, MachTerminalEntity machTerminalEntity) {
 

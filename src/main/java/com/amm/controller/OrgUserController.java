@@ -44,13 +44,16 @@ public class OrgUserController extends BaseController{
                              @RequestParam(value = "username", required = false) String username) {
         Validate.notNull(username, "The username must not be null.");
         Validate.notNull(password, "The password must not be null.");
+        logger.info(String.format("Receive login information by userName[%s], password[%s].", username, password));
 
         ResultModel resultModel = null;
         OrgUserEntity orgUser = orgUserService.findOrgUser(username, password);
         if(orgUser != null) {
+            logger.info(String.format("Login success."));
             resultModel = new ResultModel(ExceptionCode.LOGIN_SUCCESS);
         } else {
             resultModel = new ResultModel(ExceptionCode.LOGIN_FAILURE);
+            logger.info(String.format("Login failure."));
         }
 
         return resultModel;
@@ -63,8 +66,10 @@ public class OrgUserController extends BaseController{
         Validate.notNull(orgUserEntity, "The orgUser must not be null, create failure.");
         Validate.notNull(orgUserEntity.getUserName(), "The userName of orgUser must not be null, create failure.");
         Validate.notNull(orgUserEntity.getPassword(), "The password of orgUser must not be null, create failure.");
+        logger.info(String.format("Receive orgUser with userName[%s] , password[%s].", orgUserEntity.getUserName(), orgUserEntity.getPassword()));
 
         if(!orgUserService.isValidUserName(orgUserEntity.getUserName())) {
+            logger.error(String.format("The userName is existing in database, it's invalid."));
             throw new InvalidOperatorException("用户名无效，数据库中已存在！");
         }
 

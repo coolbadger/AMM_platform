@@ -22,6 +22,6 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
 
     List<GpsRecordEntity> findByRefMachTerminalId(Integer id);
 
-    List<GpsRecordEntity> findByLatFixedIsNullOrderbyGpsTimeAsc();
+    List<GpsRecordEntity> findByLatFixedOrderByGpsTimeAsc(String str);
 
 }

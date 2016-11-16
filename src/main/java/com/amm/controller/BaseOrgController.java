@@ -33,13 +33,13 @@ public class BaseOrgController extends BaseController{
         Validate.notNull(baseOrgEntity.getOrgCode(), "The orgCode must not be null, create failure.");
         Validate.notNull(baseOrgEntity.getOrgName(), "The orgName must not be null, create failure.");
         Validate.notNull(baseOrgEntity.getOrgContact(), "The orgContact must not be null, create failure.");
-
-        baseOrgEntity.setCreateTime(new Date());
+        logger.info(String.format("Receive baseOrgEntity with orgCode[%s] , orgName[%s] and orgContact[%s].", baseOrgEntity.getOrgCode(), baseOrgEntity.getOrgName(), baseOrgEntity.getOrgContact()));
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = userDetails.getUsername();
         String password = userDetails.getPassword();
         baseOrgEntity.setCreator(userName);
+        baseOrgEntity.setCreateTime(new Date());
 
         baseOrgEntity = baseOrgService.createOrg(baseOrgEntity);
 
@@ -48,6 +48,8 @@ public class BaseOrgController extends BaseController{
 
     @RequestMapping(method = RequestMethod.GET)
     public List<BaseOrgEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
+
+        logger.info(String.format("Receive find all baseOrg (by active is true)."));
 
         List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findAllBaseOrgByActive(active);
 
@@ -61,6 +63,7 @@ public class BaseOrgController extends BaseController{
 
         Validate.notNull(id, "The id of baseOrg must not be null, update failure.");
         Validate.notNull(baseOrg, "The baseOrg object must not be null, update failure.");
+        logger.info(String.format("Receive update baseOrg by id[%d] , and information is[%s]", id, baseOrg));
 
         baseOrg.setId(id);
 
@@ -73,6 +76,7 @@ public class BaseOrgController extends BaseController{
     public BaseOrgEntity findOne(@PathVariable Integer id) {
 
         Validate.notNull(id, "The id must not be null, find failure.");
+        logger.info(String.format("Receive find baseOrg by id[%d]", id));
 
         return baseOrgService.findOne(id);
     }
@@ -82,6 +86,7 @@ public class BaseOrgController extends BaseController{
     public BaseOrgEntity deleteOne(@PathVariable Integer id) {
 
         Validate.notNull(id, "The id must not be null, delete failure.");
+        logger.info(String.format("Receive delete baseOrg by id[%d]", id));
 
         return baseOrgService.deleteBaseOrg(id);
     }
