@@ -1,13 +1,11 @@
 package com.amm.controller;
 
-import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.entity.WorkerEntity;
 import com.amm.exception.InvalidOperatorException;
 import com.amm.service.BaseOrgService;
 import com.amm.service.OrgUserService;
 import com.amm.service.WorkerService;
-import com.amm.service.impl.BaseService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

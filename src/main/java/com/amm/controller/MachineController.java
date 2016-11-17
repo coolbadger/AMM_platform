@@ -1,7 +1,5 @@
 package com.amm.controller;
 
-import com.amm.entity.BaseOrgEntity;
-import com.amm.entity.MachineEntity;
 import com.amm.entity.MachineEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.service.BaseOrgService;

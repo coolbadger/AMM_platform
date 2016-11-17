@@ -1,16 +1,16 @@
 package com.amm.gps;
 
 import com.amm.entity.GpsRecordEntity;
-import com.amm.entity.client.GpsRecord;
 import com.amm.service.GpsRecordService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by Badger on 16/9/18.

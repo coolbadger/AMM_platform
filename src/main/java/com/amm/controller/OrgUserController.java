@@ -1,7 +1,6 @@
 package com.amm.controller;
 
 import com.amm.constant.ExceptionCode;
-import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.exception.InvalidOperatorException;
 import com.amm.model.ResultModel;
@@ -14,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 

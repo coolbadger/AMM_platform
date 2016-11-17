@@ -1,11 +1,9 @@
 package com.amm.controller;
 
-import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.entity.TerminalEntity;
 import com.amm.exception.InvalidOperatorException;
 import com.amm.service.BaseOrgService;
-import com.amm.service.MachineService;
 import com.amm.service.OrgUserService;
 import com.amm.service.TerminalService;
 import org.apache.commons.lang3.Validate;

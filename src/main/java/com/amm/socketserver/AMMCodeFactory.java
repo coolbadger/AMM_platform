@@ -4,11 +4,6 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
-import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
-import org.apache.mina.filter.codec.textline.TextLineDecoder;
-import org.apache.mina.filter.codec.textline.TextLineEncoder;
-
-import java.nio.charset.Charset;
 
 /**
  * Created by liuminhang on 16/7/16.

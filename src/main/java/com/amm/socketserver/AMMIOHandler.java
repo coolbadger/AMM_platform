@@ -2,24 +2,17 @@ package com.amm.socketserver;
 
 import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.WorkerEntity;
-import com.amm.entity.client.GpsRecord;
 import com.amm.entity.client.GpsRecordSave;
-import com.amm.gps.GpsConvert;
 import com.amm.gps.WebRequest;
 import com.amm.service.AMMClientPacketService;
-import com.amm.service.GpsRecordService;
-import com.amm.service.WorkerService;
 import com.amm.socketserver.packetentity.AMMPacket;
-import org.apache.commons.lang3.Validate;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,7 +1,6 @@
 package com.amm.controller;
 
 import com.amm.entity.BaseOrgEntity;
-import com.amm.entity.OrgUserEntity;
 import com.amm.service.BaseOrgService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;

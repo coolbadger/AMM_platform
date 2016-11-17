@@ -2,7 +2,6 @@ package com.amm.service.impl;
 
 import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.MachTerminalEntity;
-import com.amm.entity.RefMachTerminalEntity;
 import com.amm.repository.GpsRecordRepository;
 import com.amm.repository.RefMachTerminalRepository;
 import com.amm.service.GpsRecordService;

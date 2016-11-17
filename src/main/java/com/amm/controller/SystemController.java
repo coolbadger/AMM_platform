@@ -1,7 +1,6 @@
 package com.amm.controller;
 
 import com.amm.constant.ExceptionCode;
-import com.amm.entity.OrgUserEntity;
 import com.amm.model.ResultModel;
 import org.apache.commons.lang3.Validate;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,7 +1,6 @@
 package com.amm.security;
 
 import com.amm.entity.OrgUserEntity;
-import com.amm.entity.SystemUserEntity;
 import com.amm.service.OrgUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

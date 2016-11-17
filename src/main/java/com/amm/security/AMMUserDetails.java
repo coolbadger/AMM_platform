@@ -2,11 +2,8 @@ package com.amm.security;
 
 import com.amm.entity.OrgUserEntity;
 import com.amm.entity.SystemUserEntity;
-import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.HashSet;
