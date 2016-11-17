@@ -19,8 +19,8 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("api/users")
-public class testController extends BaseController{
+@RequestMapping("api/MaintainRecor")
+public class MaintainRecordController extends BaseController{
     @Autowired
     private MachineService machineService;
 
