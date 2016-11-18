@@ -46,7 +46,7 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
         List<Maintainrecord> tempList=new ArrayList<Maintainrecord>();
         List<MachineEntity> listMachineEntity=(List<MachineEntity>)machineRepository.findAll();
         for(int i=0;i<listMachineEntity.size();i++){
-           MaintainRecordEntity  maintainRecordEntity=maintainRecordRepository.findByMachId(listMachineEntity.get(i).getId());
+           MaintainRecordEntity  maintainRecordEntity=maintainRecordRepository.findOne(listMachineEntity.get(i).getId());
             Maintainrecord maintainrecord=new Maintainrecord();
             if(listMachineEntity.size()>0&&maintainRecordEntity!=null&&!maintainRecordEntity.equals("")) {
                 maintainrecord.setId(listMachineEntity.get(i).getId());
