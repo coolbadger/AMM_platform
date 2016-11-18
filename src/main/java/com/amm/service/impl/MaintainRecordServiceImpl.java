@@ -54,7 +54,7 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
                 maintainrecord.setMachName(listMachineEntity.get(i).getMachName());
                 maintainrecord.setMaintainInfo(maintainRecordEntity.getMaintainInfo());
                 maintainrecord.setWorkingType(listMachineEntity.get(i).getWorkingType());
-                tempList.add(maintainrecord);
+                tempList.add(maintainrecord); 
             }
         }
         return tempList;
