@@ -2,9 +2,11 @@ package com.amm.controller;
 
 import com.amm.entity.MachineEntity;
 import com.amm.entity.MaintainRecordEntity;
+import com.amm.entity.client.Maintainrecord;
 import com.amm.service.MachineService;
 import com.amm.service.MaintainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -27,8 +29,8 @@ public class MaintainRecordController extends BaseController{
 
     /*查询所有维护农机信息*/
     @RequestMapping(method = RequestMethod.GET)
-    public List<MaintainRecordEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
-        List<MaintainRecordEntity> findalls=maintainRecordService.findAll(active);
+    public List<Maintainrecord> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
+        List<Maintainrecord> findalls=maintainRecordService.findAll(active);
         return findalls;
     }
 
@@ -38,7 +40,11 @@ public class MaintainRecordController extends BaseController{
         return  maintainRecordService.findById(id);
     }
 
-
-
+    /*删除*/
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable Integer id){
+        maintainRecordService.delete(id);
+    }
 
 }

@@ -2,6 +2,7 @@ package com.amm.service.impl;
 
 import com.amm.entity.MachineEntity;
 import com.amm.entity.MaintainRecordEntity;
+import com.amm.entity.client.Maintainrecord;
 import com.amm.repository.MachTerminalRepository;
 import com.amm.repository.MachineRepository;
 import com.amm.repository.RefMachTerminalRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,21 +42,33 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
         return null;
     }
 
-    public List<MaintainRecordEntity> findAll(Boolean isBind) {
-        List<MaintainRecordEntity>  ListMaintainRecordEntity=(List<MaintainRecordEntity>) maintainRecordRepository.findAll();
-        return ListMaintainRecordEntity;
+    public List<Maintainrecord> findAll(Boolean isBind) {
+        List<Maintainrecord> tempList=new ArrayList<Maintainrecord>();
+        List<MachineEntity> listMachineEntity=(List<MachineEntity>)machineRepository.findAll();
+        for(int i=0;i<listMachineEntity.size();i++){
+           MaintainRecordEntity  maintainRecordEntity=maintainRecordRepository.findByMachId(listMachineEntity.get(i).getId());
+            Maintainrecord maintainrecord=new Maintainrecord();
+            if(listMachineEntity.size()>0&&maintainRecordEntity!=null&&!maintainRecordEntity.equals("")) {
+                maintainrecord.setId(listMachineEntity.get(i).getId());
+                maintainrecord.setMachCode(listMachineEntity.get(i).getMachCode());
+                maintainrecord.setMachName(listMachineEntity.get(i).getMachName());
+                maintainrecord.setMaintainInfo(maintainRecordEntity.getMaintainInfo());
+                maintainrecord.setWorkingType(listMachineEntity.get(i).getWorkingType());
+                tempList.add(maintainrecord);
+            }
+        }
+        return tempList;
     }
+
 
     public MaintainRecordEntity findById(Integer id) {
-        return maintainRecordRepository.findById(id);
+        return maintainRecordRepository.findByMachId(id);
+    }
+
+    public void delete(Integer id) {
+        maintainRecordRepository.delete(id);
     }
 
 
-    public MaintainRecordEntity updateToUnBind(Integer id, MaintainRecordEntity machTerminalEntity) {
-        return null;
-    }
 
-    public MaintainRecordEntity findByTerminalCode(String terminalCode) {
-        return null;
-    }
 }

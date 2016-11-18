@@ -1,5 +1,7 @@
 package com.amm.service;
 import com.amm.entity.MaintainRecordEntity;
+import com.amm.entity.client.Maintainrecord;
+
 import java.util.List;
 
 /**
@@ -8,10 +10,12 @@ import java.util.List;
 public interface MaintainRecordService {
     MaintainRecordEntity create(MaintainRecordEntity machTerminalEntity);
 
-    List<MaintainRecordEntity> findAll(Boolean isBind);
+    List<Maintainrecord> findAll(Boolean isBind);
 
     MaintainRecordEntity findById(Integer id);
 
-    MaintainRecordEntity findByTerminalCode(String terminalCode);
+    void delete(Integer id);
+
+
 
 }

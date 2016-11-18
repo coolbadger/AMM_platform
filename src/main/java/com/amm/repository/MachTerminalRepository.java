@@ -11,4 +11,6 @@ public interface MachTerminalRepository extends PagingAndSortingRepository<MachT
     MachTerminalEntity findByMachId(Integer id);
 
     MachTerminalEntity findByTerminalId(Integer id);
+
+
 }
