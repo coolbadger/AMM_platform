@@ -10,9 +10,7 @@ public interface MaintainRecordService {
 
     List<MaintainRecordEntity> findAll(Boolean isBind);
 
-    MaintainRecordEntity findByMachId(Integer machId);
-
-    MaintainRecordEntity updateToUnBind(Integer id, MaintainRecordEntity machTerminalEntity);
+    MaintainRecordEntity findById(Integer id);
 
     MaintainRecordEntity findByTerminalCode(String terminalCode);
 

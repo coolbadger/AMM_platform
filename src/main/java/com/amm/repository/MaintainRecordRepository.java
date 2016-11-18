@@ -13,5 +13,6 @@ public interface MaintainRecordRepository extends PagingAndSortingRepository<Mai
 
     List<MaintainRecordEntity> findAllBymachId(Boolean active);
 
+    MaintainRecordEntity findById(Integer id);
 
 }

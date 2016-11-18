@@ -1,13 +1,11 @@
 package com.amm.controller;
 
 import com.amm.entity.MachineEntity;
+import com.amm.entity.MaintainRecordEntity;
 import com.amm.service.MachineService;
 import com.amm.service.MaintainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,16 +25,20 @@ public class MaintainRecordController extends BaseController{
     @Autowired
     private MaintainRecordService maintainRecordService;
 
-
+    /*查询所有维护农机信息*/
     @RequestMapping(method = RequestMethod.GET)
-    public List<MachineEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
-
-        List a=maintainRecordService.findAll(active);
-
-       // List<MachineEntity> machineEntityList = machineService.findAllByActive(active);
-
-        return a;
+    public List<MaintainRecordEntity> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
+        List<MaintainRecordEntity> findalls=maintainRecordService.findAll(active);
+        return findalls;
     }
+
+    /*查询单个*/
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public MaintainRecordEntity findOne(@PathVariable Integer id){
+        return  maintainRecordService.findById(id);
+    }
+
+
 
 
 }

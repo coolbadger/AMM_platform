@@ -40,14 +40,15 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
         return null;
     }
 
-    public List findAll(Boolean isBind) {
+    public List<MaintainRecordEntity> findAll(Boolean isBind) {
         List<MaintainRecordEntity>  ListMaintainRecordEntity=(List<MaintainRecordEntity>) maintainRecordRepository.findAll();
         return ListMaintainRecordEntity;
     }
 
-    public MaintainRecordEntity findByMachId(Integer machId) {
-        return null;
+    public MaintainRecordEntity findById(Integer id) {
+        return maintainRecordRepository.findById(id);
     }
+
 
     public MaintainRecordEntity updateToUnBind(Integer id, MaintainRecordEntity machTerminalEntity) {
         return null;
