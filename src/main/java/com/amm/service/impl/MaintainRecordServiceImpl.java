@@ -44,6 +44,7 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
 
     public List<Maintainrecord> findAll(Boolean isBind) {
         List<Maintainrecord> tempList=new ArrayList<Maintainrecord>();
+
         List<MachineEntity> listMachineEntity=(List<MachineEntity>)machineRepository.findAll();
         for(int i=0;i<listMachineEntity.size();i++){
            MaintainRecordEntity  maintainRecordEntity=maintainRecordRepository.findOne(listMachineEntity.get(i).getId());
