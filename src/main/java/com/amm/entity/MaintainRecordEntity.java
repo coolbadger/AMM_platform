@@ -65,4 +65,14 @@ public class MaintainRecordEntity {
         result = 31 * result + (maintainInfo != null ? maintainInfo.hashCode() : 0);
         return result;
     }
+
+    public MaintainRecordEntity changeUpdateInfoToSave(MaintainRecordEntity updated){
+        System.out.println("asdfghjklasdfghjklasdfghjklasdfghjkl"+updated.getMaintainInfo());
+        if(updated!=null){
+            updated.setMaintainInfo(this.maintainInfo);
+        }
+        return  updated;
+    }
+
+
 }

@@ -16,6 +16,8 @@ public interface MaintainRecordService {
 
     void delete(Integer id);
 
+    MaintainRecordEntity update(MaintainRecordEntity maintainRecord);
+
 
 
 }

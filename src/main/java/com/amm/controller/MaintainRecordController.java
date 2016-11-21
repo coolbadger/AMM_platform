@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -45,6 +46,19 @@ public class MaintainRecordController extends BaseController{
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable Integer id){
         maintainRecordService.delete(id);
+    }
+
+
+    /*修改*/
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.RESET_CONTENT)
+    public MaintainRecordEntity update(@PathVariable Integer id,@RequestBody MaintainRecordEntity MaintainRecord) throws UnsupportedEncodingException {
+        String maintainInfo=MaintainRecord.getMaintainInfo();
+        String stTitlePost = new String(maintainInfo.getBytes("ISO-8859-1"),"UTF-8");
+        System.out.println(MaintainRecord.getMaintainInfo()+"id="+id+"MaintainRecord="+MaintainRecord);
+        MaintainRecord.setId(id);
+        MaintainRecordEntity maintainRecordEntity=maintainRecordService.update(MaintainRecord);
+        return  maintainRecordEntity;
     }
 
 }

@@ -3,6 +3,7 @@ package com.amm.service.impl;
 import com.amm.entity.MachineEntity;
 import com.amm.entity.MaintainRecordEntity;
 import com.amm.entity.client.Maintainrecord;
+import com.amm.exception.ObjectNotFoundException;
 import com.amm.repository.MachTerminalRepository;
 import com.amm.repository.MachineRepository;
 import com.amm.repository.RefMachTerminalRepository;
@@ -12,6 +13,7 @@ import com.amm.service.MaintainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,17 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
         maintainRecordRepository.delete(id);
     }
 
+    @Transactional
+    public MaintainRecordEntity update(MaintainRecordEntity maintainRecord) {
+
+        MaintainRecordEntity saved= maintainRecordRepository.findById(maintainRecord.getId());
+        if(saved == null) {
+            throw new ObjectNotFoundException("用户不存在");
+        }
+        saved=maintainRecord.changeUpdateInfoToSave(saved);
+        saved=maintainRecordRepository.save(saved);
+        return saved;
+    }
 
 
 }
