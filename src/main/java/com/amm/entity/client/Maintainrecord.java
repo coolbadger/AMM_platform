@@ -11,7 +11,15 @@ public class Maintainrecord {
     private Integer id;
     private String terminalCode;
     private String maintainInfo;
+    private Integer machId;
 
+    public Integer getMachId() {
+        return machId;
+    }
+
+    public void setMachId(Integer machId) {
+        this.machId = machId;
+    }
 
     public String getMaintainInfo() {
         return maintainInfo;

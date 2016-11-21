@@ -48,17 +48,21 @@ public class MaintainRecordController extends BaseController{
         maintainRecordService.delete(id);
     }
 
-
     /*修改*/
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.RESET_CONTENT)
-    public MaintainRecordEntity update(@PathVariable Integer id,@RequestBody MaintainRecordEntity MaintainRecord) throws UnsupportedEncodingException {
-        String maintainInfo=MaintainRecord.getMaintainInfo();
-        String stTitlePost = new String(maintainInfo.getBytes("ISO-8859-1"),"UTF-8");
-        System.out.println(MaintainRecord.getMaintainInfo()+"id="+id+"MaintainRecord="+MaintainRecord);
-        MaintainRecord.setId(id);
-        MaintainRecordEntity maintainRecordEntity=maintainRecordService.update(MaintainRecord);
+    public MaintainRecordEntity update(@PathVariable Integer id,@RequestBody Maintainrecord maintainrecord) throws UnsupportedEncodingException {
+        System.out.println(maintainrecord.getMaintainInfo()+"id="+id+"MaintainRecord="+maintainrecord);
+        maintainrecord.setId(id);
+        MaintainRecordEntity maintainRecord=new MaintainRecordEntity();
+        maintainRecord.setMaintainInfo(maintainrecord.getMaintainInfo());
+        maintainRecord.setId(maintainrecord.getId());
+        MaintainRecordEntity maintainRecordEntity=maintainRecordService.update(maintainRecord);
         return  maintainRecordEntity;
     }
+
+
+
+
 
 }

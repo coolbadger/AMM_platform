@@ -46,7 +46,6 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
 
     public List<Maintainrecord> findAll(Boolean isBind) {
         List<Maintainrecord> tempList=new ArrayList<Maintainrecord>();
-
         List<MachineEntity> listMachineEntity=(List<MachineEntity>)machineRepository.findAll();
         for(int i=0;i<listMachineEntity.size();i++){
            MaintainRecordEntity  maintainRecordEntity=maintainRecordRepository.findOne(listMachineEntity.get(i).getId());
@@ -57,6 +56,7 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
                 maintainrecord.setMachName(listMachineEntity.get(i).getMachName());
                 maintainrecord.setMaintainInfo(maintainRecordEntity.getMaintainInfo());
                 maintainrecord.setWorkingType(listMachineEntity.get(i).getWorkingType());
+                maintainrecord.setMachId(maintainRecordEntity.getMachId());
                 tempList.add(maintainrecord);
             }
         }
@@ -83,6 +83,4 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
         saved=maintainRecordRepository.save(saved);
         return saved;
     }
-
-
 }
