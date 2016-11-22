@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("api/MaintainRecor")
+@RequestMapping("api/MaintainRecord")
 public class MaintainRecordController extends BaseController{
     @Autowired
     private MachineService machineService;
@@ -38,6 +38,7 @@ public class MaintainRecordController extends BaseController{
     /*查询单个*/
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public MaintainRecordEntity findOne(@PathVariable Integer id){
+        System.out.println("查询方法");
         return  maintainRecordService.findById(id);
     }
 
@@ -51,7 +52,7 @@ public class MaintainRecordController extends BaseController{
     /*修改*/
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.RESET_CONTENT)
-    public MaintainRecordEntity update(@PathVariable Integer id,@RequestBody Maintainrecord maintainrecord) throws UnsupportedEncodingException {
+    public MaintainRecordEntity update(@PathVariable Integer id,@RequestBody Maintainrecord maintainrecord){
         System.out.println(maintainrecord.getMaintainInfo()+"id="+id+"MaintainRecord="+maintainrecord);
         maintainrecord.setId(id);
         MaintainRecordEntity maintainRecord=new MaintainRecordEntity();

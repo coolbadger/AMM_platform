@@ -11,7 +11,10 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created by csw on 2016/8/2 11:12.
@@ -80,13 +83,15 @@ public class GpsRecordController extends BaseController{
     @RequestMapping(value = "/refMachTerminal/{id}", method = RequestMethod.GET)
     public List<GpsRecordEntity> findByRefMachTerminalID(@PathVariable Integer id,
                                                          @RequestParam(required = true) String startTime,
-                                                         @RequestParam(required = true) String endTime) {
+                                                         @RequestParam(required = true) String endTime) throws ParseException {
 
         Validate.notNull(id, "The id must not be null, find failure.");
         Validate.notNull(startTime, "The startTime must not be null, find failure.");
         Validate.notNull(endTime, "The endTime must not be null, find failure.");
-
-        Date startTimeDate = DateUtil.parseDate(startTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date startTimeDate=sdf.parse(startTime);
+        //Date startTimeDate = DateUtil.parseDate(startTime);
+        System.out.println("startTimeDate="+startTimeDate);
         Date endTimeDate = DateUtil.parseDate(endTime);
 
         return gpsRecordService.findByRefMachTerminalIDAndTimeScope(id, startTimeDate, endTimeDate);
