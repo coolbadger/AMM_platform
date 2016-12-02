@@ -3,6 +3,8 @@ package com.amm.controller;
 import com.amm.entity.MachineEntity;
 import com.amm.entity.MaintainRecordEntity;
 import com.amm.entity.client.Maintainrecord;
+import com.amm.exception.ObjectNotFoundException;
+import com.amm.service.MachTerminalService;
 import com.amm.service.MachineService;
 import com.amm.service.MaintainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,10 @@ import java.util.List;
 @RestController
 @RequestMapping("api/MaintainRecord")
 public class MaintainRecordController extends BaseController{
+
+
     @Autowired
-    private MachineService machineService;
+    private MachTerminalService machTerminalService;
 
     @Autowired
     private MaintainRecordService maintainRecordService;
@@ -46,6 +50,7 @@ public class MaintainRecordController extends BaseController{
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable Integer id){
+
         maintainRecordService.delete(id);
     }
 
@@ -63,7 +68,19 @@ public class MaintainRecordController extends BaseController{
     }
 
 
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public MaintainRecordEntity create(@RequestBody(required = true) MaintainRecordEntity maintainRecordEntity) {
+        MaintainRecordEntity m=new MaintainRecordEntity();
+        Integer machId=maintainRecordEntity.getMachId();
+       /* if(machTerminalService.findByMachId(machId)==null&&machTerminalService.findByMachId(machId).equals("")){
+            throw new ObjectNotFoundException("不存在此machId");
+        }else{*/
+            m.setMaintainInfo(maintainRecordEntity.getMaintainInfo());
+            m.setMachId(2);
+       /* }*/
+        MaintainRecordEntity created=maintainRecordService.create(m);
 
-
-
+        return created;
+    }
 }

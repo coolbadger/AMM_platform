@@ -33,9 +33,51 @@ public class GpsRecordController extends BaseController{
     @Autowired
     private RefMachTerminalService refMachTerminalService;
 
+    /**
+     * 拆分集合
+     * @param <T>
+     * @param resList  要拆分的集合
+     * @param count	每个集合的元素个数
+     * @return  返回拆分后的各个集合
+     */
+    public static  <T> List<List<T>> split(List<T> resList,int count){
+
+        if(resList==null ||count<1)
+            return  null ;
+        List<List<T>> ret=new ArrayList<List<T>>();
+        int size=resList.size();
+        if(size<=count){ //数据量不足count指定的大小
+            ret.add(resList);
+        }else{
+            int pre=size/count;
+            int last=size%count;
+            //前面pre个集合，每个大小都是count个元素
+            for(int i=0;i<pre;i++){
+                List<T> itemList=new ArrayList<T>();
+                for(int j=0;j<count;j++){
+                    itemList.add(resList.get(i*count+j));
+                }
+                ret.add(itemList);
+            }
+            //last的进行处理
+            if(last>0){
+                List<T> itemList=new ArrayList<T>();
+                for(int i=0;i<last;i++){
+                    itemList.add(resList.get(pre*count+i));
+                }
+                ret.add(itemList);
+            }
+        }
+        return ret;
+
+    }
+
+
+
+
     @RequestMapping(method = RequestMethod.GET)
     public List<GpsRecordMachine> findAllByTimeScope(@RequestParam(required = true) String startTime,
-                                   @RequestParam(required = true) String endTime, @RequestParam(required = false) String machCode){
+                                   @RequestParam(required = true ) String endTime, @RequestParam(required = false) String machCode){
 
         Validate.notNull(startTime, "The startTime must not be null, find failure.");
         Validate.notNull(endTime, "The endTime must not be null, find failure.");
@@ -76,7 +118,9 @@ public class GpsRecordController extends BaseController{
 
         }
 
-        return gpsRecordMachineList;
+        //List ret=split(gpsRecordEntityList,1000);
+
+        return gpsRecordMachineList;//gpsRecordMachineList
     }
 
 
@@ -92,9 +136,13 @@ public class GpsRecordController extends BaseController{
         Date startTimeDate=sdf.parse(startTime);
         //Date startTimeDate = DateUtil.parseDate(startTime);
         System.out.println("startTimeDate="+startTimeDate);
-        Date endTimeDate = DateUtil.parseDate(endTime);
+        Date endTimeDate=sdf.parse(endTime);
+        //Date endTimeDate = DateUtil.parseDate(endTime);
+        List<GpsRecordEntity> listGpsRecordEntity= gpsRecordService.findByRefMachTerminalIDAndTimeScope(id, startTimeDate, endTimeDate);
 
-        return gpsRecordService.findByRefMachTerminalIDAndTimeScope(id, startTimeDate, endTimeDate);
+        //listGpsRecordEntity.subList(0,1000);
+
+        return listGpsRecordEntity;
     }
     @RequestMapping(value = "/convert",method = RequestMethod.GET)
     public String convertGpsRecord(){
@@ -117,7 +165,8 @@ public class GpsRecordController extends BaseController{
     //按refMachTerminalId将gps记录分组
     private Map<Integer, List<GpsRecordEntity>> getGpsMap(List<GpsRecordEntity> gpsRecordEntityList) {
         Map<Integer, List<GpsRecordEntity>> resultMap = new HashMap<Integer, List<GpsRecordEntity>>();
-
+        /*Map<Integer, List<GpsRecordEntity>> temp = new HashMap<Integer, List<GpsRecordEntity>>();
+        List<GpsRecordEntity> tempList=new ArrayList<GpsRecordEntity>();*/
         for(GpsRecordEntity gpsRecordEntity : gpsRecordEntityList) {
             if(resultMap.get(gpsRecordEntity.getRefMachTerminalId()) != null) {
                 resultMap.get(gpsRecordEntity.getRefMachTerminalId()).add(gpsRecordEntity);
@@ -130,7 +179,22 @@ public class GpsRecordController extends BaseController{
         //对Map中的list按gps时间排序
         for(List<GpsRecordEntity> recordEntityList : resultMap.values()) {
             this.sortByTime(recordEntityList);
+
         }
+      /*  Iterator<Map.Entry<Integer, List<GpsRecordEntity>>> ite = resultMap.entrySet().iterator();
+        while (ite.hasNext()) {
+            Map.Entry<Integer,List<GpsRecordEntity>> res= ite.next();
+            Integer key=res.getKey();
+            System.out.println(key);
+            List<GpsRecordEntity> val=res.getValue();
+            if(null!=val){
+                for (int i=10;i<val.size();i++){
+                    tempList.add(val.get(i));
+                }
+            }
+        }*/
+        //temp.put(15,tempList);
+
 
         return resultMap;
     }

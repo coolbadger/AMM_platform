@@ -30,37 +30,34 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
     @Autowired
     private MachineRepository machineRepository;
 
-    @Autowired
-    private MachTerminalRepository machTerminalRepository;
 
-    @Autowired
-    private TerminalRepository terminalRepository;
-
-    @Autowired
-    private RefMachTerminalRepository refMachTerminalRepository;
 
 
     public MaintainRecordEntity create(MaintainRecordEntity machTerminalEntity) {
-        return null;
+        return maintainRecordRepository.save(machTerminalEntity);
     }
+
+
 
     public List<Maintainrecord> findAll(Boolean isBind) {
         List<Maintainrecord> tempList=new ArrayList<Maintainrecord>();
-        List<MachineEntity> listMachineEntity=(List<MachineEntity>)machineRepository.findAll();
-        for(int i=0;i<listMachineEntity.size();i++){
-           MaintainRecordEntity  maintainRecordEntity=maintainRecordRepository.findOne(listMachineEntity.get(i).getId());
+        List<MaintainRecordEntity> ListMaintainrecord=(List<MaintainRecordEntity>)maintainRecordRepository.findAll();
+
+        for(int i=0;i<ListMaintainrecord.size();i++){
+            MachineEntity machineEntity=machineRepository.findById(ListMaintainrecord.get(i).getMachId());
             Maintainrecord maintainrecord=new Maintainrecord();
-            if(listMachineEntity.size()>0&&maintainRecordEntity!=null&&!maintainRecordEntity.equals("")) {
-                maintainrecord.setId(listMachineEntity.get(i).getId());
-                maintainrecord.setMachCode(listMachineEntity.get(i).getMachCode());
-                maintainrecord.setMachName(listMachineEntity.get(i).getMachName());
-                maintainrecord.setMaintainInfo(maintainRecordEntity.getMaintainInfo());
-                maintainrecord.setWorkingType(listMachineEntity.get(i).getWorkingType());
-                maintainrecord.setMachId(maintainRecordEntity.getMachId());
-                tempList.add(maintainrecord);
-            }
+            maintainrecord.setId(ListMaintainrecord.get(i).getId());
+            maintainrecord.setMachCode(machineEntity.getMachCode());
+            maintainrecord.setMachName(machineEntity.getMachName());
+            maintainrecord.setMaintainInfo(ListMaintainrecord.get(i).getMaintainInfo());
+            maintainrecord.setWorkingType(machineEntity.getWorkingType());
+            maintainrecord.setMachId(ListMaintainrecord.get(i).getMachId());
+            tempList.add(maintainrecord);
+
         }
+
         return tempList;
+
     }
 
 

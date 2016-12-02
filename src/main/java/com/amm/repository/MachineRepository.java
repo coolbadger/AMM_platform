@@ -11,4 +11,7 @@ import java.util.List;
  */
 public interface MachineRepository extends PagingAndSortingRepository<MachineEntity, Integer> {
     List<MachineEntity> findAllByActive(Boolean active);
+
+    MachineEntity findById(Integer id);
+
 }
