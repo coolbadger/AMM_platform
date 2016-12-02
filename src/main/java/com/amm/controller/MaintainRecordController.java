@@ -77,7 +77,7 @@ public class MaintainRecordController extends BaseController{
             throw new ObjectNotFoundException("不存在此machId");
         }else{*/
             m.setMaintainInfo(maintainRecordEntity.getMaintainInfo());
-            m.setMachId(2);
+            m.setMachId(machId);
        /* }*/
         MaintainRecordEntity created=maintainRecordService.create(m);
 

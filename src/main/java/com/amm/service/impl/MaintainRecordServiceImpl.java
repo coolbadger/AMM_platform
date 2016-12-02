@@ -31,8 +31,6 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
     private MachineRepository machineRepository;
 
 
-
-
     public MaintainRecordEntity create(MaintainRecordEntity machTerminalEntity) {
         return maintainRecordRepository.save(machTerminalEntity);
     }
@@ -53,7 +51,6 @@ public class MaintainRecordServiceImpl implements MaintainRecordService {
             maintainrecord.setWorkingType(machineEntity.getWorkingType());
             maintainrecord.setMachId(ListMaintainrecord.get(i).getMachId());
             tempList.add(maintainrecord);
-
         }
 
         return tempList;
