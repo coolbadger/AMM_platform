@@ -63,6 +63,7 @@ public class MaintainRecordController extends BaseController{
         MaintainRecordEntity maintainRecord=new MaintainRecordEntity();
         maintainRecord.setMaintainInfo(maintainrecord.getMaintainInfo());
         maintainRecord.setId(maintainrecord.getId());
+        maintainRecord.setMachId(maintainrecord.getMachId());
         MaintainRecordEntity maintainRecordEntity=maintainRecordService.update(maintainRecord);
         return  maintainRecordEntity;
     }

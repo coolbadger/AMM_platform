@@ -67,9 +67,9 @@ public class MaintainRecordEntity {
     }
 
     public MaintainRecordEntity changeUpdateInfoToSave(MaintainRecordEntity updated){
-        System.out.println("asdfghjklasdfghjklasdfghjklasdfghjkl"+updated.getMaintainInfo());
         if(updated!=null){
             updated.setMaintainInfo(this.maintainInfo);
+            updated.setMachId(this.machId);
         }
         return  updated;
     }
