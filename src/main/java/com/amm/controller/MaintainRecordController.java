@@ -7,6 +7,7 @@ import com.amm.exception.ObjectNotFoundException;
 import com.amm.service.MachTerminalService;
 import com.amm.service.MachineService;
 import com.amm.service.MaintainRecordService;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class MaintainRecordController extends BaseController{
     /*查询单个*/
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public MaintainRecordEntity findOne(@PathVariable Integer id){
-        System.out.println("查询方法");
+        Validate.notNull(id, "The id of machine must not be null, update failure.");
         return  maintainRecordService.findById(id);
     }
 
@@ -50,7 +51,7 @@ public class MaintainRecordController extends BaseController{
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable Integer id){
-
+        Validate.notNull(id, "The id of machine must not be null, update failure.");
         maintainRecordService.delete(id);
     }
 
@@ -58,7 +59,7 @@ public class MaintainRecordController extends BaseController{
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.RESET_CONTENT)
     public MaintainRecordEntity update(@PathVariable Integer id,@RequestBody Maintainrecord maintainrecord){
-        System.out.println(maintainrecord.getMaintainInfo()+"id="+id+"MaintainRecord="+maintainrecord);
+        Validate.notNull(id, "The id of machine must not be null, update failure.");
         maintainrecord.setId(id);
         MaintainRecordEntity maintainRecord=new MaintainRecordEntity();
         maintainRecord.setMaintainInfo(maintainrecord.getMaintainInfo());

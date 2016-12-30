@@ -2,6 +2,7 @@ package com.amm.controller;
 
 import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.RefMachTerminalEntity;
+import com.amm.entity.client.GpsData;
 import com.amm.entity.client.GpsRecordMachine;
 import com.amm.gps.GpsConvert;
 import com.amm.service.GpsRecordService;
@@ -72,8 +73,37 @@ public class GpsRecordController extends BaseController{
 
     }
 
+    /*
+    url: api/gpsRecords/gpsData    get
+     */
+    @RequestMapping(value = "/gpsDataAnalysis", method = RequestMethod.GET)
+    public List<GpsData> getAllGpsData() {
+       List<GpsRecordEntity> gpsRecordEntity=gpsRecordService.findAllGpsRecord();
+        Map<Integer, List<GpsRecordEntity>> gpsMap = this.getGpsMap(gpsRecordEntity);
+        List<GpsData> GpsDataList = new ArrayList<GpsData>();
 
+        for(Integer refId : gpsMap.keySet()) {
+            List<GpsRecordEntity> gpsList = gpsMap.get(refId);
+            GpsRecordMachine gpsRecordMachine = new GpsRecordMachine();
+            gpsRecordMachine.setReMachTerminalId(refId);
+            RefMachTerminalEntity refMachTerminalEntity = refMachTerminalService.findOne(refId);
+            Validate.notNull(refMachTerminalEntity, "The refMachTerminalEntity must not be null, find failure.");
 
+            for(Integer i=0;i<gpsList.size();i++){
+                    GpsData gpsData=new GpsData();
+                    gpsData.setGpsTime(gpsList.get(i).getGpsTime());
+                    gpsData.setLocalTime(gpsList.get(i).getLocalTime());
+                    gpsData.setLatFixed(gpsList.get(i).getLatFixed());
+                    gpsData.setLngFixed(gpsList.get(i).getLngFixed());
+                    gpsData.setSensor1(gpsList.get(i).getSensor1());
+                    gpsData.setReMachTerminalId(refId);
+                    gpsData.setMachCode(refMachTerminalEntity.getMachCode());
+                    gpsData.setMachName(refMachTerminalEntity.getMachName());
+                    GpsDataList.add(gpsData);
+                }
+        }
+        return GpsDataList;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<GpsRecordMachine> findAllByTimeScope(@RequestParam(required = true) String startTime,
@@ -118,9 +148,8 @@ public class GpsRecordController extends BaseController{
 
         }
 
-        //List ret=split(gpsRecordEntityList,1000);
 
-        return gpsRecordMachineList;//gpsRecordMachineList
+        return gpsRecordMachineList;
     }
 
 
@@ -181,21 +210,6 @@ public class GpsRecordController extends BaseController{
             this.sortByTime(recordEntityList);
 
         }
-      /*  Iterator<Map.Entry<Integer, List<GpsRecordEntity>>> ite = resultMap.entrySet().iterator();
-        while (ite.hasNext()) {
-            Map.Entry<Integer,List<GpsRecordEntity>> res= ite.next();
-            Integer key=res.getKey();
-            System.out.println(key);
-            List<GpsRecordEntity> val=res.getValue();
-            if(null!=val){
-                for (int i=10;i<val.size();i++){
-                    tempList.add(val.get(i));
-                }
-            }
-        }*/
-        //temp.put(15,tempList);
-
-
         return resultMap;
     }
 
