@@ -101,8 +101,12 @@ public class OrgUserController extends BaseController{
 
         Validate.notNull(id, "The id of orgUser must not be null, update failure.");
         Validate.notNull(orgUser, "The orgUser object must not be null, update failure.");
-
+        OrgUserEntity org=orgUserService.findById(id);
         orgUser.setId(id);
+        orgUser.setOrgId(org.getOrgId());
+        orgUser.setCreateTime(org.getCreateTime());
+        orgUser.setActive(org.getActive());
+        orgUser.setFullName(org.getFullName());
 
         OrgUserEntity updated = orgUserService.updateOrgUser(orgUser);
 

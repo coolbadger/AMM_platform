@@ -102,6 +102,7 @@ public class GpsRecordController extends BaseController{
                     GpsDataList.add(gpsData);
                 }
         }
+
         return GpsDataList;
     }
 
