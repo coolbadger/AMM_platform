@@ -16,6 +16,7 @@ public class CooperativeInfo {
     private Date localTime;
     private String orgName;
     private String orgAddress;
+    private String sensor1;
 
     public Integer getId() {
         return id;
@@ -87,5 +88,13 @@ public class CooperativeInfo {
 
     public void setOrgAddress(String orgAddress) {
         this.orgAddress = orgAddress;
+    }
+
+    public String getSensor1() {
+        return sensor1;
+    }
+
+    public void setSensor1(String sensor1) {
+        this.sensor1 = sensor1;
     }
 }

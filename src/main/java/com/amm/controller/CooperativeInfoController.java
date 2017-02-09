@@ -53,13 +53,11 @@ public class CooperativeInfoController extends BaseController {
         for(int i=0;i<listRef.size();i++){
             CooperativeInfo cooperativeInfo=new CooperativeInfo();
             Integer refId=listRef.get(i).getId();
-            Set<Integer> ketName=gpsMap.keySet();
-
-
             try {
                 List<GpsRecordEntity> times = gpsMap.get(refId);
                 if (times.size() > 0) {
                     Date localTime = times.get(0).getLocalTime();
+                    cooperativeInfo.setSensor1(times.get(0).getSensor1());
                     cooperativeInfo.setLocalTime(localTime);
                 }
             }catch (NullPointerException e){
