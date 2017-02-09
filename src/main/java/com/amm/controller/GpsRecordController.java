@@ -209,7 +209,6 @@ public class GpsRecordController extends BaseController{
         //对Map中的list按gps时间排序
         for(List<GpsRecordEntity> recordEntityList : resultMap.values()) {
             this.sortByTime(recordEntityList);
-
         }
         return resultMap;
     }
