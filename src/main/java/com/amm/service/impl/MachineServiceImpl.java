@@ -38,6 +38,12 @@ public class MachineServiceImpl extends BaseService implements MachineService {
     @Autowired
     private RefMachTerminalRepository refMachTerminalRepository;
 
+    public List<MachineEntity> findByOrgId(Integer orgId){
+
+        return machineRepository.findByOrgId(orgId);
+    }
+
+
     @Transactional
     public MachineEntity create(MachineEntity machineEntity) {
 

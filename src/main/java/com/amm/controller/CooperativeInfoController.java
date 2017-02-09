@@ -57,8 +57,9 @@ public class CooperativeInfoController extends BaseController {
                 List<GpsRecordEntity> times = gpsMap.get(refId);
                 if (times.size() > 0) {
                     Date localTime = times.get(0).getLocalTime();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     cooperativeInfo.setSensor1(times.get(0).getSensor1());
-                    cooperativeInfo.setLocalTime(localTime);
+                    cooperativeInfo.setLocalTime(sdf.format(localTime));
                 }
             }catch (NullPointerException e){
                 System.out.print("空指针错误");

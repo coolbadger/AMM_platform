@@ -18,4 +18,6 @@ public interface MachineService {
     MachineEntity findOne(Integer id);
 
     MachineEntity delete(Integer id);
+
+    List<MachineEntity> findByOrgId(Integer orgId);
 }

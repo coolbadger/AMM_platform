@@ -13,7 +13,7 @@ public class CooperativeInfo {
     private String workingType;
     private String terminalCode;
     private String terminalName;
-    private Date localTime;
+    private String localTime;
     private String orgName;
     private String orgAddress;
     private String sensor1;
@@ -66,11 +66,11 @@ public class CooperativeInfo {
         this.terminalName = terminalName;
     }
 
-    public Date getLocalTime() {
+    public String getLocalTime() {
         return localTime;
     }
 
-    public void setLocalTime(Date localTime) {
+    public void setLocalTime(String localTime) {
         this.localTime = localTime;
     }
 

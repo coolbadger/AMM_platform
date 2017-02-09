@@ -14,4 +14,6 @@ public interface MachineRepository extends PagingAndSortingRepository<MachineEnt
 
     MachineEntity findById(Integer id);
 
+    List<MachineEntity> findByOrgId(Integer orgId);
+
 }
