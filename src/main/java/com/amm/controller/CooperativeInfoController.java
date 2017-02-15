@@ -39,8 +39,9 @@ public class CooperativeInfoController extends BaseController {
         List<MachineEntity> machineList = machineService.findAllByActive(active);//查询所有车辆信息
         List<BaseOrgEntity> baseOrgList = baseOrgService.findAllBaseOrgByActive(active);//查询所有合作社信息
         List<RefMachTerminalEntity> listRef=refMachTerminalService.findAll();//拿到农机以及终端信息
-        List<GpsRecordEntity> gpsRecordEntity=gpsRecordService.findAllGpsRecord();
-        Map<Integer, List<GpsRecordEntity>> gpsMap = this.getGpsMap(gpsRecordEntity);//拿到GPS所有信息
+        List<GpsRecordEntity> ListGps=gpsRecordService.getFirst();
+
+        Map<Integer, List<GpsRecordEntity>> gpsMap = this.getGpsMap(ListGps);//拿到GPS所有信息
 
         List<CooperativeInfo> ListCooperativeInfo = new ArrayList<CooperativeInfo>();
 
@@ -54,6 +55,9 @@ public class CooperativeInfoController extends BaseController {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     cooperativeInfo.setSensor1(times.get(0).getSensor1());
                     cooperativeInfo.setLocalTime(sdf.format(localTime));
+                    //cooperativeInfo.setCurrentPosition("www");
+                    cooperativeInfo.setFirstLatFixed(times.get(0).getLatFixed());
+                    cooperativeInfo.setFirstLngFixed(times.get(0).getLngFixed());
                 }
             }catch (NullPointerException e){
                 System.out.print("空指针错误");

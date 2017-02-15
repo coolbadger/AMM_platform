@@ -17,6 +17,10 @@ public class CooperativeInfo {
     private String orgName;
     private String orgAddress;
     private String sensor1;
+    private BigDecimal FirstLngFixed;
+    private BigDecimal FirstLatFixed;
+    private String currentPosition;
+
 
     public Integer getId() {
         return id;
@@ -96,5 +100,30 @@ public class CooperativeInfo {
 
     public void setSensor1(String sensor1) {
         this.sensor1 = sensor1;
+    }
+
+
+    public BigDecimal getFirstLngFixed() {
+        return FirstLngFixed;
+    }
+
+    public void setFirstLngFixed(BigDecimal firstLngFixed) {
+        FirstLngFixed = firstLngFixed;
+    }
+
+    public BigDecimal getFirstLatFixed() {
+        return FirstLatFixed;
+    }
+
+    public void setFirstLatFixed(BigDecimal firstLatFixed) {
+        FirstLatFixed = firstLatFixed;
+    }
+
+    public String getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(String currentPosition) {
+        this.currentPosition = currentPosition;
     }
 }

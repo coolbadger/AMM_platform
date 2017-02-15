@@ -24,4 +24,6 @@ public interface GpsRecordService {
     List<GpsRecordEntity> findByLatFixedIsNullOrderbyGpsTimeAsc();
 
     GpsRecordEntity updateGpsRecord(GpsRecordEntity gpsRecord);
+
+    List<GpsRecordEntity> getFirst();
 }

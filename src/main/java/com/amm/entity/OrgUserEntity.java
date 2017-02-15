@@ -23,6 +23,7 @@ public class OrgUserEntity {
     private String creator;
     private boolean active = true;
     private String notes;
+    private Integer management;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,6 +154,14 @@ public class OrgUserEntity {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Integer getManagement() {
+        return management;
+    }
+
+    public void setManagement(Integer management) {
+        this.management = management;
     }
 
     @Override

@@ -1,18 +1,12 @@
 package com.amm.controller;
 
-import com.amm.entity.BaseOrgEntity;
-import com.amm.entity.MachineEntity;
+import com.amm.entity.*;
 import com.amm.entity.client.CptDetails;
-import com.amm.service.BaseOrgService;
-import com.amm.service.MachineService;
+import com.amm.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 杨思名 on 2017/2/9.
@@ -22,12 +16,18 @@ import java.util.List;
 @RestController
 @RequestMapping("api/CptDetails")
 public class CptDetailsController extends BaseController{
-
+    @Autowired
+    private WorkerService workerService;
     @Autowired
     private BaseOrgService baseOrgService;
-
     @Autowired
     private MachineService machineService;
+
+    @Autowired
+    private GpsRecordService gpsRecordService;
+
+    @Autowired
+    private RefMachTerminalService refMachTerminalService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<CptDetails> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
@@ -55,6 +55,14 @@ public class CptDetailsController extends BaseController{
         }
         return ListCptDetails;
     }
+
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public List<MachineEntity> findOne(@PathVariable Integer id) {
+        return machineService.findByOrgId(id);
+    }
+
 
 
 }

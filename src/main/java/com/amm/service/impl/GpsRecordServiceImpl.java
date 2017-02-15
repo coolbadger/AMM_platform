@@ -106,4 +106,8 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
 
         return null;
     }
+
+    public List<GpsRecordEntity> getFirst() {
+        return gpsRecordRepository.getFirst();
+    }
 }
