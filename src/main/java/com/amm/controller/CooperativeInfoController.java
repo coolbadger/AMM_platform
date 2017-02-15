@@ -58,6 +58,7 @@ public class CooperativeInfoController extends BaseController {
                     //cooperativeInfo.setCurrentPosition("www");
                     cooperativeInfo.setFirstLatFixed(times.get(0).getLatFixed());
                     cooperativeInfo.setFirstLngFixed(times.get(0).getLngFixed());
+
                 }
             }catch (NullPointerException e){
                 System.out.print("空指针错误");
