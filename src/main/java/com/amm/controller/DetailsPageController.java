@@ -41,7 +41,7 @@ public class DetailsPageController extends BaseController{
             for(int i=0;i<baseOrgEntityList.size();i++){
                 Integer tempMachSize=0;
                 Double tempDrivingArea= 0.0;
-                Double tempWorkArea=0.0;
+                Double tempWorkArea=0.0; 
                 Double tempWorkTime=0.0;
                 DetailsPage detailsPage=new DetailsPage();
                Integer baseOrgId=baseOrgEntityList.get(i).getId();
