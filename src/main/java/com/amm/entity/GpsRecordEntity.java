@@ -32,6 +32,8 @@ public class GpsRecordEntity {
     private String sensor3;
     private String sensor4;
     private String sensorExtra;
+    private String state;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -217,6 +219,16 @@ public class GpsRecordEntity {
 
     public void setSensorExtra(String sensorExtra) {
         this.sensorExtra = sensorExtra;
+    }
+
+    @Basic
+    @Column(name = "state")
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     @Override

@@ -1,15 +1,18 @@
 package com.amm.controller;
 
-import com.amm.entity.GpsRecordEntity;
-import com.amm.entity.RefMachTerminalEntity;
+import com.amm.entity.*;
 import com.amm.entity.client.GpsData;
 import com.amm.entity.client.GpsRecordMachine;
+import com.amm.entity.client.Maintainrecord;
 import com.amm.gps.GpsConvert;
+import com.amm.service.BaseOrgService;
 import com.amm.service.GpsRecordService;
 import com.amm.service.RefMachTerminalService;
+import com.amm.service.WorkerService;
 import com.amm.utils.DateUtil;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -27,12 +30,94 @@ import java.util.logging.SimpleFormatter;
 public class GpsRecordController extends BaseController{
     @Autowired
     GpsConvert gpsConvert;
+    @Autowired
+    private BaseOrgService baseOrgService;
+
+    @Autowired
+    private WorkerService workerService;
 
     @Autowired
     private GpsRecordService gpsRecordService;
 
     @Autowired
     private RefMachTerminalService refMachTerminalService;
+
+
+
+    @RequestMapping(value = "/getFinishingData",method = RequestMethod.GET)
+    public List<GpsData> getFinishingData(){
+
+
+            List<BaseOrgEntity> ListBaseOrgEntity=baseOrgService.findAllBaseOrg();
+            List<WorkerEntity> ListWorkerEntity = workerService.findAllByActive(true);
+
+            List<GpsRecordEntity> gpsRecordEntity=gpsRecordService.getFinishingData();
+            Map<Integer, List<GpsRecordEntity>> gpsMap = this.getGpsMap(gpsRecordEntity);
+            List<GpsData> GpsDataList = new ArrayList<GpsData>();
+
+
+            for(Integer refId : gpsMap.keySet()) {
+                List<GpsRecordEntity> gpsList = gpsMap.get(refId);
+                GpsRecordMachine gpsRecordMachine = new GpsRecordMachine();
+                gpsRecordMachine.setReMachTerminalId(refId);
+                RefMachTerminalEntity refMachTerminalEntity = refMachTerminalService.findOne(refId);
+                Validate.notNull(refMachTerminalEntity, "The refMachTerminalEntity must not be null, find failure.");
+
+                for(Integer c=0;c<gpsList.size();c++){
+                    GpsData gpsData=new GpsData();
+                    gpsData.setGpsTime(gpsList.get(c).getGpsTime());
+                    gpsData.setLocalTime(gpsList.get(c).getLocalTime());
+                    gpsData.setLatFixed(gpsList.get(c).getLatFixed());
+                    gpsData.setLngFixed(gpsList.get(c).getLngFixed());
+                    gpsData.setSensor1(gpsList.get(c).getSensor1());
+                    gpsData.setReMachTerminalId(refId);
+                    gpsData.setMachCode(refMachTerminalEntity.getMachCode());
+                    gpsData.setMachName(refMachTerminalEntity.getMachName());
+                    gpsData.setState(gpsList.get(c).getState());
+                    GpsDataList.add(gpsData);
+
+                }
+            }
+
+            return GpsDataList;
+  }
+
+
+    /*修改*/
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.RESET_CONTENT)
+    public RefMachTerminalEntity update(@PathVariable Integer id,@RequestBody RefMachTerminalEntity refMachTerminalEntity) throws Exception{
+        Validate.notNull(id, "The id of orgUser must not be null, update failure.");
+        Validate.notNull(refMachTerminalEntity, "The orgUser object must not be null, update failure.");
+        RefMachTerminalEntity refMachTerminal=refMachTerminalService.findById(id);
+        gpsRecordService.updateState("1");
+        refMachTerminalEntity.setMachState(refMachTerminal.getMachState());
+        refMachTerminalEntity.setId(id);
+        refMachTerminalEntity.setCallNo(refMachTerminal.getCallNo());
+        refMachTerminalEntity.setMachCode(refMachTerminal.getMachCode());
+        refMachTerminalEntity.setMachId(refMachTerminal.getMachId());
+        refMachTerminalEntity.setMachName(refMachTerminal.getMachName());
+        refMachTerminalEntity.setTerminalName(refMachTerminal.getTerminalName());
+        refMachTerminalEntity.setTerminalCode(refMachTerminal.getTerminalCode());
+        refMachTerminalEntity.setTerminalState(refMachTerminal.getTerminalState());
+        refMachTerminalEntity.setWorkingType(refMachTerminal.getWorkingType());
+            if(refMachTerminal.getDrivingArea()!=null&&refMachTerminal.getWorkArea()!=null&&refMachTerminal.getWorkTime()!=null&&!refMachTerminal.getDrivingArea().equals("")&&!refMachTerminal.getWorkArea().equals("")&&!refMachTerminal.getWorkTime().equals("")){
+                refMachTerminalEntity.setDrivingArea(Double.toString(Double.parseDouble(refMachTerminal.getDrivingArea())+Double.parseDouble(refMachTerminalEntity.getDrivingArea())));
+                refMachTerminalEntity.setWorkArea(Double.toString(Double.parseDouble(refMachTerminal.getWorkArea())+Double.parseDouble(refMachTerminalEntity.getWorkArea())));
+                refMachTerminalEntity.setWorkTime(Double.toString(Double.parseDouble(refMachTerminal.getWorkTime())+Double.parseDouble(refMachTerminalEntity.getWorkTime())));
+
+            }
+
+        RefMachTerminalEntity updated = refMachTerminalService.updateRefMachTerminal(refMachTerminalEntity);
+
+        return updated;
+    }
+
+
+
+
+
+
 
     /**
      * 拆分集合
@@ -78,9 +163,14 @@ public class GpsRecordController extends BaseController{
      */
     @RequestMapping(value = "/gpsDataAnalysis", method = RequestMethod.GET)
     public List<GpsData> getAllGpsData() {
-       List<GpsRecordEntity> gpsRecordEntity=gpsRecordService.findAllGpsRecord();
+
+        List<BaseOrgEntity> ListBaseOrgEntity=baseOrgService.findAllBaseOrg();
+        List<WorkerEntity> ListWorkerEntity = workerService.findAllByActive(true);
+
+        List<GpsRecordEntity> gpsRecordEntity=gpsRecordService.findAllGpsRecord();
         Map<Integer, List<GpsRecordEntity>> gpsMap = this.getGpsMap(gpsRecordEntity);
         List<GpsData> GpsDataList = new ArrayList<GpsData>();
+
 
         for(Integer refId : gpsMap.keySet()) {
             List<GpsRecordEntity> gpsList = gpsMap.get(refId);
@@ -89,18 +179,19 @@ public class GpsRecordController extends BaseController{
             RefMachTerminalEntity refMachTerminalEntity = refMachTerminalService.findOne(refId);
             Validate.notNull(refMachTerminalEntity, "The refMachTerminalEntity must not be null, find failure.");
 
-            for(Integer i=0;i<gpsList.size();i++){
-                    GpsData gpsData=new GpsData();
-                    gpsData.setGpsTime(gpsList.get(i).getGpsTime());
-                    gpsData.setLocalTime(gpsList.get(i).getLocalTime());
-                    gpsData.setLatFixed(gpsList.get(i).getLatFixed());
-                    gpsData.setLngFixed(gpsList.get(i).getLngFixed());
-                    gpsData.setSensor1(gpsList.get(i).getSensor1());
-                    gpsData.setReMachTerminalId(refId);
-                    gpsData.setMachCode(refMachTerminalEntity.getMachCode());
-                    gpsData.setMachName(refMachTerminalEntity.getMachName());
-                    GpsDataList.add(gpsData);
-                }
+            for(Integer c=0;c<gpsList.size();c++){
+                GpsData gpsData=new GpsData();
+                gpsData.setGpsTime(gpsList.get(c).getGpsTime());
+                gpsData.setLocalTime(gpsList.get(c).getLocalTime());
+                gpsData.setLatFixed(gpsList.get(c).getLatFixed());
+                gpsData.setLngFixed(gpsList.get(c).getLngFixed());
+                gpsData.setSensor1(gpsList.get(c).getSensor1());
+                gpsData.setReMachTerminalId(refId);
+                gpsData.setMachCode(refMachTerminalEntity.getMachCode());
+                gpsData.setMachName(refMachTerminalEntity.getMachName());
+                GpsDataList.add(gpsData);
+
+            }
         }
 
         return GpsDataList;

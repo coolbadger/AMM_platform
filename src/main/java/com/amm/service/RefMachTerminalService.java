@@ -1,6 +1,7 @@
 package com.amm.service;
 
 import com.amm.entity.RefMachTerminalEntity;
+import com.amm.repository.RefMachTerminalRepository;
 
 import java.util.List;
 
@@ -11,5 +12,7 @@ import java.util.List;
 public interface RefMachTerminalService {
     RefMachTerminalEntity findOne(Integer refId);
     List<RefMachTerminalEntity> findAll();
+    RefMachTerminalEntity findById(Integer Id);
+    RefMachTerminalEntity updateRefMachTerminal(RefMachTerminalEntity refMachTerminal);
 
 }

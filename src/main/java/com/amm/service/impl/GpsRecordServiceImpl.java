@@ -110,4 +110,15 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
     public List<GpsRecordEntity> getFirst() {
         return gpsRecordRepository.getFirst();
     }
+
+    public List<GpsRecordEntity> getFinishingData() {
+        return gpsRecordRepository.getFinishingData();
+    }
+
+    @Transactional
+    public void updateState(String state) {
+        gpsRecordRepository.updateState(state);
+    }
+
+
 }

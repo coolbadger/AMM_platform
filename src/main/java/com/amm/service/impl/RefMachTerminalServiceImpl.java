@@ -1,6 +1,7 @@
 package com.amm.service.impl;
 
 import com.amm.entity.RefMachTerminalEntity;
+import com.amm.exception.ObjectNotFoundException;
 import com.amm.repository.RefMachTerminalRepository;
 import com.amm.service.RefMachTerminalService;
 import org.apache.commons.lang3.Validate;
@@ -31,5 +32,21 @@ public class RefMachTerminalServiceImpl extends BaseService implements RefMachTe
     public List<RefMachTerminalEntity> findAll() {
         List<RefMachTerminalEntity> ListRef= (List<RefMachTerminalEntity>) refMachTerminalRepository.findAll();
         return ListRef;
+    }
+
+    public RefMachTerminalEntity findById(Integer Id) {
+        return refMachTerminalRepository.findById(Id);
+    }
+
+    public RefMachTerminalEntity updateRefMachTerminal(RefMachTerminalEntity refMachTerminal) {
+        RefMachTerminalEntity saved=this.findById(refMachTerminal.getId());
+        if(saved == null) {
+            throw new ObjectNotFoundException("用户不存在");
+        }
+        saved = refMachTerminal.changeUpdateInfoToSave(saved);
+
+        saved = refMachTerminalRepository.save(saved);
+
+        return saved;
     }
 }

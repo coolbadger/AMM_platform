@@ -26,4 +26,9 @@ public interface GpsRecordService {
     GpsRecordEntity updateGpsRecord(GpsRecordEntity gpsRecord);
 
     List<GpsRecordEntity> getFirst();
+
+    List<GpsRecordEntity> getFinishingData();
+
+    void updateState(String state);
+
 }

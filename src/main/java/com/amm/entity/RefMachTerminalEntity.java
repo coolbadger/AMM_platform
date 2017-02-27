@@ -19,6 +19,9 @@ public class RefMachTerminalEntity {
     private String terminalName;
     private String callNo;
     private String terminalState;
+    private String workArea;
+    private String drivingArea;
+    private String workTime;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -121,6 +124,34 @@ public class RefMachTerminalEntity {
         this.terminalState = terminalState;
     }
 
+    @Basic
+    @Column(name = "work_area")
+    public String getWorkArea() {
+        return workArea;
+    }
+    public void setWorkArea(String workArea) {
+        this.workArea = workArea;
+    }
+
+    @Basic
+    @Column(name = "driving_area")
+    public String getDrivingArea() {
+        return drivingArea;
+    }
+
+    public void setDrivingArea(String drivingArea) {
+        this.drivingArea = drivingArea;
+    }
+    @Basic
+    @Column(name = "work_time")
+    public String getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(String workTime) {
+        this.workTime = workTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -157,4 +188,25 @@ public class RefMachTerminalEntity {
         result = 31 * result + (terminalState != null ? terminalState.hashCode() : 0);
         return result;
     }
+
+    public RefMachTerminalEntity changeUpdateInfoToSave(RefMachTerminalEntity updated) {
+
+        if(updated != null) {
+            updated.setWorkingType(this.getWorkingType());
+            updated.setTerminalState(this.getTerminalState());
+            updated.setTerminalCode(this.getTerminalCode());
+            updated.setMachName(this.getMachName());
+            updated.setCallNo(this.getCallNo());
+            updated.setDrivingArea(this.drivingArea);
+            updated.setMachCode(this.getMachCode());
+            updated.setMachId(this.getMachId());
+            updated.setTerminalName(this.getTerminalName());
+            updated.setWorkArea(this.workArea);
+            updated.setWorkTime(this.workTime);
+        }
+
+        return updated;
+    }
+
+
 }
