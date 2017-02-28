@@ -1,6 +1,8 @@
 package com.amm.repository;
 
 import com.amm.entity.GpsRecordEntity;
+import com.amm.entity.client.GpsData;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -27,5 +29,8 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
     @Query(value = "SELECT * FROM gps_record g GROUP BY g.ref_mach_terminal_id ORDER BY g.gps_time DESC",nativeQuery = true)
     List<GpsRecordEntity> getFirst();
 
+    @Query(value="SELECT * FROM gps_record WHERE state IS NULL OR state!=1",nativeQuery = true)
+    List<GpsRecordEntity> getFinishingData();
 
+    @Modifying @Query(value = "UPDATE gps_record set state=?1 ",nativeQuery = true) int updateState(String state);//
 }

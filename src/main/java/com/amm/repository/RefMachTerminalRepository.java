@@ -8,4 +8,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * Explain:
  */
 public interface RefMachTerminalRepository extends PagingAndSortingRepository<RefMachTerminalEntity, Integer>{
+
+    RefMachTerminalEntity findById(Integer Id);
 }
