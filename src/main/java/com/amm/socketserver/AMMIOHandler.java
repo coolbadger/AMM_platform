@@ -154,6 +154,8 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     if(parseResult[4]!=null&&parseResult[4].length()>0) {
                         gpsRecordSave.setLat(new BigDecimal(parseResult[4]).setScale(6,BigDecimal.ROUND_HALF_UP));
                     }
+
+                    // TODO: 2017/2/28 此方法极度不安全，需要在接口外新开线程处理坐标转换
                     if (gpsRecordSave.getLng() != null && gpsRecordSave.getLat() != null) {
                         Double[] fixedGps = WebRequest.getGpsFixed(gpsRecordSave.getLng().doubleValue(), gpsRecordSave.getLat().doubleValue());
                         gpsRecordSave.setLngFixed(new BigDecimal(fixedGps[0]));

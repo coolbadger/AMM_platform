@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/system")
 public class SystemController {
 
+    // TODO:2017/3/1 需要新增用户权限列表返回
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultModel login(@RequestParam(value = "password", required = false) String password,
                              @RequestParam(value = "username", required = false) String username) {
@@ -25,6 +26,7 @@ public class SystemController {
 
         ResultModel resultModel = new ResultModel(ExceptionCode.LOGIN_SUCCESS);
 
+        // todo：test
         return resultModel;
     }
 }

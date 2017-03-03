@@ -48,7 +48,7 @@ public class WebRequest {
     public static Double[] getGpsFixed(double lng, double lat) {
         Double[] gpsPoint = new Double[2];
         String newCoordStr = lng + "," + lat;
-        newCoordStr = "114.21892734521,29.575429778924;114.21892734521,29.575429778924";
+//        newCoordStr = "114.21892734521,29.575429778924;114.21892734521,29.575429778924";
 
         String param = "coords=" + newCoordStr + "&from=1&to=5&ak=" + "Lf4vzvGaMijyBRRRofgZLNRIPzQqM4ac";
         String result = WebRequest.sendGet("http://api.map.baidu.com/geoconv/v1/", param);
