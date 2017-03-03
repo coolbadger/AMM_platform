@@ -2,6 +2,7 @@ package com.amm.controller;
 
 import com.amm.entity.*;
 import com.amm.entity.client.GpsData;
+import com.amm.entity.client.GpsHome;
 import com.amm.entity.client.GpsRecordMachine;
 import com.amm.entity.client.Maintainrecord;
 import com.amm.gps.GpsConvert;
@@ -208,6 +209,9 @@ public class GpsRecordController extends BaseController{
         Date endTimeDate = DateUtil.parseDate(endTime);
         List<GpsRecordEntity> gpsRecordEntityList = gpsRecordService.findGpsRecordByTimeScope(startTimeDate, endTimeDate);
 
+
+
+
         Map<Integer, List<GpsRecordEntity>> gpsMap = this.getGpsMap(gpsRecordEntityList);
 
         List<GpsRecordMachine> gpsRecordMachineList = new ArrayList<GpsRecordMachine>();
@@ -246,7 +250,7 @@ public class GpsRecordController extends BaseController{
 
 
     @RequestMapping(value = "/refMachTerminal/{id}", method = RequestMethod.GET)
-    public List<GpsRecordEntity> findByRefMachTerminalID(@PathVariable Integer id,
+    public List<GpsHome> findByRefMachTerminalID(@PathVariable Integer id,
                                                          @RequestParam(required = true) String startTime,
                                                          @RequestParam(required = true) String endTime) throws ParseException {
 
@@ -259,11 +263,55 @@ public class GpsRecordController extends BaseController{
         System.out.println("startTimeDate="+startTimeDate);
         Date endTimeDate=sdf.parse(endTime);
         //Date endTimeDate = DateUtil.parseDate(endTime);
+        List<BaseOrgEntity> ListBaseOrgEntity=baseOrgService.findAllBaseOrg();
+        List<WorkerEntity> ListWorkerEntity = workerService.findAllByActive(true);
         List<GpsRecordEntity> listGpsRecordEntity= gpsRecordService.findByRefMachTerminalIDAndTimeScope(id, startTimeDate, endTimeDate);
+
+            List<GpsHome> listGpsHome=new ArrayList<GpsHome>();
+            for(int i=0;i<listGpsRecordEntity.size();i++){
+                GpsHome gpsHome=new GpsHome();
+                gpsHome.setId(listGpsRecordEntity.get(i).getId());
+                gpsHome.setAccuracy(listGpsRecordEntity.get(i).getAccuracy());
+                gpsHome.setAlt(listGpsRecordEntity.get(i).getAlt());
+                gpsHome.setGpsTime(sdf.format(listGpsRecordEntity.get(i).getGpsTime()) );
+                gpsHome.setLat(listGpsRecordEntity.get(i).getLat());
+                gpsHome.setLatFixed(listGpsRecordEntity.get(i).getLatFixed());
+                gpsHome.setLocalTime(listGpsRecordEntity.get(i).getLocalTime());
+                gpsHome.setLng(listGpsRecordEntity.get(i).getLng());
+                gpsHome.setLngFixed(listGpsRecordEntity.get(i).getLngFixed());
+                gpsHome.setRefMachTerminalId(listGpsRecordEntity.get(i).getRefMachTerminalId());
+                gpsHome.setSensor1(listGpsRecordEntity.get(i).getSensor1());
+                gpsHome.setSensor2(listGpsRecordEntity.get(i).getSensor2());
+                gpsHome.setSensor3(listGpsRecordEntity.get(i).getSensor3());
+                gpsHome.setSensor4(listGpsRecordEntity.get(i).getSensor4());
+                gpsHome.setSensorExtra(listGpsRecordEntity.get(i).getSensorExtra());
+                gpsHome.setSpeed(listGpsRecordEntity.get(i).getSpeed());
+                gpsHome.setState(listGpsRecordEntity.get(i).getState());
+                gpsHome.setTerminalCode(listGpsRecordEntity.get(i).getTerminalCode());
+                gpsHome.setWorkerId(listGpsRecordEntity.get(i).getWorkerId());
+                Integer workId=listGpsRecordEntity.get(i).getWorkerId();
+                for(int a=0;a<ListWorkerEntity.size();a++){
+                    Integer ids=ListWorkerEntity.get(a).getId();
+                    Integer orgIds=ListWorkerEntity.get(a).getOrgId();
+                    if (workId==ids){
+                        //添加驾驶员
+                        gpsHome.setName(ListWorkerEntity.get(a).getName());
+                        for(int b=0;b<ListBaseOrgEntity.size();b++){
+                            Integer OrgId=ListBaseOrgEntity.get(b).getId();
+                            if(OrgId==orgIds){
+                                gpsHome.setOrgName(ListBaseOrgEntity.get(b).getOrgName());
+                                //添加合作社
+                            }
+                        }
+                    }
+                }
+                listGpsHome.add(gpsHome);
+            }
+
 
         //listGpsRecordEntity.subList(0,1000);
 
-        return listGpsRecordEntity;
+        return listGpsHome;
     }
     @RequestMapping(value = "/convert",method = RequestMethod.GET)
     public String convertGpsRecord(){
