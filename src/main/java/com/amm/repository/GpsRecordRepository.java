@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -33,4 +35,10 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
     List<GpsRecordEntity> getFinishingData();
 
     @Modifying @Query(value = "UPDATE gps_record set state=?1 ",nativeQuery = true) int updateState(String state);//
+
+    @Query(value = "SELECT * FROM gps_record  WHERE flag IS NULL",nativeQuery = true)
+    List<GpsRecordEntity> get100UnConvert();
+
+    public GpsRecordEntity saveAndFlush(GpsRecordEntity gpsRecordEntity);
+
 }

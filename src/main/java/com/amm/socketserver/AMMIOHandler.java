@@ -5,7 +5,9 @@ import com.amm.entity.WorkerEntity;
 import com.amm.entity.client.GpsRecordSave;
 import com.amm.gps.WebRequest;
 import com.amm.service.AMMClientPacketService;
+import com.amm.service.impl.CoordinateConvertImpl;
 import com.amm.socketserver.packetentity.AMMPacket;
+import com.amm.utils.MyThread;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
@@ -156,11 +158,11 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     }
 
                     // TODO: 2017/2/28 此方法极度不安全，需要在接口外新开线程处理坐标转换
-                    if (gpsRecordSave.getLng() != null && gpsRecordSave.getLat() != null) {
-                        Double[] fixedGps = WebRequest.getGpsFixed(gpsRecordSave.getLng().doubleValue(), gpsRecordSave.getLat().doubleValue());
-                        gpsRecordSave.setLngFixed(new BigDecimal(fixedGps[0]));
-                        gpsRecordSave.setLatFixed(new BigDecimal(fixedGps[1]));
-                    }
+//                    if (gpsRecordSave.getLng() != null && gpsRecordSave.getLat() != null) {
+//                        Double[] fixedGps = WebRequest.getGpsFixed(gpsRecordSave.getLng().doubleValue(), gpsRecordSave.getLat().doubleValue());
+//                        gpsRecordSave.setLngFixed(new BigDecimal(fixedGps[0]));
+//                        gpsRecordSave.setLatFixed(new BigDecimal(fixedGps[1]));
+//                    }
 
                     if(parseResult[5]!=null&&parseResult[5].length()>0){
                         gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));

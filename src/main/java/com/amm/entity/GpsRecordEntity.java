@@ -33,6 +33,7 @@ public class GpsRecordEntity {
     private String sensor4;
     private String sensorExtra;
     private String state;
+    private String flag;
 
 
     @Id
@@ -230,6 +231,12 @@ public class GpsRecordEntity {
     public void setState(String state) {
         this.state = state;
     }
+
+    @Basic
+    @Column(name = "flag")
+    public String getFlag() { return flag; }
+
+    public void setFlag(String flag) { this.flag = flag; }
 
     @Override
     public boolean equals(Object o) {
