@@ -22,6 +22,7 @@ public class RefMachTerminalEntity {
     private String workArea;
     private String drivingArea;
     private String workTime;
+    private String machineryWidth;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -152,6 +153,16 @@ public class RefMachTerminalEntity {
         this.workTime = workTime;
     }
 
+    @Basic
+    @Column(name = "machinery_width")
+    public String getMachineryWidth() {
+        return machineryWidth;
+    }
+
+    public void setMachineryWidth(String machineryWidth) {
+        this.machineryWidth = machineryWidth;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -190,7 +201,6 @@ public class RefMachTerminalEntity {
     }
 
     public RefMachTerminalEntity changeUpdateInfoToSave(RefMachTerminalEntity updated) {
-
         if(updated != null) {
             updated.setWorkingType(this.getWorkingType());
             updated.setTerminalState(this.getTerminalState());
@@ -203,8 +213,9 @@ public class RefMachTerminalEntity {
             updated.setTerminalName(this.getTerminalName());
             updated.setWorkArea(this.workArea);
             updated.setWorkTime(this.workTime);
+            updated.setMachineryWidth(this.getMachineryWidth());
+            updated.setMachState(this.getMachState());
         }
-
         return updated;
     }
 

@@ -20,6 +20,7 @@ public class CooperativeInfo {
     private BigDecimal FirstLngFixed;
     private BigDecimal FirstLatFixed;
     private String currentPosition;
+    private String machineryWidth;
 
 
     public Integer getId() {
@@ -125,5 +126,13 @@ public class CooperativeInfo {
 
     public void setCurrentPosition(String currentPosition) {
         this.currentPosition = currentPosition;
+    }
+
+    public String getMachineryWidth() {
+        return machineryWidth;
+    }
+
+    public void setMachineryWidth(String machineryWidth) {
+        this.machineryWidth = machineryWidth;
     }
 }

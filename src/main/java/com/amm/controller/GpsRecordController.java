@@ -44,6 +44,12 @@ public class GpsRecordController extends BaseController{
     private RefMachTerminalService refMachTerminalService;
 
 
+    @RequestMapping(value = "/GetRefMachTerminal",method = RequestMethod.GET)
+    public List<RefMachTerminalEntity> getAll(){
+        List<RefMachTerminalEntity> listRef= refMachTerminalService.findAll();
+        return listRef;
+    }
+
 
     @RequestMapping(value = "/getFinishingData",method = RequestMethod.GET)
     public List<GpsData> getFinishingData(){
@@ -62,10 +68,12 @@ public class GpsRecordController extends BaseController{
                 GpsRecordMachine gpsRecordMachine = new GpsRecordMachine();
                 gpsRecordMachine.setReMachTerminalId(refId);
                 RefMachTerminalEntity refMachTerminalEntity = refMachTerminalService.findOne(refId);
+
                 Validate.notNull(refMachTerminalEntity, "The refMachTerminalEntity must not be null, find failure.");
 
                 for(Integer c=0;c<gpsList.size();c++){
                     GpsData gpsData=new GpsData();
+                    gpsData.setMachineryWidth(refMachTerminalEntity.getMachineryWidth());
                     gpsData.setGpsTime(gpsList.get(c).getGpsTime());
                     gpsData.setLocalTime(gpsList.get(c).getLocalTime());
                     gpsData.setLatFixed(gpsList.get(c).getLatFixed());
@@ -263,6 +271,7 @@ public class GpsRecordController extends BaseController{
         System.out.println("startTimeDate="+startTimeDate);
         Date endTimeDate=sdf.parse(endTime);
         //Date endTimeDate = DateUtil.parseDate(endTime);
+        List<RefMachTerminalEntity> listRef=refMachTerminalService.findAll();//拿到农机以及终端信息
         List<BaseOrgEntity> ListBaseOrgEntity=baseOrgService.findAllBaseOrg();
         List<WorkerEntity> ListWorkerEntity = workerService.findAllByActive(true);
         List<GpsRecordEntity> listGpsRecordEntity= gpsRecordService.findByRefMachTerminalIDAndTimeScope(id, startTimeDate, endTimeDate);
@@ -270,6 +279,12 @@ public class GpsRecordController extends BaseController{
             List<GpsHome> listGpsHome=new ArrayList<GpsHome>();
             for(int i=0;i<listGpsRecordEntity.size();i++){
                 GpsHome gpsHome=new GpsHome();
+
+                for(int ii=0;ii<listRef.size();ii++){
+                    if(listRef.get(ii).getId()==listGpsRecordEntity.get(i).getRefMachTerminalId()){
+                        gpsHome.setMachineryWidth(listRef.get(ii).getMachineryWidth());
+                    }
+                }
                 gpsHome.setId(listGpsRecordEntity.get(i).getId());
                 gpsHome.setAccuracy(listGpsRecordEntity.get(i).getAccuracy());
                 gpsHome.setAlt(listGpsRecordEntity.get(i).getAlt());

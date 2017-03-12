@@ -28,6 +28,7 @@ public class GpsHome {
     private String state;
     private String name;
     private String orgName;
+    private String machineryWidth;
 
 
     public Integer getId() {
@@ -196,5 +197,13 @@ public class GpsHome {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+    public String getMachineryWidth() {
+        return machineryWidth;
+    }
+
+    public void setMachineryWidth(String machineryWidth) {
+        this.machineryWidth = machineryWidth;
     }
 }

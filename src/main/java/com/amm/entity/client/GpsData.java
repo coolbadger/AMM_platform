@@ -27,6 +27,7 @@ public class GpsData {
     private String creator;
     private String userName;
     private String state;
+    private String machineryWidth;
 
 
     public Integer getReMachTerminalId() {
@@ -187,5 +188,13 @@ public class GpsData {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getMachineryWidth() {
+        return machineryWidth;
+    }
+
+    public void setMachineryWidth(String machineryWidth) {
+        this.machineryWidth = machineryWidth;
     }
 }
