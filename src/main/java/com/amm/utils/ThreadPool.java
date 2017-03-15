@@ -21,9 +21,21 @@ import java.util.logging.SimpleFormatter;
  */
 
 public class ThreadPool {
+    private static ThreadPool instance;
+
     private static ExecutorService es= Executors.newCachedThreadPool();
     private static long starTime=System.currentTimeMillis();
     private static List<Future> futures=new ArrayList<Future>();//线程执行结果集
+
+    private ThreadPool(){
+    }
+
+    public static synchronized ThreadPool getInstance(){
+        if(instance==null){
+            new ThreadPool();
+        }
+        return instance;
+    }
 
     //获取缓存线程池
     public static ExecutorService getCachedThreadPool(){
