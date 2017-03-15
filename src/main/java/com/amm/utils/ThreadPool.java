@@ -46,11 +46,6 @@ public class ThreadPool {
         //将线程放入池，获取线程执行结果
         Future future=es.submit(myThread);
         futures.add(future);
-        try {
-         //   myThread.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         if(futures.size()>1){
             getThreadPoolMes();

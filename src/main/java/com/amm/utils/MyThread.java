@@ -15,6 +15,7 @@ public class MyThread implements Runnable {
     public MyThread(Object object){
         o=object;
         Thread t=new Thread(this);
+        t.start();
         //初始化时默认加载到池
         ThreadPool.getResultSubmit(t);
     }
