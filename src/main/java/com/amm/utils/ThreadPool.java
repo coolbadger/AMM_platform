@@ -42,16 +42,12 @@ public class ThreadPool {
         return es;
     }
     //添加单个线程到线程池
-    public static void getResultSubmit(MyThread myThread){
-        System.out.println("线程开始时间:"+getTime(System.currentTimeMillis()));
-
-        //新建线程
-        Thread r=new Thread(myThread);
+    public static void getResultSubmit(Thread myThread){
         //将线程放入池，获取线程执行结果
-        Future future=es.submit(r);
+        Future future=es.submit(myThread);
         futures.add(future);
         try {
-            r.start();
+         //   myThread.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +58,7 @@ public class ThreadPool {
     }
 
     public static void getThreadPoolMes(){
+        System.out.println("线程开始时间:"+getTime(starTime));
         try {
             for (int i=0;i<futures.size();i++){
                 if(futures.get(i).get()==null){
