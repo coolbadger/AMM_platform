@@ -66,11 +66,11 @@ public class SendMes {
 
             gpsRecordEntity.setLat(new BigDecimal(34.036718).setScale(6,BigDecimal.ROUND_DOWN));
             sendMessageQueue(gpsRecordEntity);
-            GpsRecordVariables.setCounts(GpsRecordVariables.getCounts()+1);
             if (GpsRecordVariables.getCounts()>=90){
                 new MyThread();//每存90条，取一次信息
                 GpsRecordVariables.setCounts(0);
             }
+            GpsRecordVariables.setCounts(GpsRecordVariables.getCounts()+1);
         }
         System.out.println("over_____________");
 

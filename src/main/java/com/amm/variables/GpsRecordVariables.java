@@ -5,7 +5,7 @@ package com.amm.variables;
  */
 public class GpsRecordVariables {
 
-    private static int counts = 0;//队列中数量
+    private static int counts = 1;//队列中数量
 
     public static int getCounts() {
         return counts;

@@ -28,10 +28,10 @@ public class RecMes{
     private final static String QUEUE_NAME = "send_queue";
 
     public static void main(String[] argv) throws Exception {
-        recMessage();
+        //recMessage();
     }
 
-    public static void recMessage() throws Exception {
+    public void recMessage() throws Exception {
         // 获取到连接以及mq通道
         Connection connection = ConnectionUtil.getConnection();
         Channel channel = connection.createChannel();
@@ -85,7 +85,7 @@ public class RecMes{
             gpsRecordEntities.get(i).setLatFixed(gpsResultDetails.get(i).getLatFixed());
             gpsRecordEntities.get(i).setLngFixed(gpsResultDetails.get(i).getLngFixed());
             gpsRecordEntities.get(i).setFlag("1");
-//            gpsRecordRepository.saveAndFlush(gpsRecordEntities.get(i));
+            gpsRecordRepository.saveAndFlush(gpsRecordEntities.get(i));
             System.out.println("数据更新成功"+gpsRecordEntities.get(i).getLatFixed()+","+gpsRecordEntities.get(i).getLngFixed());
         }
 
