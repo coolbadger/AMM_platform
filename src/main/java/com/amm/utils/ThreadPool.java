@@ -57,7 +57,7 @@ public class ThreadPool {
                 }
             }
             //线程池不再接收任何新任务，但此时线程池并不会立刻退出，直到添加到线程池中的任务都已经处理完成
-            es.shutdown();
+//            es.shutdown();
             System.out.println("所剩线程:"+Thread.currentThread().getName());
 
         } catch (InterruptedException e1) {

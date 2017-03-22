@@ -23,8 +23,13 @@ public class MyThread implements Runnable {
     RecMesService recMesService;
 
     public MyThread(){
+        ThreadPool.getResultSubmit(this);
+    }
+
+    public MyThread(RecMesService recMesService){
 //        o=object;
         //初始化时默认加载到池
+        this.recMesService = recMesService;
         ThreadPool.getResultSubmit(this);
     }
     public void run() {

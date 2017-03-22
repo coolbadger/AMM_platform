@@ -5,6 +5,7 @@ import com.amm.entity.WorkerEntity;
 import com.amm.entity.client.GpsRecordSave;
 import com.amm.queue.SendMes;
 import com.amm.service.AMMClientPacketService;
+import com.amm.service.RecMesService;
 import com.amm.socketserver.packetentity.AMMPacket;
 import com.amm.utils.MyThread;
 import com.amm.variables.GpsRecordVariables;
@@ -26,6 +27,9 @@ public class AMMIOHandler extends IoHandlerAdapter {
     private Logger logger = LoggerFactory.getLogger(AMMIOHandler.class);
     @Autowired
     private AMMClientPacketService ammClientPacketService;
+
+    @Autowired
+    private RecMesService recMesService;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
 
@@ -187,8 +191,8 @@ public class AMMIOHandler extends IoHandlerAdapter {
                         System.out.println("记录数据成功====================");
                         try{
                             SendMes.sendMessageQueue(gpsRecordEntity);//存入队列
-                            if (GpsRecordVariables.getCounts()>=90){
-                                new MyThread();//取出队列
+                            if (GpsRecordVariables.getCounts()>=90){//90
+                                new MyThread(recMesService);//取出队列
                                 GpsRecordVariables.setCounts(0);//队列中数据置为0
                                 System.out.println("取出队列成功-----------------");
                             }
