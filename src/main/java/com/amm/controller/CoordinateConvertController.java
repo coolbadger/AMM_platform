@@ -1,6 +1,6 @@
 package com.amm.controller;
 
-import com.amm.service.CoordinateConvertServer;
+import com.amm.service.CoordinateConvertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CoordinateConvertController {
 
     @Autowired
-    private CoordinateConvertServer coordinateConvertServer;
+    private CoordinateConvertService coordinateConvertService;
 
 
     @RequestMapping(method = RequestMethod.GET)
     public void covert(){
-        coordinateConvertServer.convert();
+        coordinateConvertService.convert();
     }
 }

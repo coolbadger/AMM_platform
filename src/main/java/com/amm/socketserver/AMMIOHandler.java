@@ -3,11 +3,11 @@ package com.amm.socketserver;
 import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.WorkerEntity;
 import com.amm.entity.client.GpsRecordSave;
-import com.amm.gps.WebRequest;
+import com.amm.queue.SendMes;
 import com.amm.service.AMMClientPacketService;
-import com.amm.service.impl.CoordinateConvertImpl;
 import com.amm.socketserver.packetentity.AMMPacket;
 import com.amm.utils.MyThread;
+import com.amm.variables.GpsRecordVariables;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
@@ -164,6 +164,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
 //                        gpsRecordSave.setLatFixed(new BigDecimal(fixedGps[1]));
 //                    }
 
+
                     if(parseResult[5]!=null&&parseResult[5].length()>0){
                         gpsRecordSave.setAlt(new BigDecimal(parseResult[5]).setScale(2,BigDecimal.ROUND_HALF_UP));
                     }
@@ -183,6 +184,19 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     if(gpsRecordEntity!=null){
                         //位置信息记录成功
                         locreqSucess = true;
+                        System.out.println("记录数据成功====================");
+                        try{
+                            SendMes.sendMessageQueue(gpsRecordEntity);//存入队列
+                            GpsRecordVariables.setCounts(GpsRecordVariables.getCounts()+1);//队列数+1
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        System.out.println("存入队列成功*********************");
+                        if (GpsRecordVariables.getCounts()>=89){
+                            new MyThread();//取出队列
+                            GpsRecordVariables.setCounts(0);//队列中数据置为0
+                            System.out.println("取出队列成功-----------------");
+                        }
 
                     }
                 } catch (Exception e) {

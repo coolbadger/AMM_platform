@@ -21,31 +21,28 @@ import java.util.logging.SimpleFormatter;
  */
 
 public class ThreadPool {
-    private static ThreadPool instance;
-
     private static ExecutorService es= Executors.newCachedThreadPool();
     private static long starTime=System.currentTimeMillis();
     private static List<Future> futures=new ArrayList<Future>();//线程执行结果集
-
-    private ThreadPool(){
-    }
-
-    public static synchronized ThreadPool getInstance(){
-        if(instance==null){
-            new ThreadPool();
-        }
-        return instance;
-    }
 
     //获取缓存线程池
     public static ExecutorService getCachedThreadPool(){
         return es;
     }
     //添加单个线程到线程池
-    public static void getResultSubmit(Thread myThread){
+    public static void getResultSubmit(MyThread myThread){
+        System.out.println("线程开始时间:"+getTime(System.currentTimeMillis()));
+
+        //新建线程
+        Thread r=new Thread(myThread);
         //将线程放入池，获取线程执行结果
-        Future future=es.submit(myThread);
+        Future future=es.submit(r);
         futures.add(future);
+        try {
+//            r.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if(futures.size()>1){
             getThreadPoolMes();
@@ -53,7 +50,6 @@ public class ThreadPool {
     }
 
     public static void getThreadPoolMes(){
-        System.out.println("线程开始时间:"+getTime(starTime));
         try {
             for (int i=0;i<futures.size();i++){
                 if(futures.get(i).get()==null){

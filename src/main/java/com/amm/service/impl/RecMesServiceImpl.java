@@ -1,4 +1,4 @@
-package com.amm.queue;
+package com.amm.service.impl;
 
 import com.amm.entity.GpsRecordEntity;
 import com.amm.gps.GpsResultDetail;
@@ -10,6 +10,8 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.QueueingConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -17,21 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sw on 2017/3/10 0010.
- * 接收请求数据   测试类
+ * Created by ThinkPad on 2017-03-17.
  */
-public class RecMes{
+@Component("RecMesService")
+@Scope("prototype")
+public class RecMesServiceImpl implements RecMesService{
 
     @Autowired
     GpsRecordRepository gpsRecordRepository;
 
     private final static String QUEUE_NAME = "send_queue";
 
-    public static void main(String[] argv) throws Exception {
-        recMessage();
-    }
-
-    public static void recMessage() throws Exception {
+    public void recMessage() throws Exception {
         // 获取到连接以及mq通道
         Connection connection = ConnectionUtil.getConnection();
         Channel channel = connection.createChannel();
@@ -85,43 +84,11 @@ public class RecMes{
             gpsRecordEntities.get(i).setLatFixed(gpsResultDetails.get(i).getLatFixed());
             gpsRecordEntities.get(i).setLngFixed(gpsResultDetails.get(i).getLngFixed());
             gpsRecordEntities.get(i).setFlag("1");
-//            gpsRecordRepository.saveAndFlush(gpsRecordEntities.get(i));
+            gpsRecordRepository.saveAndFlush(gpsRecordEntities.get(i));
             System.out.println("数据更新成功"+gpsRecordEntities.get(i).getLatFixed()+","+gpsRecordEntities.get(i).getLngFixed());
         }
 
         gpsRecordEntities.clear();
         buffer = buffer.delete(0,buffer.length());
     }
-//        public static void recMessage() throws Exception {
-//        // 获取到连接以及mq通道
-//        Connection connection = ConnectionUtil.getConnection();
-//        Channel channel = connection.createChannel();
-//        // 声明队列
-//        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-//
-//        // 同一时刻服务器只会发一条消息给消费者
-//        channel.basicQos(1);
-//
-//        // 定义队列的消费者
-//        QueueingConsumer consumer = new QueueingConsumer(channel);
-//        // 监听队列，手动返回完成
-//        channel.basicConsume(QUEUE_NAME, false, consumer);
-//
-//        // 获取消息
-//        int count = 0;
-//        while (count<90) {
-////            Thread.sleep(1);
-//            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-//            String message = new String(delivery.getBody());
-//            System.out.println(" [x] Received '" + message + "'");
-//            //休眠
-////            Thread.sleep(500);
-//            // 返回确认状态
-//            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-//            count++;
-//        }
-//        channel.close();
-//        connection.close();
-//    }
-
 }

@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,18 +46,25 @@ public class WebRequest {
         return resultArray;
     }
 
-    public static Double[] getGpsFixed(double lng, double lat) {
-        Double[] gpsPoint = new Double[2];
-        String newCoordStr = lng + "," + lat;
+    public static List<GpsResultDetail> getGpsFixed(String newCoordStr) {
+
+//        String newCoordStr = lng + "," + lat;
 //        newCoordStr = "114.21892734521,29.575429778924;114.21892734521,29.575429778924";
 
         String param = "coords=" + newCoordStr + "&from=1&to=5&ak=" + "Lf4vzvGaMijyBRRRofgZLNRIPzQqM4ac";
         String result = WebRequest.sendGet("http://api.map.baidu.com/geoconv/v1/", param);
+        System.out.println(result);
+        ConvertResult convertResult = new ConvertResult();
 
-        gpsPoint[0] = new Double(result.substring(result.indexOf("\"x\":") + 4, result.indexOf(",\"y\"")));
-        gpsPoint[1] = new Double(result.substring(result.indexOf(",\"y\":") + 5, result.indexOf("}]}")));
+        ArrayList<GpsResultDetail> list = convertResult.getObj(result);
 
-        return gpsPoint;
+
+
+//        gpsPoint[0] = new Double(result.substring(result.indexOf("\"x\":") + 4, result.indexOf(",\"y\"")));
+//        gpsPoint[1] = new Double(result.substring(result.indexOf(",\"y\":") + 5, result.indexOf("}]}")));
+
+
+        return list;
     }
 
     public WebRequest() {
@@ -67,13 +75,13 @@ public class WebRequest {
         this.coordStr = coordStr;
     }
 
-    public static void main(String[] args) {
-//        new WebRequest().convert();
-        //11735.82821,3402.19032
-        Double[] bigDecimals = getGpsFixed(117.592168, 34.036599);
-        System.out.println(bigDecimals[0]);
-        System.out.println(bigDecimals[1]);
-    }
+//    public static void main(String[] args) {
+////        new WebRequest().convert();
+//        //11735.82821,3402.19032
+//        Double[] bigDecimals = getGpsFixed(117.592168, 34.036599);
+//        System.out.println(bigDecimals[0]);
+//        System.out.println(bigDecimals[1]);
+//    }
 
 
     public void convert() {

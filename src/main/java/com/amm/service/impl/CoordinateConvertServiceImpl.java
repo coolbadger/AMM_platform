@@ -53,7 +53,7 @@ public class CoordinateConvertServiceImpl implements CoordinateConvertService {
                 buffer.append(list.get(j).getLat());
                 buffer.append(";");
                 j++;
-            }catch (IndexOutOfBoundsException e){
+            }catch (Exception e){
                 e.printStackTrace();
                 break;
             }
@@ -64,13 +64,14 @@ public class CoordinateConvertServiceImpl implements CoordinateConvertService {
         String newCoordStr = buffer.deleteCharAt(buffer.length()-1).toString();//百度api允许请求格式为{"xxxx,xxxx;xxxx,xxxx"}
         List<GpsResultDetail> gpsResultDetails = WebRequest.getGpsFixed(newCoordStr);//请求百度api批量转换坐标
 
+        //逐条更新结果
         for (int i = 0;i<gpsResultDetails.size();i++){
             list.get(i).setLngFixed(gpsResultDetails.get(i).getLngFixed());
             list.get(i).setLatFixed(gpsResultDetails.get(i).getLatFixed());
             list.get(i).setFlag("1");
             gpsRecordRepository.saveAndFlush(list.get(i));//转换完成 更新数据
         }
-
+        //迭代器清空list
         Iterator<GpsRecordEntity> it = list.iterator();
            while (it.hasNext()){
                String flag = it.next().getFlag();

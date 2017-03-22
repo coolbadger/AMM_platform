@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "gps_record", schema = "", catalog = "amm")
-public class GpsRecordEntity {
+public class GpsRecordEntity implements Serializable{
     private Integer id;
     private Integer workerId;
     private Integer refMachTerminalId;
