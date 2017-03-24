@@ -19,8 +19,8 @@ class ConvertResult {
         gpsResultDetails = new ArrayList<GpsResultDetail>();
         root.result.each { r ->
             gpsResultDetail = new GpsResultDetail()
-            gpsResultDetail.latFixed = r.x
-            gpsResultDetail.lngFixed = r.y
+            gpsResultDetail.latFixed = r.y
+            gpsResultDetail.lngFixed = r.x
             gpsResultDetails.push(gpsResultDetail)
         }
         return gpsResultDetails;

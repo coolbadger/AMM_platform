@@ -67,14 +67,14 @@ public class ThreadPool {
         }
 
         long endTime;
-        while(true){
-            if(es.isTerminated()){
-                endTime=System.currentTimeMillis();
-                System.out.println("池中所有线程结束.结束时间:"+getTime(endTime));
-                break;
-            }
-        }
-        System.out.println("线程启用时间:"+getTimeFromLong(endTime-starTime));
+//        while(true){
+//            if(es.isTerminated()){
+//                endTime=System.currentTimeMillis();
+//                System.out.println("池中所有线程结束.结束时间:"+getTime(endTime));
+//                break;
+//            }
+//        }
+//        System.out.println("线程启用时间:"+getTimeFromLong(endTime-starTime));
     }
 
     /**
