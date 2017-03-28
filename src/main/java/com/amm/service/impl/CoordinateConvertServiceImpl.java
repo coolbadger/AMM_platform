@@ -45,6 +45,15 @@ public class CoordinateConvertServiceImpl implements CoordinateConvertService {
 
        while (list.size()>0) {
 
+           //迭代器清空list
+           Iterator<GpsRecordEntity> it = list.iterator();
+           while (it.hasNext()){
+               String flag = it.next().getFlag();
+               if ("1".equals(flag)||"2".equals(flag)){
+                   it.remove();
+               }
+           }
+
         while (j<90){
 
             try{
@@ -71,14 +80,7 @@ public class CoordinateConvertServiceImpl implements CoordinateConvertService {
             list.get(i).setFlag("1");
             gpsRecordRepository.saveAndFlush(list.get(i));//转换完成 更新数据
         }
-        //迭代器清空list
-        Iterator<GpsRecordEntity> it = list.iterator();
-           while (it.hasNext()){
-               String flag = it.next().getFlag();
-               if ("1".equals(flag)||"2".equals(flag)){
-                   it.remove();
-               }
-           }
+
 
         buffer = buffer.delete(0,buffer.length());
     }

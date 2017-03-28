@@ -26,6 +26,7 @@ public class SendMes {
         Connection connection = null;
         try {
             connection = ConnectionUtil.getConnection();
+            System.out.println("队列链接成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,11 +35,13 @@ public class SendMes {
         // 声明队列
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
+        System.out.println("流开始");
         byte[] bytes=null;
         ByteArrayOutputStream bo=new ByteArrayOutputStream();
         ObjectOutputStream oo=new ObjectOutputStream(bo);
         oo.writeObject(gpsRecordEntity);
         bytes = bo.toByteArray();
+        System.out.println("流结束");
         bo.close();
         oo.close();
 
@@ -61,7 +64,7 @@ public class SendMes {
 
         GpsRecordEntity gpsRecordEntity = new GpsRecordEntity();
 
-        for (int i = 0;i<180;i++){
+        for (int i = 0;i<720;i++){
             gpsRecordEntity.setLng(new BigDecimal(117.592233).setScale(6,BigDecimal.ROUND_DOWN));
 
             gpsRecordEntity.setLat(new BigDecimal(34.036718).setScale(6,BigDecimal.ROUND_DOWN));
