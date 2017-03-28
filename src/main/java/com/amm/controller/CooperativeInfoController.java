@@ -51,7 +51,7 @@ public class CooperativeInfoController extends BaseController {
             try {
                 List<GpsRecordEntity> times = gpsMap.get(refId);
                 if (times.size() > 0) {
-                    Date localTime = times.get(0).getLocalTime();
+                    Date localTime = times.get(times.size()-1).getLocalTime();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     cooperativeInfo.setSensor1(times.get(0).getSensor1());
                     cooperativeInfo.setLocalTime(sdf.format(localTime));
