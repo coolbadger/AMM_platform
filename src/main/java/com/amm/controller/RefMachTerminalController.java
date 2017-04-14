@@ -48,10 +48,18 @@ public class RefMachTerminalController {
         refMachTerminalEntity.setTerminalState(refMachTerminal.getTerminalState());
         refMachTerminalEntity.setWorkTime(refMachTerminal.getWorkTime());
         RefMachTerminalEntity updated = refMachTerminalService.updateRefMachTerminal(refMachTerminalEntity);
-
-
         return updated;
 
+    }
+
+
+
+    /*删除*/
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable Integer id){
+        Validate.notNull(id, "The id of machine must not be null, update failure.");
+        refMachTerminalService.delete(id);
     }
 
 

@@ -11,13 +11,16 @@ import com.amm.repository.MachineRepository;
 import com.amm.repository.RefMachTerminalRepository;
 import com.amm.repository.TerminalRepository;
 import com.amm.service.MachTerminalService;
+import com.amm.utils.DateUtil;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -134,10 +137,12 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
             throw new ObjectNotFoundException("需要解除绑定的记录没找到!");
         }
 
+        SimpleDateFormat sdf=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+        String date=sdf.format(new Date());
         updated.setTerminalId(null);
         updated.setRefMachTerminalId(null);
         updated.setStartTime(null);
-
+        updated.setEndTime(DateUtil.parseDate(date));
         updated = machTerminalRepository.save(updated);
 
         return updated;

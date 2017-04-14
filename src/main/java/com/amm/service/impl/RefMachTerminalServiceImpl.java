@@ -49,4 +49,8 @@ public class RefMachTerminalServiceImpl extends BaseService implements RefMachTe
 
         return saved;
     }
+
+    public void delete(Integer id) {
+        refMachTerminalRepository.delete(id);
+    }
 }

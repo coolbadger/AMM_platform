@@ -28,7 +28,7 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
 
     List<GpsRecordEntity> findByLatFixedOrderByGpsTimeAsc(String str);
 
-    @Query(value = "select * from (select * from gps_record order by gps_time desc) i group by ref_mach_terminal_id",nativeQuery = true)
+    @Query(value = "SELECT * FROM (SELECT * FROM gps_record WHERE lat_fixed IS NOT NULL ORDER BY gps_time DESC ) a GROUP BY ref_mach_terminal_id",nativeQuery = true)
     List<GpsRecordEntity> getFirst();
 
     @Query(value="SELECT * FROM gps_record WHERE state IS NULL OR state!=1",nativeQuery = true)

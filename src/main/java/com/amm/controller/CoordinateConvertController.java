@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * Created by ThinkPad on 2017-03-10.
  */
-@RequestMapping("api/convert")
 @Controller
+@RequestMapping("api/convert")
 public class CoordinateConvertController {
 
     @Autowired

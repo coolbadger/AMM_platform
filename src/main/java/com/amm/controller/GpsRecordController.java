@@ -110,6 +110,7 @@ public class GpsRecordController extends BaseController{
         refMachTerminalEntity.setTerminalCode(refMachTerminal.getTerminalCode());
         refMachTerminalEntity.setTerminalState(refMachTerminal.getTerminalState());
         refMachTerminalEntity.setWorkingType(refMachTerminal.getWorkingType());
+        refMachTerminalEntity.setMachineryWidth(refMachTerminal.getMachineryWidth());
             if(refMachTerminal.getDrivingArea()!=null&&refMachTerminal.getWorkArea()!=null&&refMachTerminal.getWorkTime()!=null&&!refMachTerminal.getDrivingArea().equals("")&&!refMachTerminal.getWorkArea().equals("")&&!refMachTerminal.getWorkTime().equals("")){
                 refMachTerminalEntity.setDrivingArea(Double.toString(Double.parseDouble(refMachTerminal.getDrivingArea())+Double.parseDouble(refMachTerminalEntity.getDrivingArea())));
                 refMachTerminalEntity.setWorkArea(Double.toString(Double.parseDouble(refMachTerminal.getWorkArea())+Double.parseDouble(refMachTerminalEntity.getWorkArea())));

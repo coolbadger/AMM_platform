@@ -153,4 +153,10 @@ public class AMMDecoder extends CumulativeProtocolDecoder {
         return  (b[0] & 0xFF) << 8 |
                 (b[1] & 0xFF);
     }
+
+    public static void main(String[] args){
+        byte[] a = new byte[]{(byte)0x88,(byte)0x9A,(byte)0xA8,(byte)0xFE};
+        System.out.println(a);
+    }
+
 }

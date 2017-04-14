@@ -14,5 +14,6 @@ public interface RefMachTerminalService {
     List<RefMachTerminalEntity> findAll();
     RefMachTerminalEntity findById(Integer Id);
     RefMachTerminalEntity updateRefMachTerminal(RefMachTerminalEntity refMachTerminal);
+    void delete(Integer id);
 
 }
