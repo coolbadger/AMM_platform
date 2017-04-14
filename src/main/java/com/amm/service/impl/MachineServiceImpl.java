@@ -42,6 +42,10 @@ public class MachineServiceImpl extends BaseService implements MachineService {
 
         return machineRepository.findByOrgId(orgId);
     }
+    public List<MachineEntity> findByOrgIdAndActive(Integer orgId, Boolean active) {
+        return machineRepository.findByOrgIdAndActive(orgId,active);
+    }
+
 
 
     @Transactional

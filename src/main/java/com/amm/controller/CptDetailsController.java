@@ -37,7 +37,7 @@ public class CptDetailsController extends BaseController{
             CptDetails cptDetails=new CptDetails();
             Integer BaseOrgId=ListBaseOrgEntity.get(i).getId();
             String OrgName=ListBaseOrgEntity.get(i).getOrgName();
-            List<MachineEntity>  listMachineEntity=machineService.findByOrgId(BaseOrgId);
+            List<MachineEntity>  listMachineEntity=machineService.findByOrgIdAndActive(BaseOrgId,true);
             Integer machSize=listMachineEntity.size();
             cptDetails.setId(BaseOrgId);
             cptDetails.setOrgAddress(ListBaseOrgEntity.get(i).getOrgAddress());

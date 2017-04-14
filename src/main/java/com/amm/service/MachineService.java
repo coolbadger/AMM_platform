@@ -20,4 +20,7 @@ public interface MachineService {
     MachineEntity delete(Integer id);
 
     List<MachineEntity> findByOrgId(Integer orgId);
+
+    List<MachineEntity> findByOrgIdAndActive(Integer orgId,Boolean active);
+
 }
