@@ -1,6 +1,7 @@
 package com.amm.controller;
 
 import com.amm.entity.RefMachTerminalEntity;
+import com.amm.entity.client.MachTerminal;
 import com.amm.service.RefMachTerminalService;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +22,26 @@ public class RefMachTerminalController {
     @Autowired
     private RefMachTerminalService refMachTerminalService;
 
+    @Autowired
+    private MachTerminalController machTerminalController;
+
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<RefMachTerminalEntity> getAll(){
+    public List<RefMachTerminalEntity> getAll(Boolean isBind){
+        List<MachTerminal> machTerminal=machTerminalController.getAll(true);
         List<RefMachTerminalEntity> listRef= refMachTerminalService.findAll();
-        return listRef;
+        List<RefMachTerminalEntity> tempList=new ArrayList<RefMachTerminalEntity>();
+        for(int i=0;i<machTerminal.size();i++){
+            Integer refId=machTerminal.get(i).getRefMachTerminalId();
+            for(int a=0;a<listRef.size();a++){
+                Integer ID=listRef.get(a).getId();
+                if(refId==ID){
+                    tempList.add(listRef.get(a));
+                }
+            }
+        }
+
+        return tempList;
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
@@ -53,14 +70,18 @@ public class RefMachTerminalController {
     }
 
 
+/*
 
-    /*删除*/
+    */
+/*删除*//*
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable Integer id){
         Validate.notNull(id, "The id of machine must not be null, update failure.");
         refMachTerminalService.delete(id);
     }
+*/
 
 
 
