@@ -40,9 +40,9 @@ public class DetailsPageController extends BaseController{
         List<DetailsPage> temp=new ArrayList<DetailsPage>();
             for(int i=0;i<baseOrgEntityList.size();i++){
                 Integer tempMachSize=0;
-                Double tempDrivingArea= 0.0;
-                Double tempWorkArea=0.0;
-                Double tempWorkTime=0.0;
+                float tempDrivingArea= 0;
+                float tempWorkArea=0;
+                float tempWorkTime=0;
                 DetailsPage detailsPage=new DetailsPage();
                Integer baseOrgId=baseOrgEntityList.get(i).getId();
                 //合作社信息
@@ -75,9 +75,9 @@ public class DetailsPageController extends BaseController{
                 }
                 //农机信息
                 detailsPage.setMachSize(tempMachSize);
-                detailsPage.setAllWorkTime(Double.toString(tempWorkTime));
-                detailsPage.setAllDrivingArea(Double.toString(tempDrivingArea));
-                detailsPage.setAllWorkArea(Double.toString(tempWorkArea));
+                detailsPage.setAllWorkTime(Float.toString(tempWorkTime));
+                detailsPage.setAllDrivingArea(Float.toString(tempDrivingArea));
+                detailsPage.setAllWorkArea(Float.toString(tempWorkArea));
                 temp.add(detailsPage);
             }
         return temp;
