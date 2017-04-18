@@ -21,6 +21,7 @@ import java.io.StringWriter;
  */
 public abstract class BaseController extends BaseComponent {
 
+
     private ObjectMapper jsonMapper = new ObjectMapper();
 
     private StringWriter errors;
