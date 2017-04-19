@@ -63,9 +63,9 @@ public class DetailsPageController extends BaseController{
                                     if(refMachTerminalId == RefMachTerminaId){
                                         //农机
                                         tempMachSize +=1;
-                                        tempWorkTime+= Double.parseDouble(listRef.get(d).getWorkTime());
-                                        tempWorkArea+= Double.parseDouble(listRef.get(d).getWorkArea());
-                                        tempDrivingArea+= Double.parseDouble(listRef.get(d).getDrivingArea());
+                                        tempWorkTime+= Float.parseFloat(listRef.get(d).getWorkTime());
+                                        tempWorkArea+= Float.parseFloat(listRef.get(d).getWorkArea());
+                                        tempDrivingArea+= Float.parseFloat(listRef.get(d).getDrivingArea());
                                     }
                                 }
                             }

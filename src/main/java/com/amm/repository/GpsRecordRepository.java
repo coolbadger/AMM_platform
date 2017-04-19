@@ -34,7 +34,7 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
     @Query(value="SELECT * FROM gps_record WHERE state IS NULL OR state!=1",nativeQuery = true)
     List<GpsRecordEntity> getFinishingData();
 
-    @Modifying @Query(value = "UPDATE gps_record set state=?1 ",nativeQuery = true) int updateState(String state);//
+    @Modifying @Query(value = "UPDATE gps_record set state=?1 WHERE  lat_fixed IS NOT NULL ",nativeQuery = true) int updateState(String state);//
 
     @Query(value = "SELECT * FROM gps_record  WHERE flag IS NULL",nativeQuery = true)
     List<GpsRecordEntity> getUnConvert();
