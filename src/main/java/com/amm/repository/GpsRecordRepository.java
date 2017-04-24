@@ -2,10 +2,12 @@ package com.amm.repository;
 
 import com.amm.entity.GpsRecordEntity;
 import com.amm.entity.client.GpsData;
+import com.amm.entity.client.GpsRecord;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,12 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
 
     List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBefore(Date startTime, Date endTime);
 
-    List<GpsRecordEntity> findByRefMachTerminalIdAndGpsTimeBetweenAndLngFixedIsNotNull(Integer id, Date startTime, Date endTime);
+   /* 修正取多余数据*/
+    @Query(value = "select *, count(distinct ref_mach_terminal_id,terminal_code,gps_time,local_time) from gps_record WHERE gps_time>=:startTime AND gps_time<=:endTime AND ref_mach_terminal_id=:id  group by ref_mach_terminal_id,terminal_code,gps_time,local_time ",nativeQuery = true)
+    List<GpsRecordEntity> findByRefMachTerminalIdAndGpsTimeBetweenAndLngFixedIsNotNull(@Param("id") Integer id,@Param("startTime") Date startTime,@Param("endTime") Date endTime);
+
+
+    //List<GpsRecordEntity> findByRefMachTerminalIdAndGpsTimeBetweenAndLngFixedIsNotNull(Integer id, Date startTime, Date endTime);
 
     List<GpsRecordEntity> findByRefMachTerminalId(Integer id);
 
