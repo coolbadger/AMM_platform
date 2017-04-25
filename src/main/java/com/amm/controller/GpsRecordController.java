@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -98,6 +99,10 @@ public class GpsRecordController extends BaseController{
     public RefMachTerminalEntity update(@PathVariable Integer id,@RequestBody RefMachTerminalEntity refMachTerminalEntity) throws Exception{
         Validate.notNull(id, "The id of orgUser must not be null, update failure.");
         Validate.notNull(refMachTerminalEntity, "The orgUser object must not be null, update failure.");
+        DecimalFormat df = new DecimalFormat("#.00");
+        Object da=df.format(Double.parseDouble(refMachTerminalEntity.getDrivingArea()));
+        Object wa=df.format(Double.parseDouble(refMachTerminalEntity.getWorkArea()));
+        Object wt=df.format(Double.parseDouble(refMachTerminalEntity.getWorkTime()));
         RefMachTerminalEntity refMachTerminal=refMachTerminalService.findById(id);
         gpsRecordService.updateState("1");
         refMachTerminalEntity.setMachState(refMachTerminal.getMachState());
@@ -112,9 +117,9 @@ public class GpsRecordController extends BaseController{
         refMachTerminalEntity.setWorkingType(refMachTerminal.getWorkingType());
         refMachTerminalEntity.setMachineryWidth(refMachTerminal.getMachineryWidth());
             if(refMachTerminal.getDrivingArea()!=null&&refMachTerminal.getWorkArea()!=null&&refMachTerminal.getWorkTime()!=null&&!refMachTerminal.getDrivingArea().equals("")&&!refMachTerminal.getWorkArea().equals("")&&!refMachTerminal.getWorkTime().equals("")){
-                refMachTerminalEntity.setDrivingArea(Double.toString(Double.parseDouble(refMachTerminal.getDrivingArea())+Double.parseDouble(refMachTerminalEntity.getDrivingArea())));
-                refMachTerminalEntity.setWorkArea(Double.toString(Double.parseDouble(refMachTerminal.getWorkArea())+Double.parseDouble(refMachTerminalEntity.getWorkArea())));
-                refMachTerminalEntity.setWorkTime(Double.toString(Double.parseDouble(refMachTerminal.getWorkTime())+Double.parseDouble(refMachTerminalEntity.getWorkTime())));
+                refMachTerminalEntity.setDrivingArea((String) da);
+                refMachTerminalEntity.setWorkArea((String) wa);
+                refMachTerminalEntity.setWorkTime((String) wt);
 
             }
 
