@@ -137,6 +137,8 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
             throw new ObjectNotFoundException("需要解除绑定的记录没找到!");
         }
 
+        Integer Id=updated.getRefMachTerminalId();
+        refMachTerminalRepository.delete(Id);
         SimpleDateFormat sdf=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
         String date=sdf.format(new Date());
         updated.setTerminalId(null);
@@ -144,6 +146,7 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
         updated.setStartTime(null);
         updated.setEndTime(DateUtil.parseDate(date));
         updated = machTerminalRepository.save(updated);
+
 
         return updated;
     }
