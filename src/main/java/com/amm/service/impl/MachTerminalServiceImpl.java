@@ -6,10 +6,7 @@ import com.amm.entity.RefMachTerminalEntity;
 import com.amm.entity.TerminalEntity;
 import com.amm.entity.client.MachTerminal;
 import com.amm.exception.ObjectNotFoundException;
-import com.amm.repository.MachTerminalRepository;
-import com.amm.repository.MachineRepository;
-import com.amm.repository.RefMachTerminalRepository;
-import com.amm.repository.TerminalRepository;
+import com.amm.repository.*;
 import com.amm.service.MachTerminalService;
 import com.amm.utils.DateUtil;
 import org.apache.commons.lang3.Validate;
@@ -42,6 +39,7 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
 
     @Autowired
     private RefMachTerminalRepository refMachTerminalRepository;
+
 
     @Transactional
     public MachTerminalEntity create(MachTerminalEntity machTerminalEntity) {
@@ -137,9 +135,7 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
             throw new ObjectNotFoundException("需要解除绑定的记录没找到!");
         }
 
-        Integer Id=updated.getRefMachTerminalId();
-        refMachTerminalRepository.delete(Id);
-        SimpleDateFormat sdf=new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date=sdf.format(new Date());
         updated.setTerminalId(null);
         updated.setRefMachTerminalId(null);
