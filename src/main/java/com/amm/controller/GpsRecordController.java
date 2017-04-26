@@ -99,11 +99,34 @@ public class GpsRecordController extends BaseController{
     public RefMachTerminalEntity update(@PathVariable Integer id,@RequestBody RefMachTerminalEntity refMachTerminalEntity) throws Exception{
         Validate.notNull(id, "The id of orgUser must not be null, update failure.");
         Validate.notNull(refMachTerminalEntity, "The orgUser object must not be null, update failure.");
-        DecimalFormat df = new DecimalFormat("#.00");
+        String DrivingArea="";
+        String WorkArea="";
+        String WorkTime="";
+        DecimalFormat df = new DecimalFormat("0.00");
         RefMachTerminalEntity refMachTerminal=refMachTerminalService.findById(id);
-        Object da=df.format(Double.parseDouble(refMachTerminalEntity.getDrivingArea())+Double.parseDouble(refMachTerminal.getDrivingArea()));
-        Object wa=df.format(Double.parseDouble(refMachTerminalEntity.getWorkArea())+Double.parseDouble(refMachTerminal.getWorkArea()));
-        Object wt=df.format(Double.parseDouble(refMachTerminalEntity.getWorkTime())+Double.parseDouble(refMachTerminal.getWorkTime()));
+
+        if(refMachTerminal.getDrivingArea()!=null&&!refMachTerminal.getDrivingArea().equals("")){
+            double v = Double.parseDouble(refMachTerminal.getDrivingArea()) + Double.parseDouble(refMachTerminalEntity.getDrivingArea());
+            DrivingArea=df.format(v);
+        }else{
+            DrivingArea=refMachTerminalEntity.getDrivingArea();
+        }
+
+        if(refMachTerminal.getWorkArea()!=null&&!refMachTerminal.getWorkTime().equals("")){
+            double v = Double.parseDouble(refMachTerminal.getWorkArea()) + Double.parseDouble(refMachTerminalEntity.getWorkArea());
+            WorkArea=df.format(v);
+        }else{
+            WorkArea=refMachTerminalEntity.getWorkArea();
+        }
+        if(refMachTerminal.getWorkTime()!=null&&!refMachTerminal.getWorkTime().equals("")){
+            double v = Double.parseDouble(refMachTerminal.getWorkTime()) + Double.parseDouble(refMachTerminalEntity.getWorkTime());
+            WorkTime=df.format(v);
+        }else{
+            WorkTime=refMachTerminalEntity.getWorkTime();
+        }
+/*        String da = df.format(Float.parseFloat(refMachTerminalEntity.getDrivingArea()) + Double.valueOf(refMachTerminal.getDrivingArea()));
+        String wa=df.format(Double.valueOf(refMachTerminalEntity.getWorkArea())+Double.valueOf(refMachTerminal.getWorkArea()));
+        String wt=df.format(Double.valueOf(refMachTerminalEntity.getWorkTime())+Double.valueOf(refMachTerminal.getWorkTime()));*/
         gpsRecordService.updateState("1");
         refMachTerminalEntity.setMachState(refMachTerminal.getMachState());
         refMachTerminalEntity.setId(id);
@@ -117,9 +140,9 @@ public class GpsRecordController extends BaseController{
         refMachTerminalEntity.setWorkingType(refMachTerminal.getWorkingType());
         refMachTerminalEntity.setMachineryWidth(refMachTerminal.getMachineryWidth());
             if(refMachTerminal.getDrivingArea()!=null&&refMachTerminal.getWorkArea()!=null&&refMachTerminal.getWorkTime()!=null&&!refMachTerminal.getDrivingArea().equals("")&&!refMachTerminal.getWorkArea().equals("")&&!refMachTerminal.getWorkTime().equals("")){
-                refMachTerminalEntity.setDrivingArea((String) da);
-                refMachTerminalEntity.setWorkArea((String) wa);
-                refMachTerminalEntity.setWorkTime((String) wt);
+                refMachTerminalEntity.setDrivingArea( DrivingArea);
+                refMachTerminalEntity.setWorkArea(WorkArea);
+                refMachTerminalEntity.setWorkTime( WorkTime);
 
             }
 
