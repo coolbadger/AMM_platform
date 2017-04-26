@@ -100,10 +100,10 @@ public class GpsRecordController extends BaseController{
         Validate.notNull(id, "The id of orgUser must not be null, update failure.");
         Validate.notNull(refMachTerminalEntity, "The orgUser object must not be null, update failure.");
         DecimalFormat df = new DecimalFormat("#.00");
-        Object da=df.format(Double.parseDouble(refMachTerminalEntity.getDrivingArea()));
-        Object wa=df.format(Double.parseDouble(refMachTerminalEntity.getWorkArea()));
-        Object wt=df.format(Double.parseDouble(refMachTerminalEntity.getWorkTime()));
         RefMachTerminalEntity refMachTerminal=refMachTerminalService.findById(id);
+        Object da=df.format(Double.parseDouble(refMachTerminalEntity.getDrivingArea())+Double.parseDouble(refMachTerminal.getDrivingArea()));
+        Object wa=df.format(Double.parseDouble(refMachTerminalEntity.getWorkArea())+Double.parseDouble(refMachTerminal.getWorkArea()));
+        Object wt=df.format(Double.parseDouble(refMachTerminalEntity.getWorkTime())+Double.parseDouble(refMachTerminal.getWorkTime()));
         gpsRecordService.updateState("1");
         refMachTerminalEntity.setMachState(refMachTerminal.getMachState());
         refMachTerminalEntity.setId(id);
