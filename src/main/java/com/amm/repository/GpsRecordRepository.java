@@ -40,7 +40,7 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
 
 
  /* 修正取多余数据*/
- @Query(value = "select *, count(distinct ref_mach_terminal_id,terminal_code,gps_time,local_time) from gps_record WHERE  state IS NULL OR state!=1 AND lat_fixed IS NOT NULL group by ref_mach_terminal_id,terminal_code,gps_time,local_time ",nativeQuery = true)
+ @Query(value = "select *, count(distinct ref_mach_terminal_id,terminal_code,gps_time,local_time) from gps_record WHERE    state!=1 AND lng_fixed IS NOT NULL group by ref_mach_terminal_id,terminal_code,gps_time,local_time",nativeQuery = true)
  List<GpsRecordEntity> getFinishingData();
 
 
