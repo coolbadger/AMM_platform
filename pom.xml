@@ -378,11 +378,10 @@
           <version>1.4.0.RELEASE</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
         <dependency>
           <groupId>org.codehaus.groovy</groupId>
           <artifactId>groovy-all</artifactId>
-          <version>2.4.10</version>
+          <version>2.3.7</version>
         </dependency>
 
       </dependencies>
