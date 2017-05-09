@@ -10,6 +10,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,9 +64,9 @@ public class DetailsPageController extends BaseController{
                                     if(refMachTerminalId == RefMachTerminaId){
                                         //农机
                                         tempMachSize +=1;
-                                        tempWorkTime+= Double.parseDouble(listRef.get(d).getWorkTime());
-                                        tempWorkArea+= Double.parseDouble(listRef.get(d).getWorkArea());
-                                        tempDrivingArea+= Double.parseDouble(listRef.get(d).getDrivingArea());
+                                        tempWorkTime+= Float.parseFloat(listRef.get(d).getWorkTime());
+                                        tempWorkArea+= Float.parseFloat(listRef.get(d).getWorkArea());
+                                        tempDrivingArea+= Float.parseFloat(listRef.get(d).getDrivingArea());
                                     }
                                 }
                             }
@@ -73,11 +74,15 @@ public class DetailsPageController extends BaseController{
 
                     }
                 }
+                DecimalFormat df = new DecimalFormat("0.00");
+                String WorkTime=df.format(tempWorkTime);
+                String DrivingArea=df.format(tempDrivingArea);
+                String WorkArea=df.format(tempWorkArea);
                 //农机信息
                 detailsPage.setMachSize(tempMachSize);
-                detailsPage.setAllWorkTime(Float.toString(tempWorkTime));
-                detailsPage.setAllDrivingArea(Float.toString(tempDrivingArea));
-                detailsPage.setAllWorkArea(Float.toString(tempWorkArea));
+                detailsPage.setAllWorkTime(WorkTime);
+                detailsPage.setAllDrivingArea(DrivingArea);
+                detailsPage.setAllWorkArea(WorkArea);
                 temp.add(detailsPage);
             }
         return temp;

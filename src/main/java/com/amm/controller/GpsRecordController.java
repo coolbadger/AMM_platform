@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -98,7 +99,34 @@ public class GpsRecordController extends BaseController{
     public RefMachTerminalEntity update(@PathVariable Integer id,@RequestBody RefMachTerminalEntity refMachTerminalEntity) throws Exception{
         Validate.notNull(id, "The id of orgUser must not be null, update failure.");
         Validate.notNull(refMachTerminalEntity, "The orgUser object must not be null, update failure.");
+        String DrivingArea="";
+        String WorkArea="";
+        String WorkTime="";
+        DecimalFormat df = new DecimalFormat("0.00");
         RefMachTerminalEntity refMachTerminal=refMachTerminalService.findById(id);
+
+        if(refMachTerminal.getDrivingArea()!=null&&!refMachTerminal.getDrivingArea().equals("")){
+            double v = Double.parseDouble(refMachTerminal.getDrivingArea()) + Double.parseDouble(refMachTerminalEntity.getDrivingArea());
+            DrivingArea=df.format(v);
+        }else{
+            DrivingArea=refMachTerminalEntity.getDrivingArea();
+        }
+
+        if(refMachTerminal.getWorkArea()!=null&&!refMachTerminal.getWorkTime().equals("")){
+            double v = Double.parseDouble(refMachTerminal.getWorkArea()) + Double.parseDouble(refMachTerminalEntity.getWorkArea());
+            WorkArea=df.format(v);
+        }else{
+            WorkArea=refMachTerminalEntity.getWorkArea();
+        }
+        if(refMachTerminal.getWorkTime()!=null&&!refMachTerminal.getWorkTime().equals("")){
+            double v = Double.parseDouble(refMachTerminal.getWorkTime()) + Double.parseDouble(refMachTerminalEntity.getWorkTime());
+            WorkTime=df.format(v);
+        }else{
+            WorkTime=refMachTerminalEntity.getWorkTime();
+        }
+/*        String da = df.format(Float.parseFloat(refMachTerminalEntity.getDrivingArea()) + Double.valueOf(refMachTerminal.getDrivingArea()));
+        String wa=df.format(Double.valueOf(refMachTerminalEntity.getWorkArea())+Double.valueOf(refMachTerminal.getWorkArea()));
+        String wt=df.format(Double.valueOf(refMachTerminalEntity.getWorkTime())+Double.valueOf(refMachTerminal.getWorkTime()));*/
         gpsRecordService.updateState("1");
         refMachTerminalEntity.setMachState(refMachTerminal.getMachState());
         refMachTerminalEntity.setId(id);
@@ -112,9 +140,9 @@ public class GpsRecordController extends BaseController{
         refMachTerminalEntity.setWorkingType(refMachTerminal.getWorkingType());
         refMachTerminalEntity.setMachineryWidth(refMachTerminal.getMachineryWidth());
             if(refMachTerminal.getDrivingArea()!=null&&refMachTerminal.getWorkArea()!=null&&refMachTerminal.getWorkTime()!=null&&!refMachTerminal.getDrivingArea().equals("")&&!refMachTerminal.getWorkArea().equals("")&&!refMachTerminal.getWorkTime().equals("")){
-                refMachTerminalEntity.setDrivingArea(Double.toString(Double.parseDouble(refMachTerminal.getDrivingArea())+Double.parseDouble(refMachTerminalEntity.getDrivingArea())));
-                refMachTerminalEntity.setWorkArea(Double.toString(Double.parseDouble(refMachTerminal.getWorkArea())+Double.parseDouble(refMachTerminalEntity.getWorkArea())));
-                refMachTerminalEntity.setWorkTime(Double.toString(Double.parseDouble(refMachTerminal.getWorkTime())+Double.parseDouble(refMachTerminalEntity.getWorkTime())));
+                refMachTerminalEntity.setDrivingArea( DrivingArea);
+                refMachTerminalEntity.setWorkArea(WorkArea);
+                refMachTerminalEntity.setWorkTime( WorkTime);
 
             }
 
