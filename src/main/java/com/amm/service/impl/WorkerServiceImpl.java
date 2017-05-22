@@ -111,4 +111,14 @@ public class WorkerServiceImpl extends BaseService implements WorkerService {
         }
         return isValid;
     }
+
+    public WorkerEntity findByWorkerName(String workerName) {
+
+        Validate.notNull(workerName, "The workerName must not be null, create failure.");
+
+        WorkerEntity workerEntity = workerRepository.findByUserName(workerName);
+
+        return workerEntity;
+    }
+
 }

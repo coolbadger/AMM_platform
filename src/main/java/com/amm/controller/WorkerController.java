@@ -42,8 +42,12 @@ public class WorkerController extends BaseController{
         Validate.notNull(workerEntity.getUserName(), "The userName must not be null, create failure.");
         Validate.notNull(workerEntity.getPassword(), "The password must not be null, create failure.");
 
-        if(workerService.isValidUserName(workerEntity.getUserName())) {
-            throw new InvalidOperatorException("用户名无效，数据库中已存在！");
+//         if(workerService.isValidUserName(workerEntity.getUserName())) {
+//            throw new InvalidOperatorException("用户名无效，数据库中已存在！");
+//        }
+
+        if (workerService.findByWorkerName(workerEntity.getUserName())!=null){
+            throw new InvalidOperatorException("用户名无效，数据库中已存在");
         }
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
