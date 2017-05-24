@@ -91,6 +91,10 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
                 }
             }
 
+            if (!machineEntity.getActive()){
+                continue;
+            }
+
             MachTerminal machTerminal = new MachTerminal();
             machTerminal.setMachId(machineEntity.getId());
             machTerminal.setMachCode(machineEntity.getMachCode());
