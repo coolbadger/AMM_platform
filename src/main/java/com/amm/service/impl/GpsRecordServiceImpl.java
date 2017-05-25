@@ -74,7 +74,7 @@ public class GpsRecordServiceImpl extends BaseService implements GpsRecordServic
         Validate.notNull(startTime, "The startTime must not be null, find failure.");
         Validate.notNull(endTime, "The endTime must not be null, find failure.");
 
-        List<GpsRecordEntity> gpsRecordEntityList = gpsRecordRepository.findByGpsTimeAfterAndGpsTimeBefore(startTime, endTime);;
+        List<GpsRecordEntity> gpsRecordEntityList = gpsRecordRepository.findByGpsTimeAfterAndGpsTimeBeforeAndRefMachTerminalIdIsNotNull(startTime, endTime);;
 
         return gpsRecordEntityList;
     }
