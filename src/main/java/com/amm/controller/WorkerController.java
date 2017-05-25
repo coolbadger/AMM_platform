@@ -46,7 +46,9 @@ public class WorkerController extends BaseController{
 //            throw new InvalidOperatorException("用户名无效，数据库中已存在！");
 //        }
 
-        if (workerService.findByWorkerName(workerEntity.getUserName())!=null){
+        WorkerEntity workerEntity1 = workerService.findByWorkerName(workerEntity.getUserName());
+
+        if (workerEntity1!=null && workerEntity1.getActive()){
             throw new InvalidOperatorException("用户名无效，数据库中已存在");
         }
 
