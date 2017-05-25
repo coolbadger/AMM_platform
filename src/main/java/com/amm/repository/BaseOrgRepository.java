@@ -12,4 +12,6 @@ import java.util.List;
 public interface BaseOrgRepository extends PagingAndSortingRepository<BaseOrgEntity, Integer> {
 
     List<BaseOrgEntity> findByActive(Boolean active);
+
+    List<BaseOrgEntity> findByOrgCodeAndActive(String orgCode,boolean active);
 }

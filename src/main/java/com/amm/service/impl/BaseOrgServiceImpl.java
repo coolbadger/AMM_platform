@@ -87,4 +87,8 @@ public class BaseOrgServiceImpl extends BaseService implements BaseOrgService {
 
         return baseOrgRepository.findByActive(active);//按active字段为true查找，即为查找所有
     }
+
+    public List<BaseOrgEntity> findByOrgCodeAndActive(String orgCode,boolean acvtive) {
+        return baseOrgRepository.findByOrgCodeAndActive(orgCode,true);//按active字段为true查找
+    }
 }

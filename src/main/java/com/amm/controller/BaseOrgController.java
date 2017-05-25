@@ -89,4 +89,26 @@ public class BaseOrgController extends BaseController{
 
         return baseOrgService.deleteBaseOrg(id);
     }
+
+    /**
+     * 添加组织机构时根据机构代码进行去重验证，异步get请求
+     *  zhangjunxian
+     * @param orgCode
+     * @return
+     */
+    @RequestMapping(value = "/checkOrganization", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public int checkOrganization( String orgCode) {
+        try {
+            List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findByOrgCodeAndActive(orgCode,true);
+            if(baseOrgEntityList!=null&&baseOrgEntityList.size()>0){
+                return 1;
+            }else{
+                return 0;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }

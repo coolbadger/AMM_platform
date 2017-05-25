@@ -20,4 +20,6 @@ public interface BaseOrgService {
     BaseOrgEntity deleteBaseOrg(Integer id);
 
     List<BaseOrgEntity> findAllBaseOrgByActive(Boolean active);
+
+    List<BaseOrgEntity> findByOrgCodeAndActive(String orgCode,boolean acvtive);
 }
