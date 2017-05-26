@@ -1,6 +1,5 @@
 package com.amm.controller;
 
-import com.amm.entity.MachineEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.entity.WorkerEntity;
 import com.amm.exception.InvalidOperatorException;
@@ -47,9 +46,9 @@ public class WorkerController extends BaseController{
 //            throw new InvalidOperatorException("用户名无效，数据库中已存在！");
 //        }
 
-       /* if (workerService.findByWorkerName(workerEntity.getUserName())!=null){
+        if (workerService.findByWorkerName(workerEntity.getUserName())!=null){
             throw new InvalidOperatorException("用户名无效，数据库中已存在");
-        }*/
+        }
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = userDetails.getUsername();
@@ -104,28 +103,5 @@ public class WorkerController extends BaseController{
         Validate.notNull(id, "The id must not be null, delete failure.");
 
         return workerService.delete(id);
-    }
-
-    /**
-     * 添加司机信息时根据输入的账号进行去重验证，异步get请求
-     *  zhangjunxian
-     * @param checkCode
-     * @return
-     */
-    @RequestMapping(value = "/checkWorker", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public int checkWorker( String checkCode) {
-        try {
-            //根据司机账号查询系统中是否已存在未删除的相同账号
-            List<WorkerEntity> workerEntityList = workerService.findByUserNameAndActive(checkCode,true);
-            if(workerEntityList!=null&&workerEntityList.size()>0){
-                return 1;
-            }else{
-                return 0;
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            return -1;
-        }
     }
 }

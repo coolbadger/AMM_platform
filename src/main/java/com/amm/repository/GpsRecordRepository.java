@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecordEntity, Integer>{
 
-    List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBefore(Date startTime, Date endTime);
+    List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBeforeAndRefMachTerminalIdIsNotNull(Date startTime, Date endTime);
 
    /* 修正取多余数据*/
     @Query(value = "select *, count(distinct ref_mach_terminal_id,terminal_code,gps_time,local_time) from gps_record WHERE gps_time>=:startTime AND gps_time<=:endTime AND ref_mach_terminal_id=:id AND lat_fixed IS  NOT  NULL group by ref_mach_terminal_id,terminal_code,gps_time,local_time ",nativeQuery = true)
@@ -40,7 +40,7 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
 
 
  /* 修正取多余数据*/
- @Query(value = "select *, count(distinct ref_mach_terminal_id,terminal_code,gps_time,local_time) from gps_record WHERE     state IS NULL AND lng_fixed IS NOT NULL group by ref_mach_terminal_id,terminal_code,gps_time,local_time",nativeQuery = true)
+ @Query(value = "select *, count(distinct ref_mach_terminal_id,terminal_code,gps_time,local_time) from gps_record WHERE     state IS NULL AND lng_fixed IS NOT NULL AND ref_mach_terminal_id IS NOT NULL group by ref_mach_terminal_id,terminal_code,gps_time,local_time",nativeQuery = true)
  List<GpsRecordEntity> getFinishingData();
 
 

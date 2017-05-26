@@ -150,8 +150,11 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
         Validate.notNull(terminalCode, "The terminalCode must not be null, create failure.");
 
         boolean isValid = true;
-        if(this.findByTerminalCode(terminalCode) != null) {
-            isValid = false;
+        TerminalEntity terminalEntity = this.findByTerminalCode(terminalCode);
+        if(terminalEntity != null) {
+            if (terminalEntity.getActive()){
+                isValid = false;
+            }
         }
 
         return isValid;

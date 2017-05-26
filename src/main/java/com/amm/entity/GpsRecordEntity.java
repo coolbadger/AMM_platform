@@ -37,6 +37,7 @@ public class GpsRecordEntity implements Serializable{
     private String flag;
 
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
