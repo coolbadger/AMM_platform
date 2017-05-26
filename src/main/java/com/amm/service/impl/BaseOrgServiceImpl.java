@@ -88,6 +88,7 @@ public class BaseOrgServiceImpl extends BaseService implements BaseOrgService {
         return baseOrgRepository.findByActive(active);//按active字段为true查找，即为查找所有
     }
 
+    //根据要输入的组织机构代码查询系统中是否已存在未删除的相同组织机构代码
     public List<BaseOrgEntity> findByOrgCodeAndActive(String orgCode,boolean acvtive) {
         return baseOrgRepository.findByOrgCodeAndActive(orgCode,true);//按active字段为true查找
     }

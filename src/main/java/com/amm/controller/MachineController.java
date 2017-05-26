@@ -1,5 +1,6 @@
 package com.amm.controller;
 
+import com.amm.entity.BaseOrgEntity;
 import com.amm.entity.MachineEntity;
 import com.amm.entity.OrgUserEntity;
 import com.amm.service.BaseOrgService;
@@ -94,5 +95,28 @@ public class MachineController extends BaseController{
         Validate.notNull(id, "The id must not be null, delete failure.");
 
         return machineService.delete(id);
+    }
+
+    /**
+     * 添加农机时根据农机车牌号进行去重验证，异步get请求
+     *  zhangjunxian
+     * @param checkCode
+     * @return
+     */
+    @RequestMapping(value = "/checkMachine", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public int checkMachine( String checkCode) {
+        try {
+            //根据农机牌号查询系统中是否已存在未删除的相同牌号的农机
+            List<MachineEntity> machineEntityList = machineService.findByMachCodeAndActive(checkCode,true);
+            if(machineEntityList!=null&&machineEntityList.size()>0){
+                return 1;
+            }else{
+                return 0;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

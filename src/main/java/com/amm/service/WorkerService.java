@@ -26,4 +26,6 @@ public interface WorkerService {
     boolean isValidUserName(String userName);
 
     WorkerEntity findByWorkerName(String workerName);
+
+    List<WorkerEntity> findByUserNameAndActive(String checkCode, boolean b);
 }

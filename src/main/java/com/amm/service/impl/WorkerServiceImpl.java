@@ -120,5 +120,9 @@ public class WorkerServiceImpl extends BaseService implements WorkerService {
 
         return workerEntity;
     }
+    //根据司机账号查询系统中是否已存在未删除的相同账号
+    public List<WorkerEntity> findByUserNameAndActive(String checkCode, boolean b) {
+        return workerRepository.findByUserNameAndActive(checkCode,b);
+    }
 
 }

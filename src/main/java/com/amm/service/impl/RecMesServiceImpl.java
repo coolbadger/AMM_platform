@@ -57,9 +57,9 @@ public class RecMesServiceImpl implements RecMesService{
         int count =0;
         while (count<90) {
 
-            System.out.println("==================");
+            System.out.println("==================1");
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-
+            System.out.println("==================2");
             bi = new ByteArrayInputStream(delivery.getBody());
             oi = new ObjectInputStream(bi);
             GpsRecordEntity gpsRecordEntity = (GpsRecordEntity) oi.readObject();

@@ -93,14 +93,15 @@ public class BaseOrgController extends BaseController{
     /**
      * 添加组织机构时根据机构代码进行去重验证，异步get请求
      *  zhangjunxian
-     * @param orgCode
+     * @param checkCode
      * @return
      */
     @RequestMapping(value = "/checkOrganization", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public int checkOrganization( String orgCode) {
+    public int checkOrganization( String checkCode) {
         try {
-            List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findByOrgCodeAndActive(orgCode,true);
+            //根据要输入的组织机构代码查询系统中是否已存在未删除的相同组织机构代码
+            List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findByOrgCodeAndActive(checkCode,true);
             if(baseOrgEntityList!=null&&baseOrgEntityList.size()>0){
                 return 1;
             }else{

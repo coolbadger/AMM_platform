@@ -23,4 +23,5 @@ public interface MachineService {
 
     List<MachineEntity> findByOrgIdAndActive(Integer orgId,Boolean active);
 
+    List<MachineEntity> findByMachCodeAndActive(String checkCode, boolean b);
 }

@@ -46,8 +46,6 @@ public class MachineServiceImpl extends BaseService implements MachineService {
         return machineRepository.findByOrgIdAndActive(orgId,active);
     }
 
-
-
     @Transactional
     public MachineEntity create(MachineEntity machineEntity) {
 
@@ -129,5 +127,9 @@ public class MachineServiceImpl extends BaseService implements MachineService {
         machineRepository.save(deleted);
 
         return deleted;
+    }
+
+    public List<MachineEntity> findByMachCodeAndActive(String checkCode, boolean b) {
+        return machineRepository.findByMachCodeAndActive(checkCode,true);//按active字段为true查找
     }
 }
