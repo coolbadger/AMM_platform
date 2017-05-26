@@ -191,11 +191,11 @@ public class AMMIOHandler extends IoHandlerAdapter {
                         System.out.println("记录数据成功====================");
                         try{
                             SendMes.sendMessageQueue(gpsRecordEntity);//存入队列
-                            if (GpsRecordVariables.getCounts()>=90){//90
+                            /*if (GpsRecordVariables.getCounts()>=90){//90
                                 new MyThread(recMesService);//取出队列
                                 GpsRecordVariables.setCounts(0);//队列中数据置为0
                                 System.out.println("取出队列成功-----------------");
-                            }
+                            }*/
                             GpsRecordVariables.setCounts(GpsRecordVariables.getCounts()+1);//队列数+1
                         }catch (Exception e){
                             e.printStackTrace();

@@ -57,6 +57,12 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- 启动时通过此servlet 执行处理队列中待转换坐标的线程  -->
+    <servlet>
+        <servlet-name>queueHandlerInitServlet</servlet-name>
+        <servlet-class>com.amm.utils.QueueHandlerInitServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
     <!-- springMVC接口映射配置-->
     <servlet>

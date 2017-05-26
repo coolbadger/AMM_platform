@@ -19,8 +19,8 @@ public class ConnectionUtil {
         //端口
         factory.setPort(5672);
         //设置账号信息，用户名、密码、vhost
-        factory.setVirtualHost("/AMM_platform");
-        factory.setUsername("sw");
+        factory.setVirtualHost("/");
+        factory.setUsername("user1");
         factory.setPassword("123456");
         Connection connection=factory.newConnection();
         return connection;

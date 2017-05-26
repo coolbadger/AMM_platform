@@ -7,10 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.logging.SimpleFormatter;
 
 /**
@@ -36,8 +33,10 @@ public class ThreadPool {
         //新建线程
         Thread r=new Thread(myThread);
         //将线程放入池，获取线程执行结果
-        Future future=es.submit(r);
-        futures.add(future);
+        es.execute(r);
+        System.out.println("====================== pool size :"+((ThreadPoolExecutor)es).getActiveCount());
+        // Future future=es.submit(r);
+      //  futures.add(future);
         try {
 //            r.start();
         } catch (Exception e) {
