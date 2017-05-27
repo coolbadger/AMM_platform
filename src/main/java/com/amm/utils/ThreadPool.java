@@ -34,7 +34,6 @@ public class ThreadPool {
         Thread r=new Thread(myThread);
         //将线程放入池，获取线程执行结果
         es.execute(r);
-        System.out.println("====================== pool size :"+((ThreadPoolExecutor)es).getActiveCount());
         // Future future=es.submit(r);
       //  futures.add(future);
         try {
