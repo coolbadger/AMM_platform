@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class QueueHandlerThread implements  Runnable{
 
-
     RecMesService recMesService;
+
     private static int threadCount;
 
     public QueueHandlerThread(RecMesService recMesService){
@@ -21,15 +21,14 @@ public class QueueHandlerThread implements  Runnable{
     public void run() {
         while(true){
             try {
-                System.out.println("==========================="+threadCount);
+                //System.out.println("==========================="+threadCount);
                 Thread.sleep(1000);
                 threadCount++;
                 //队列中达到90条数据或循环5次时调用一次百度API
-                if (GpsRecordVariables.getCounts()>=90||threadCount==10){//90
-                    System.out.println("=========================== new MyThread( recMesService)，GpsRecordVariables.getCounts():" +GpsRecordVariables.getCounts());
+                if (GpsRecordVariables.getCounts()>=90||threadCount==300){//90
                     new MyThread( recMesService);//取出队列
                     GpsRecordVariables.setCounts(0);//队列中数据置为0
-                    System.out.println("=========================== 取出队列成功");
+                    //System.out.println("=========================== 取出队列成功");
 
                     threadCount=0;
                 }

@@ -7,6 +7,7 @@ import com.amm.queue.SendMes;
 import com.amm.service.AMMClientPacketService;
 import com.amm.service.RecMesService;
 import com.amm.socketserver.packetentity.AMMPacket;
+import com.amm.utils.MessageHandlerThread;
 import com.amm.utils.MyThread;
 import com.amm.variables.GpsRecordVariables;
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -19,11 +20,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.*;
 
 /**
  * Created by liuminhang on 16/7/16.
  */
 public class AMMIOHandler extends IoHandlerAdapter {
+    //处理收到的报文的线程池
+    public final ExecutorService pushExecutor = Executors.newFixedThreadPool(100);
+    //public final ExecutorService pushExecutor = Executors.newCachedThreadPool();
+    //创建一个队列，用于存放收到的最近300条报文的标识，如果收到的报文的标识在队列中已经存在，则舍弃，不存在则按逻辑处理
+    public static BlockingQueue messageQueue = new ArrayBlockingQueue(300);
     private Logger logger = LoggerFactory.getLogger(AMMIOHandler.class);
     @Autowired
     private AMMClientPacketService ammClientPacketService;
@@ -99,12 +106,14 @@ public class AMMIOHandler extends IoHandlerAdapter {
                 + ";DATA字符串:" + ammPacket.AMMDataString);
 
         boolean noError = true;
+
         String[] parseResult = ammPacket.AMMDataString.split("\\|",-1);
-        //获取消息类型和时间
         String msgTypeStr = null;
         String msgTimeStr = null;
         Date msgTime = null;
         try {
+
+            //获取消息类型和时间
             msgTypeStr = parseResult[0];
             msgTimeStr = parseResult[1];
             msgTime = sdf.parse(msgTimeStr);
@@ -148,6 +157,37 @@ public class AMMIOHandler extends IoHandlerAdapter {
             }
             else if(msgTypeStr.equalsIgnoreCase("locreq")){
                 boolean locreqSucess = false;
+                //收到报文后立即回包
+                try{
+                    logger.info("位置信息记录成功");
+                    resDataString = "locrep|" + msgTimeStr + "|1|" + timeInerval;
+                    ammPacket.AMMDataString = resDataString;
+                    session.write(ammPacket);
+                }catch(Exception e){
+                    System.out.println("接收报文后回包失败…………");
+                    e.printStackTrace();
+                }
+
+                //收到报文时生成标识==终端编号+“:”+gpsTime
+                String queueTag = ammPacket.AMMMachineID+":"+msgTime;
+                //判断队列中是否已经包含该报文标识,如果包含，把标识放入队列，不再做其他处理
+                //如果不包含，说明未接收到过该报文，继续按逻辑处理
+                if(!messageQueue.contains(queueTag)){
+                    //启动报文处理线程，将线程加入线程池管理
+                    System.out.println(" ============== ++++++++++++ messageHandlerTHread count:"+((ThreadPoolExecutor)pushExecutor).getActiveCount());
+                    MessageHandlerThread messageHandlerTHread = new MessageHandlerThread(session,ammPacket,ammClientPacketService,parseResult);
+                    pushExecutor.execute(messageHandlerTHread);
+
+                }
+                //如果队列满了，将第一个取出再放入，未满则直接放入
+                if(messageQueue.size()==300){
+                    messageQueue.poll();
+                    messageQueue.add(queueTag);
+                }else{
+                    messageQueue.add(queueTag);
+                }
+
+                /*boolean locreqSucess = false;
                 try {
                     //locreq|时间|补传|经度|纬度|高度|速度|精度|传感器1|传感器2
                     GpsRecordSave gpsRecordSave = new GpsRecordSave();
@@ -191,11 +231,11 @@ public class AMMIOHandler extends IoHandlerAdapter {
                         System.out.println("记录数据成功====================");
                         try{
                             SendMes.sendMessageQueue(gpsRecordEntity);//存入队列
-                            /*if (GpsRecordVariables.getCounts()>=90){//90
+                            *//*if (GpsRecordVariables.getCounts()>=90){//90
                                 new MyThread(recMesService);//取出队列
                                 GpsRecordVariables.setCounts(0);//队列中数据置为0
                                 System.out.println("取出队列成功-----------------");
-                            }*/
+                            }*//*
                             GpsRecordVariables.setCounts(GpsRecordVariables.getCounts()+1);//队列数+1
                         }catch (Exception e){
                             e.printStackTrace();
@@ -217,7 +257,7 @@ public class AMMIOHandler extends IoHandlerAdapter {
                     resDataString = "locrep|" + msgTimeStr + "|0|" + timeInerval;
                 }
                 ammPacket.AMMDataString = resDataString;
-                session.write(ammPacket);
+                session.write(ammPacket);*/
             }
             else {
                 logger.error("未知请求类型:" + msgTypeStr);
