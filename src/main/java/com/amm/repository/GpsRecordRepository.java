@@ -56,5 +56,7 @@ public interface GpsRecordRepository extends PagingAndSortingRepository<GpsRecor
 
     public GpsRecordEntity saveAndFlush(GpsRecordEntity gpsRecordEntity);
 
+    public List<GpsRecordEntity> findByGpsTimeAfterAndGpsTimeBeforeAndFlagIsNotNull(Date startTime,Date endTime);
+
 
 }

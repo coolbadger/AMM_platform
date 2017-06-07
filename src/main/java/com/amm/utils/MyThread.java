@@ -21,21 +21,22 @@ public class MyThread implements Runnable {
 
     @Autowired
     RecMesService recMesService;
-
+    private  int countTag;
     public MyThread(){
         ThreadPool.getResultSubmit(this);
     }
 
-    public MyThread(RecMesService recMesService){
+    public MyThread(RecMesService recMesService,int countTag){
 //        o=object;
         //初始化时默认加载到池
         this.recMesService = recMesService;
+        this.countTag = countTag;
         ThreadPool.getResultSubmit(this);
     }
     public void run() {
         synchronized (this) {
             try{
-                recMesService.recMessage();
+                recMesService.recMessage(countTag);
 //                RecMes.recMessage();
             }catch (Exception e){
                 e.printStackTrace();
