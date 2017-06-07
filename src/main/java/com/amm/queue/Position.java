@@ -1,12 +1,12 @@
 package com.amm.queue;
 
 /**
- * ¶ÓÁĞ¼àÌıÀà
+ * é˜Ÿåˆ—ç›‘å¬ç±»
  * @author sw
  *
  */
 public class Position {
-    //¾ßÌåÖ´ĞĞÒµÎñµÄ·½·¨
+    //å…·ä½“æ‰§è¡Œä¸šåŠ¡çš„æ–¹æ³•
     public void listen(String gps) {
         System.out.println("message:" + gps);
     }
