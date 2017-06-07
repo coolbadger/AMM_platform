@@ -6,28 +6,28 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author  sw  2017-3-13 11:08:00
- * ¶ÓÁĞÈë¿Ú
- * ¼ÓÔØÅäÖÃÎÄ¼ş
+ * é˜Ÿåˆ—å…¥å£
+ * åŠ è½½é…ç½®æ–‡ä»¶
  */
 public class SpringQueueMain {
     public static void sendMessage(String s) {
         AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(
                 "classpath:spring/rabbitmq-context.xml");
-        //RabbitMQÄ£°å
+        //RabbitMQæ¨¡æ¿
         RabbitTemplate template = ctx.getBean(RabbitTemplate.class);
-        //·¢ËÍÏûÏ¢
+        //å‘é€æ¶ˆæ¯
         template.convertAndSend(s);
-        // ĞİÃß1Ãë
+        // ä¼‘çœ 1ç§’
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ctx.destroy(); //ÈİÆ÷Ïú»Ù
+        ctx.destroy(); //å®¹å™¨é”€æ¯
     }
 
     public static void main(final String... args) throws Exception {
-        sendMessage("...ÕâÊÇ¼ÓÈë¶ÓÁĞµÄÏûÏ¢?");
+        sendMessage("...è¿™æ˜¯åŠ å…¥é˜Ÿåˆ—çš„æ¶ˆæ¯?");
 
     }
 

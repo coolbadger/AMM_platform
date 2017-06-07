@@ -2,24 +2,20 @@ package com.amm.controller;
 
 import com.amm.entity.*;
 import com.amm.entity.client.DetailsPage;
-import com.amm.service.BaseOrgService;
-import com.amm.service.GpsRecordService;
-import com.amm.service.RefMachTerminalService;
-import com.amm.service.WorkerService;
+import com.amm.service.*;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 杨思名 on 2017/2/24.
  */
 @RestController
 @RequestMapping("api/DetailsPage")
-public class DetailsPageController extends BaseController{
+public class DetailsPageController extends BaseController {
     @Autowired
     private BaseOrgService baseOrgService;
     @Autowired
@@ -28,6 +24,8 @@ public class DetailsPageController extends BaseController{
     private GpsRecordService gpsRecordService;
     @Autowired
     private RefMachTerminalService refMachTerminalService;
+    @Autowired
+    private MachineService machineService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<DetailsPage> getAllByActive(@RequestParam(required = false, defaultValue = "true") Boolean active) {
@@ -35,81 +33,94 @@ public class DetailsPageController extends BaseController{
         logger.info(String.format("Receive find all baseOrg (by active is true)."));
 
         List<BaseOrgEntity> baseOrgEntityList = baseOrgService.findAllBaseOrgByActive(active);//查询出所有合作社
-        List<WorkerEntity> listWorker=workerService.findAllByActive(active);//查询所有司机
-        List<GpsRecordEntity> ListGps=gpsRecordService.getFirst();//分类查询
-        List<RefMachTerminalEntity> listRef=refMachTerminalService.findAll();//拿到农机以及终端信息
-        List<DetailsPage> temp=new ArrayList<DetailsPage>();
-            for(int i=0;i<baseOrgEntityList.size();i++){
-                Integer tempMachSize=0;
-                float tempDrivingArea= 0;
-                float tempWorkArea=0;
-                float tempWorkTime=0;
-                DetailsPage detailsPage=new DetailsPage();
-               Integer baseOrgId=baseOrgEntityList.get(i).getId();
-                //合作社信息
-                detailsPage.setId(baseOrgEntityList.get(i).getId());
-                detailsPage.setOrgAddress(baseOrgEntityList.get(i).getOrgAddress());
-                detailsPage.setOrgCode(baseOrgEntityList.get(i).getOrgCode());
-                detailsPage.setOrgName(baseOrgEntityList.get(i).getOrgName());
-                for(int a=0;a<listWorker.size();a++){
-                    Integer OrgId=listWorker.get(a).getOrgId();//拿到外键
-                    if(OrgId ==  baseOrgId){
-                        Integer WorkerId=listWorker.get(a).getId();
-                        for(int c=0;c<ListGps.size();c++){
-                            Integer gpsWorkerId=ListGps.get(c).getWorkerId();
-                            if(gpsWorkerId == WorkerId){
-                                Integer refMachTerminalId=ListGps.get(c).getRefMachTerminalId();
-                                for(int d=0;d<listRef.size();d++){
-                                   Integer RefMachTerminaId=listRef.get(d).getId();
-                                    if(refMachTerminalId == RefMachTerminaId){
-                                        //农机
-                                        tempMachSize +=1;
-                                        tempWorkTime+= Float.parseFloat(listRef.get(d).getWorkTime());
-                                        tempWorkArea+= Float.parseFloat(listRef.get(d).getWorkArea());
-                                        tempDrivingArea+= Float.parseFloat(listRef.get(d).getDrivingArea());
-                                    }
-                                }
-                            }
-                        }
 
-                    }
-                }
-                DecimalFormat df = new DecimalFormat("0.00");
-                String WorkTime=df.format(tempWorkTime);
-                String DrivingArea=df.format(tempDrivingArea);
-                String WorkArea=df.format(tempWorkArea);
-                //农机信息
-                detailsPage.setMachSize(tempMachSize);
-                detailsPage.setAllWorkTime(WorkTime);
-                detailsPage.setAllDrivingArea(DrivingArea);
-                detailsPage.setAllWorkArea(WorkArea);
-                temp.add(detailsPage);
+
+        //查询GPSRecords
+        List<RefMachTerminalEntity> refMachTerminalEntityList = refMachTerminalService.findAll();//拿到农机以及终端信息
+        List<MachineEntity> machineEntityList = machineService.findAllByActive(active);//查询出所有农机
+
+        Map<Integer, MachineEntity> machineEntityMap = new HashMap<Integer, MachineEntity>();
+        Map<Integer, RefMachTerminalEntity> refMachTerminalEntityMap = new HashMap<Integer, RefMachTerminalEntity>();
+        Map<Integer, BaseOrgEntity> baseOrgEntityMap = new HashMap<Integer, BaseOrgEntity>();
+
+        //初始化结果集
+        Map<Integer, DetailsPage> detailsPageMap = new HashMap<Integer, DetailsPage>();
+        //生成结果对象，填入数据；生成图以供查询
+
+        for (BaseOrgEntity entity : baseOrgEntityList) {
+            baseOrgEntityMap.put(entity.getId(), entity);
+            DetailsPage detailsPage = new DetailsPage();
+            detailsPage.setId(entity.getId());
+            detailsPage.setOrgCode(entity.getOrgCode());
+            detailsPage.setOrgName(entity.getOrgName());
+            detailsPage.setOrgAddress(entity.getOrgAddress());
+            detailsPage.setMachSize(0);
+            detailsPageMap.put(detailsPage.getId(), detailsPage);
+
+        }
+        //计算农机数量
+        for (MachineEntity entity : machineEntityList) {
+            machineEntityMap.put(entity.getId(), entity);
+            Integer orgId = entity.getOrgId();
+            DetailsPage detailsPage = detailsPageMap.get(orgId);
+            if (detailsPage != null) {
+                detailsPage.setMachSize(detailsPage.getMachSize() + 1);
             }
-        return temp;
+        }
+
+
+        BaseOrgEntity baseOrgEntity;
+        DetailsPage detailsPage;
+        for (RefMachTerminalEntity entity : refMachTerminalEntityList) {
+            refMachTerminalEntityMap.put(entity.getId(), entity);
+            //检查是否存在相关实体，如果存在，则记录对应数据
+            if (entity.getMachId() != null && machineEntityMap.get(entity.getMachId()) != null && baseOrgEntityMap.get(machineEntityMap.get(entity.getMachId()).getOrgId()) != null) {
+                baseOrgEntity = baseOrgEntityMap.get(machineEntityMap.get(entity.getMachId()).getOrgId());
+                detailsPage = detailsPageMap.get(baseOrgEntity.getId());
+
+                detailsPage.setAllDrivingArea(entity.getDrivingArea());
+                detailsPage.setAllWorkArea(entity.getWorkArea());
+                detailsPage.setAllWorkTime(entity.getWorkTime());
+
+                detailsPageMap.put(detailsPage.getId(), detailsPage);
+            }
+        }
+
+        //将结果遍历转换List类型输出
+        List<DetailsPage> resultList = new ArrayList<DetailsPage>();
+
+        Iterator iterator = detailsPageMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            resultList.add((DetailsPage) entry.getValue());
+
+        }
+
+        return resultList;
     }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public List<RefMachTerminalEntity> findOne(@PathVariable Integer id) {
         Validate.notNull(id, "The id must not be null, find failure.");
-        BaseOrgEntity BaseOrgEntity=baseOrgService.findOne(id);
-        List<WorkerEntity> listWorker=workerService.findAllByActive(true);//查询所有司机
-        List<GpsRecordEntity> ListGps=gpsRecordService.getFirst();//分类查询
-        List<RefMachTerminalEntity> listRef=refMachTerminalService.findAll();//拿到农机以及终端信息
-        List<RefMachTerminalEntity> temp= new ArrayList<RefMachTerminalEntity>();
+        BaseOrgEntity BaseOrgEntity = baseOrgService.findOne(id);
+        List<WorkerEntity> listWorker = workerService.findAllByActive(true);//查询所有司机
+        List<GpsRecordEntity> ListGps = gpsRecordService.getFirst();//分类查询
+        List<RefMachTerminalEntity> listRef = refMachTerminalService.findAll();//拿到农机以及终端信息
+        List<RefMachTerminalEntity> temp = new ArrayList<RefMachTerminalEntity>();
         Integer baseOrgId = BaseOrgEntity.getId();
-        for(int i=0;i<listWorker.size();i++){
-            Integer OrgId=listWorker.get(i).getOrgId();//拿到外键
-            if(OrgId ==  baseOrgId){
-                Integer WorkerId=listWorker.get(i).getId();
-                for(int c=0;c<ListGps.size();c++){
-                    Integer gpsWorkerId=ListGps.get(c).getWorkerId();
-                    if(gpsWorkerId == WorkerId){
-                        Integer refMachTerminalId=ListGps.get(c).getRefMachTerminalId();
-                        for(int d=0;d<listRef.size();d++){
-                            Integer RefMachTerminaId=listRef.get(d).getId();
-                            if(refMachTerminalId == RefMachTerminaId){
-                                RefMachTerminalEntity  refMachTerminalEntity=new RefMachTerminalEntity();
+        for (int i = 0; i < listWorker.size(); i++) {
+            Integer OrgId = listWorker.get(i).getOrgId();//拿到外键
+            if (OrgId == baseOrgId) {
+                Integer WorkerId = listWorker.get(i).getId();
+                for (int c = 0; c < ListGps.size(); c++) {
+                    Integer gpsWorkerId = ListGps.get(c).getWorkerId();
+                    if (gpsWorkerId == WorkerId) {
+                        Integer refMachTerminalId = ListGps.get(c).getRefMachTerminalId();
+                        for (int d = 0; d < listRef.size(); d++) {
+                            Integer RefMachTerminaId = listRef.get(d).getId();
+                            if (refMachTerminalId == RefMachTerminaId) {
+                                RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
                                 refMachTerminalEntity.setId(listRef.get(d).getId());
                                 refMachTerminalEntity.setCallNo(listRef.get(d).getCallNo());
                                 refMachTerminalEntity.setMachState(listRef.get(d).getMachState());
