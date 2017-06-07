@@ -30,7 +30,7 @@ public class RecMesServiceImpl implements RecMesService{
 
     private final static String QUEUE_NAME = "send_queue";
 
-    public void recMessage() throws Exception {
+    public void recMessage(int countTag) throws Exception {
         // 获取到连接以及mq通道
         Connection connection = ConnectionUtil.getConnection();
         Channel channel = connection.createChannel();
@@ -55,11 +55,12 @@ public class RecMesServiceImpl implements RecMesService{
 
         // 获取消息
         int count =0;
-        while (count<90) {
+        System.out.println("=====================&&&&&&&&&&&&&&&&&&&&&&&&&& countTag:"+countTag);
+        while (count<countTag) {
 
-            System.out.println("==================1");
+            //System.out.println("==================1");
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-            System.out.println("==================2");
+           // System.out.println("==================2");
             bi = new ByteArrayInputStream(delivery.getBody());
             oi = new ObjectInputStream(bi);
             GpsRecordEntity gpsRecordEntity = (GpsRecordEntity) oi.readObject();

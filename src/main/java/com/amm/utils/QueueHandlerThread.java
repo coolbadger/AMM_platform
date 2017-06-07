@@ -26,7 +26,8 @@ public class QueueHandlerThread implements  Runnable{
                 threadCount++;
                 //队列中达到90条数据或循环5次时调用一次百度API
                 if (GpsRecordVariables.getCounts()>=90||threadCount==300){//90
-                    new MyThread( recMesService);//取出队列
+                    int countTag = GpsRecordVariables.getCounts();
+                    new MyThread( recMesService,countTag);//取出队列
                     GpsRecordVariables.setCounts(0);//队列中数据置为0
                     //System.out.println("=========================== 取出队列成功");
 

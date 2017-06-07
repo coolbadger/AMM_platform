@@ -5,6 +5,6 @@ package com.amm.service;
  */
 public interface RecMesService {
 
-    public void recMessage() throws Exception;
+    public void recMessage(int countTag) throws Exception;
 
 }
