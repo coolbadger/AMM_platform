@@ -58,6 +58,7 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
         RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
         refMachTerminalEntity.setMachCode(machineEntity.getMachCode());
         refMachTerminalEntity.setMachName(machineEntity.getMachName());
+        refMachTerminalEntity.setMachNotes(machineEntity.getNotes());
         refMachTerminalEntity.setWorkingType(machineEntity.getWorkingType());
         refMachTerminalEntity.setMachId(machineEntity.getId());
         refMachTerminalEntity.setMachState(machineEntity.getState());
@@ -99,6 +100,7 @@ public class MachTerminalServiceImpl extends BaseService implements MachTerminal
             machTerminal.setMachId(machineEntity.getId());
             machTerminal.setMachCode(machineEntity.getMachCode());
             machTerminal.setMachName(machineEntity.getMachName());
+            machTerminal.setMachNotes(machineEntity.getNotes());
             machTerminal.setWorkingType(machineEntity.getWorkingType());
             machTerminal.setTerminalId(terminalEntity != null ? terminalEntity.getId() : null);
             machTerminal.setTerminalCode(terminalEntity != null ? terminalEntity.getTerminalCode() : "");

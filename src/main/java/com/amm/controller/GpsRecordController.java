@@ -268,6 +268,7 @@ public class GpsRecordController extends BaseController{
             Validate.notNull(refMachTerminalEntity, "The refMachTerminalEntity must not be null, find failure.");
 
             gpsRecordMachine.setMachCode(refMachTerminalEntity.getMachCode());
+            gpsRecordMachine.setMachNotes(refMachTerminalEntity.getMachNotes());
             gpsRecordMachine.setMachName(refMachTerminalEntity.getMachName());
 
             //按machCode查找

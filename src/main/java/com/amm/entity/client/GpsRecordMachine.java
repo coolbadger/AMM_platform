@@ -13,6 +13,7 @@ public class GpsRecordMachine {
     private Integer reMachTerminalId;
     private Integer workerId;
     private String machCode;
+    private String machNotes;
     private String machName;
     private Date gpsStartTime;
     private Date gpsEndTime;
@@ -39,6 +40,14 @@ public class GpsRecordMachine {
 
     public void setMachCode(String machCode) {
         this.machCode = machCode;
+    }
+
+    public String getMachNotes() {
+        return machNotes;
+    }
+
+    public void setMachNotes(String machNotes) {
+        this.machNotes = machNotes;
     }
 
     public String getMachName() {

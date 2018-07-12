@@ -13,6 +13,7 @@ public class RefMachTerminalEntity {
     private Integer machId;
     private String machCode;
     private String machName;
+    private String machNotes;
     private String workingType;
     private String machState;
     private String terminalCode;
@@ -63,6 +64,16 @@ public class RefMachTerminalEntity {
 
     public void setMachName(String machName) {
         this.machName = machName;
+    }
+
+    @Basic
+    @Column(name = "mach_notes")
+    public String getMachNotes() {
+        return machNotes;
+    }
+
+    public void setMachNotes(String machNotes) {
+        this.machNotes = machNotes;
     }
 
     @Basic
@@ -174,6 +185,7 @@ public class RefMachTerminalEntity {
         if (machId != null ? !machId.equals(that.machId) : that.machId != null) return false;
         if (machCode != null ? !machCode.equals(that.machCode) : that.machCode != null) return false;
         if (machName != null ? !machName.equals(that.machName) : that.machName != null) return false;
+        if (machNotes !=null ? !machNotes.equals(that.machNotes) : that.machNotes != null) return false;
         if (workingType != null ? !workingType.equals(that.workingType) : that.workingType != null) return false;
         if (machState != null ? !machState.equals(that.machState) : that.machState != null) return false;
         if (terminalCode != null ? !terminalCode.equals(that.terminalCode) : that.terminalCode != null) return false;
@@ -191,6 +203,7 @@ public class RefMachTerminalEntity {
         result = 31 * result + (machId != null ? machId.hashCode() : 0);
         result = 31 * result + (machCode != null ? machCode.hashCode() : 0);
         result = 31 * result + (machName != null ? machName.hashCode() : 0);
+        result = 31 * result + (machNotes != null ?machNotes.hashCode() : 0);
         result = 31 * result + (workingType != null ? workingType.hashCode() : 0);
         result = 31 * result + (machState != null ? machState.hashCode() : 0);
         result = 31 * result + (terminalCode != null ? terminalCode.hashCode() : 0);
@@ -206,6 +219,7 @@ public class RefMachTerminalEntity {
             updated.setTerminalState(this.getTerminalState());
             updated.setTerminalCode(this.getTerminalCode());
             updated.setMachName(this.getMachName());
+            updated.setMachNotes(this.getMachNotes());
             updated.setCallNo(this.getCallNo());
             updated.setDrivingArea(this.drivingArea);
             updated.setMachCode(this.getMachCode());

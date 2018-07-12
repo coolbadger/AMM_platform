@@ -18,6 +18,7 @@ public class MachTerminal {
     private Integer refMachTerminalId;
     private String machCode;
     private String machName;
+    private String machNotes;
     private String workingType;
     private String terminalCode;
 
@@ -91,6 +92,14 @@ public class MachTerminal {
 
     public void setMachName(String machName) {
         this.machName = machName;
+    }
+
+    public String getMachNotes() {
+        return machNotes;
+    }
+
+    public void setMachNotes(String machNotes) {
+        this.machNotes = machNotes;
     }
 
     public String getWorkingType() {
