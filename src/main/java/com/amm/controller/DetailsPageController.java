@@ -126,6 +126,7 @@ public class DetailsPageController extends BaseController {
                                 refMachTerminalEntity.setMachState(listRef.get(d).getMachState());
                                 refMachTerminalEntity.setCallNo(listRef.get(d).getCallNo());
                                 refMachTerminalEntity.setMachCode(listRef.get(d).getMachCode());
+                                refMachTerminalEntity.setMachNotes(listRef.get(d).getMachNotes());
                                 refMachTerminalEntity.setWorkArea(listRef.get(d).getWorkArea());
                                 refMachTerminalEntity.setWorkTime(listRef.get(d).getWorkTime());
                                 refMachTerminalEntity.setDrivingArea(listRef.get(d).getDrivingArea());

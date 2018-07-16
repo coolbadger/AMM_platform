@@ -133,6 +133,7 @@ public class GpsRecordController extends BaseController{
         refMachTerminalEntity.setCallNo(refMachTerminal.getCallNo());
         refMachTerminalEntity.setMachCode(refMachTerminal.getMachCode());
         refMachTerminalEntity.setMachId(refMachTerminal.getMachId());
+        refMachTerminalEntity.setMachNotes(refMachTerminal.getMachNotes());
         refMachTerminalEntity.setMachName(refMachTerminal.getMachName());
         refMachTerminalEntity.setTerminalName(refMachTerminal.getTerminalName());
         refMachTerminalEntity.setTerminalCode(refMachTerminal.getTerminalCode());

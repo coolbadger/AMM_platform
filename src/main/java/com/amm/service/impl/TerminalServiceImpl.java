@@ -90,6 +90,7 @@ public class TerminalServiceImpl extends BaseService implements TerminalService 
 
                     RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
                     refMachTerminalEntity.setMachCode(machineEntity.getMachCode());
+                    refMachTerminalEntity.setMachNotes(machineEntity.getNotes());
                     refMachTerminalEntity.setMachName(machineEntity.getMachName());
                     refMachTerminalEntity.setMachId(machineEntity.getId());
                     refMachTerminalEntity.setWorkingType(machineEntity.getWorkingType());

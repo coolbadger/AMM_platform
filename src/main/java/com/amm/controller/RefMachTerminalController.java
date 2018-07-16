@@ -59,6 +59,7 @@ public class RefMachTerminalController {
         refMachTerminalEntity.setDrivingArea(refMachTerminal.getDrivingArea());
         refMachTerminalEntity.setMachCode(refMachTerminal.getMachCode());
         refMachTerminalEntity.setMachId(refMachTerminal.getMachId());
+        refMachTerminalEntity.setMachNotes(refMachTerminal.getMachNotes());
         refMachTerminalEntity.setMachName(refMachTerminal.getMachName());
         refMachTerminalEntity.setTerminalName(refMachTerminal.getTerminalName());
         refMachTerminalEntity.setWorkArea(refMachTerminal.getWorkArea());

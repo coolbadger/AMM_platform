@@ -81,6 +81,7 @@ public class MachineServiceImpl extends BaseService implements MachineService {
 
                     RefMachTerminalEntity refMachTerminalEntity = new RefMachTerminalEntity();
                     refMachTerminalEntity.setMachCode(machine.getMachCode());
+                    refMachTerminalEntity.setMachNotes(machine.getNotes());
                     refMachTerminalEntity.setMachName(machine.getMachName());
                     refMachTerminalEntity.setMachId(machine.getId());
                     refMachTerminalEntity.setWorkingType(machine.getWorkingType());
